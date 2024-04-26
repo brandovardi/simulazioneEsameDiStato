@@ -1,0 +1,46 @@
+Casi d'uso (meglio se grafico):
+	- Utente (usare questo termine pericoloso perché si riferisce a tutti):
+		1. si registra
+		2. si può autenticare
+		3. può noleggiare
+		4. può riconsegnare la bici
+		5. può visualizzare la mappa
+		6. visualizzazione riepiloghi di viaggi (diverso dall'admin)
+		
+	- Sistema Centrale (Dipendenti...):
+		1. Manutenzione
+			\Inserimento bici
+			\Cancellazione (di Bici/Stazione...)
+		2. (Server) => deve essere in grado di prendere le informazioni (non creare un sito web centralizzato, ma fare un webService)
+		3. Monitoraggio Servizio
+	
+	- Admin (vede TUTTO):
+		1. Aggiungere nuove sedi
+		2. Monitoraggio completo
+			\Stampe => 	Stampa Operation x User; Stampa Op. x Stazione; Posizione di tutte le biciclette noleggiate in quel momento;
+						Bici non riconsegnate; Visualizza Bici per manutenzione; 
+			\Riepilogo
+		
+		
+
+Entità:
+	- Bicicletta
+	- Stazioni
+	- Utente
+	- (Registrazione)
+	- Tessera Elettronica
+	- Slot
+	- Lettore
+	- Tag (QR Code/RFID)
+	- Operazione di noleggio
+	- Mappa
+	- Sistema Centrale
+
+
+Problema del GPS:
+	un piccolo gps che può essere alimentato:
+		tramite batteria che deve essere cambiata oerò manualmente
+		tremite dinamo
+		ogni volta che si riconsegna una bici
+		
+Manutenzione ogni tot KM
