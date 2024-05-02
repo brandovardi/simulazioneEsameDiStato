@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Apr 26, 2024 alle 10:00
+-- Creato il: Mag 02, 2024 alle 19:02
 -- Versione del server: 10.4.32-MariaDB
 -- Versione PHP: 8.2.12
 
@@ -24,6 +24,22 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Struttura della tabella `admin`
+--
+
+CREATE TABLE `admin` (
+  `ID` int(11) NOT NULL,
+  `username` varchar(32) NOT NULL,
+  `password` varchar(64) NOT NULL,
+  `nome` varchar(32) NOT NULL,
+  `cognome` varchar(32) NOT NULL,
+  `email` varchar(64) NOT NULL,
+  `privilegi_admin` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Struttura della tabella `bicicletta`
 --
 
@@ -31,10 +47,10 @@ CREATE TABLE `bicicletta` (
   `ID` int(11) NOT NULL,
   `codice` varchar(16) NOT NULL,
   `manutenzione` tinyint(1) NOT NULL,
-  `kmEffettuati` int(64) NOT NULL,
   `posizione` varchar(128) NOT NULL,
   `GPS` varchar(32) NOT NULL,
-  `RFID` varchar(32) NOT NULL
+  `RFID` varchar(32) NOT NULL,
+  `kmEffettuati` int(64) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 -- --------------------------------------------------------
@@ -48,24 +64,58 @@ CREATE TABLE `cliente` (
   `nome` varchar(32) NOT NULL,
   `cognome` varchar(32) NOT NULL,
   `username` varchar(32) NOT NULL,
-  `password` varchar(32) NOT NULL,
+  `password` varchar(64) NOT NULL,
+  `id_indirizzo` int(11) NOT NULL,
   `email` varchar(64) NOT NULL,
-  `numeroCartaCredito` int(16) NOT NULL,
-  `numeroTessera` int(11) NOT NULL
+  `numeroCartaCredito` varchar(16) NOT NULL,
+  `numeroTessera` mediumint(6) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Dump dei dati per la tabella `cliente`
+--
+
+INSERT INTO `cliente` (`ID`, `nome`, `cognome`, `username`, `password`, `id_indirizzo`, `email`, `numeroCartaCredito`, `numeroTessera`) VALUES
+(3, 'ajeje', 'brazorf', 'ab', 'af26ae04a962399d2758055d4f09570dcd519ae725c8a28ba6c61e6b57550c75', 2, 'aje_braz@mail.com', '9786132475643546', 123456);
 
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `noleggia`
+-- Struttura della tabella `indirizzo`
 --
 
-CREATE TABLE `noleggia` (
+CREATE TABLE `indirizzo` (
+  `ID` int(11) NOT NULL,
+  `regione` varchar(64) NOT NULL,
+  `provincia` varchar(64) NOT NULL,
+  `citta` varchar(64) NOT NULL,
+  `cap` int(11) NOT NULL,
+  `via` varchar(64) NOT NULL,
+  `numeroCivico` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dump dei dati per la tabella `indirizzo`
+--
+
+INSERT INTO `indirizzo` (`ID`, `regione`, `provincia`, `citta`, `cap`, `via`, `numeroCivico`) VALUES
+(2, 'Lombardia', 'Como', 'Mariano Comense', 22066, 'Santa Caterina da Siena', 3);
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `operazione`
+--
+
+CREATE TABLE `operazione` (
   `ID` int(11) NOT NULL,
   `idCliente` int(11) NOT NULL,
   `idBicicletta` int(11) NOT NULL,
+  `id_stazione` int(11) NOT NULL,
   `inizio_noleggio` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `fine_noleggio` timestamp NULL DEFAULT NULL
+  `fine_noleggio` timestamp NULL DEFAULT NULL,
+  `tariffa` float DEFAULT NULL,
+  `kmEffettuati` int(32) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 -- --------------------------------------------------------
@@ -76,13 +126,22 @@ CREATE TABLE `noleggia` (
 
 CREATE TABLE `stazione` (
   `ID` int(11) NOT NULL,
-  `indirizzo` int(11) NOT NULL,
-  `codice` int(11) NOT NULL
+  `codice` int(11) NOT NULL,
+  `id_indirizzo` int(11) NOT NULL,
+  `numero_slot` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Indici per le tabelle scaricate
 --
+
+--
+-- Indici per le tabelle `admin`
+--
+ALTER TABLE `admin`
+  ADD PRIMARY KEY (`ID`),
+  ADD UNIQUE KEY `email` (`email`),
+  ADD UNIQUE KEY `username` (`username`);
 
 --
 -- Indici per le tabelle `bicicletta`
@@ -98,24 +157,41 @@ ALTER TABLE `bicicletta`
 --
 ALTER TABLE `cliente`
   ADD PRIMARY KEY (`ID`),
-  ADD UNIQUE KEY `username` (`username`,`email`,`numeroTessera`);
+  ADD UNIQUE KEY `email` (`email`,`numeroTessera`),
+  ADD KEY `id_indirizzo` (`id_indirizzo`);
 
 --
--- Indici per le tabelle `noleggia`
+-- Indici per le tabelle `indirizzo`
 --
-ALTER TABLE `noleggia`
+ALTER TABLE `indirizzo`
   ADD PRIMARY KEY (`ID`);
+
+--
+-- Indici per le tabelle `operazione`
+--
+ALTER TABLE `operazione`
+  ADD PRIMARY KEY (`ID`),
+  ADD KEY `idCliente` (`idCliente`,`idBicicletta`,`id_stazione`),
+  ADD KEY `idBicicletta` (`idBicicletta`),
+  ADD KEY `id_stazione` (`id_stazione`);
 
 --
 -- Indici per le tabelle `stazione`
 --
 ALTER TABLE `stazione`
   ADD PRIMARY KEY (`ID`),
-  ADD UNIQUE KEY `codice` (`codice`);
+  ADD UNIQUE KEY `codice` (`codice`),
+  ADD KEY `id_indirizzo` (`id_indirizzo`);
 
 --
 -- AUTO_INCREMENT per le tabelle scaricate
 --
+
+--
+-- AUTO_INCREMENT per la tabella `admin`
+--
+ALTER TABLE `admin`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT per la tabella `bicicletta`
@@ -127,12 +203,18 @@ ALTER TABLE `bicicletta`
 -- AUTO_INCREMENT per la tabella `cliente`
 --
 ALTER TABLE `cliente`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT per la tabella `noleggia`
+-- AUTO_INCREMENT per la tabella `indirizzo`
 --
-ALTER TABLE `noleggia`
+ALTER TABLE `indirizzo`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT per la tabella `operazione`
+--
+ALTER TABLE `operazione`
   MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
@@ -140,6 +222,30 @@ ALTER TABLE `noleggia`
 --
 ALTER TABLE `stazione`
   MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- Limiti per le tabelle scaricate
+--
+
+--
+-- Limiti per la tabella `cliente`
+--
+ALTER TABLE `cliente`
+  ADD CONSTRAINT `cliente_ibfk_1` FOREIGN KEY (`id_indirizzo`) REFERENCES `indirizzo` (`ID`);
+
+--
+-- Limiti per la tabella `operazione`
+--
+ALTER TABLE `operazione`
+  ADD CONSTRAINT `operazione_ibfk_2` FOREIGN KEY (`idBicicletta`) REFERENCES `bicicletta` (`ID`),
+  ADD CONSTRAINT `operazione_ibfk_3` FOREIGN KEY (`idCliente`) REFERENCES `cliente` (`ID`),
+  ADD CONSTRAINT `operazione_ibfk_4` FOREIGN KEY (`id_stazione`) REFERENCES `stazione` (`ID`);
+
+--
+-- Limiti per la tabella `stazione`
+--
+ALTER TABLE `stazione`
+  ADD CONSTRAINT `stazione_ibfk_1` FOREIGN KEY (`id_indirizzo`) REFERENCES `indirizzo` (`ID`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
