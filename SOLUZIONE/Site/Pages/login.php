@@ -1,11 +1,3 @@
-<?php
-
-if (!isset($_SESSION)) {
-    session_start();
-}
-
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -15,21 +7,29 @@ if (!isset($_SESSION)) {
     <title>Login</title>
     <script src="../Js/jquery-3.7.1.min.js"></script>
     <script src="../Js/login.js"></script>
+    <style>
+        body {
+            margin-top: 10%;
+            text-align: center;
+        }
+    </style>
 </head>
 
 <body>
 
     <form id="loginForm" action="../Controllers/checkLogin.php" method="POST">
         <label for="username">Username</label>
-        <input type="text" id="username" name="username" required>
+        <input type="text" id="username" name="username" required><br>
         <label for="password">Password</label>
-        <input type="password" id="password" name="password" required>
+        <input type="password" id="password" name="password" required><br>
+        <label for="numeroTessera">Numero della tessera</label>
+        <input type="password" id="numeroTessera" name="numeroTessera" required><br>
         <input type="submit" value="Login">
     </form>
 
     <div id="error"></div>
 
-    <a href="register.php">Register</a>
+    Non hai ancora un'account? <a href="register.php">Registrati!</a>
 
 </body>
 
