@@ -5,13 +5,13 @@ $(document).ready(function() {
         let username = $("#username").val();
         let password = $("#password").val();
         let numeroTessera = $("#numeroTessera").val();
-        if (username == "" || password == "" || numeroTessera == "") {
+        if (username == "" || password == "") {
             $("#error").html("Compila tutti i campi");
             return false;
         }
 
         $.ajax({
-            type: "POST",
+            type: $("#loginForm").attr("method"),
             url: $("#loginForm").attr("action"),
             data: {
                 username: username,

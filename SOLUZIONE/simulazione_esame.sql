@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Mag 02, 2024 alle 19:02
+-- Creato il: Mag 03, 2024 alle 22:06
 -- Versione del server: 10.4.32-MariaDB
 -- Versione PHP: 8.2.12
 
@@ -37,6 +37,13 @@ CREATE TABLE `admin` (
   `privilegi_admin` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dump dei dati per la tabella `admin`
+--
+
+INSERT INTO `admin` (`ID`, `username`, `password`, `nome`, `cognome`, `email`, `privilegi_admin`) VALUES
+(1, 'admin.admin', '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918', 'admin', 'admin', 'admin.admin@admin.com', 1);
+
 -- --------------------------------------------------------
 
 --
@@ -68,7 +75,7 @@ CREATE TABLE `cliente` (
   `id_indirizzo` int(11) NOT NULL,
   `email` varchar(64) NOT NULL,
   `numeroCartaCredito` varchar(16) NOT NULL,
-  `numeroTessera` mediumint(6) NOT NULL
+  `numeroTessera` varchar(6) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
@@ -76,7 +83,8 @@ CREATE TABLE `cliente` (
 --
 
 INSERT INTO `cliente` (`ID`, `nome`, `cognome`, `username`, `password`, `id_indirizzo`, `email`, `numeroCartaCredito`, `numeroTessera`) VALUES
-(3, 'ajeje', 'brazorf', 'ab', 'af26ae04a962399d2758055d4f09570dcd519ae725c8a28ba6c61e6b57550c75', 2, 'aje_braz@mail.com', '9786132475643546', 123456);
+(3, 'ajeje', 'brazorf', 'a_b', 'af26ae04a962399d2758055d4f09570dcd519ae725c8a28ba6c61e6b57550c75', 2, 'aje_braz@mail.com', '9786132475643546', '000000'),
+(13, 'Amedeo', 'Fumagalli', 'ame_fuma', '4d0782767987d11e8aaa1f07a5be55eae043c714e02d872ada52875a9b611be7', 6, 'ame.fuma@mail.com', '0909 1212 5454 8', '000001');
 
 -- --------------------------------------------------------
 
@@ -99,7 +107,8 @@ CREATE TABLE `indirizzo` (
 --
 
 INSERT INTO `indirizzo` (`ID`, `regione`, `provincia`, `citta`, `cap`, `via`, `numeroCivico`) VALUES
-(2, 'Lombardia', 'Como', 'Mariano Comense', 22066, 'Santa Caterina da Siena', 3);
+(2, 'Lombardia', 'Como', 'Mariano Comense', 22066, 'Santa Caterina da Siena', 3),
+(6, 'Lombardia', 'MI', 'Milano', 22019, 'Piazza delle Rose', 14);
 
 -- --------------------------------------------------------
 
@@ -191,7 +200,7 @@ ALTER TABLE `stazione`
 -- AUTO_INCREMENT per la tabella `admin`
 --
 ALTER TABLE `admin`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT per la tabella `bicicletta`
@@ -203,13 +212,13 @@ ALTER TABLE `bicicletta`
 -- AUTO_INCREMENT per la tabella `cliente`
 --
 ALTER TABLE `cliente`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT per la tabella `indirizzo`
 --
 ALTER TABLE `indirizzo`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT per la tabella `operazione`
