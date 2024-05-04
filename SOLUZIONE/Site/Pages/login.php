@@ -1,3 +1,16 @@
+<?php
+
+if (!isset($_SESSION)) {
+    session_start();
+}
+
+if (isset($_SESSION['username']) || (isset($_SESSION['isLogged']) && $_SESSION['isLogged'] == true)) {
+    header("Location: ./home.php");
+    exit;
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 

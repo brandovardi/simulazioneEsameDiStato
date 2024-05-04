@@ -38,6 +38,7 @@ if (isset($_POST['username']) && isset($_POST['password']) && isset($_POST['nume
 
     if ($result->num_rows > 0) {
         $_SESSION['username'] = $username;
+        $_SESSION['isLogged'] = true;
         echo json_encode(array("status" => "success"));
     } else {
         echo json_encode(array("status" => "error", "message" => "Username o password errati"));
