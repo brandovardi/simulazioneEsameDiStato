@@ -16,6 +16,10 @@ if (isset($_POST['nome']) && isset($_POST['cognome']) && isset($_POST['username'
     
     $conn = new mysqli("localhost", "root", "", "simulazione_esame");
     $conn->set_charset("utf8mb4");
+    if ($conn->connect_error) {
+        echo json_encode(array("status" => "error", "message" => "Connessione al database fallita"));
+        exit;
+    }
 
     $regione = $_POST['regione'];
     $provincia = $_POST['provincia'];
@@ -96,7 +100,7 @@ if (isset($_POST['nome']) && isset($_POST['cognome']) && isset($_POST['username'
         $result = $conn->query($select);
         $row = $result->fetch_assoc();
         $numeroTessera = $row['numeroTessera'] + 1;
-        $numeroTessera = str_pad($numeroTessera, 6, "0", STR_PAD_LEFT);
+        $numeroTessera = str_pad($numeroTessera, 7, "0", STR_PAD_LEFT);
     
         // inserisco il cliente
         $insert = "INSERT INTO cliente (nome, cognome, username, password, id_indirizzo, email, numeroCartaCredito, numeroTessera) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
@@ -109,7 +113,8 @@ if (isset($_POST['nome']) && isset($_POST['cognome']) && isset($_POST['username'
         $conn->close();
 
         $_SESSION['numeroTessera'] = $numeroTessera;
-        echo json_encode(array("status" => "success"));
+        $message = "<h1>Benvenuto/a " . $nome . " " . $cognome . "!</h1><br>Ecco a te il numero di tessera per effettuare la login: ";
+        echo json_encode(array("status" => "success", "message" => $message));
         exit;
     } catch (Exception $e) {
         $conn->rollback();

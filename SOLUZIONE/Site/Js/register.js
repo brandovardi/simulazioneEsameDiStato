@@ -1,34 +1,64 @@
-$(document).ready(function() {
-    $("#provincia").keyup(function() {
+$(document).ready(function () {
+    loadSelect();
+
+    $("#regione").change(function () {
+        let province = getProvince($(this).val());
+        let select = $("#provincia");
+        select.empty();
+        province.forEach(provincia => {
+            select.append(`<option value="${provincia.split("-")[0]}">${provincia}</option>`);
+        });
+    });
+
+    $("#provincia").keyup(function () {
         $(this).val($(this).val().toUpperCase());
     });
 
-    $("#citta, #nome, #cognome").keyup(function() {
+    $("#citta, #nome, #cognome").keyup(function () {
+        // mi salvo al posizione del cursore
+        let start = this.selectionStart;
+        $(this).val($(this).val().toLowerCase());
         let valore = $(this).val();
-        $(this).val(valore.charAt(0).toUpperCase() + valore.slice(1));
+
+        if (valore.includes(" ")) {
+            let array = valore.split(" ");
+            let stringa = "";
+            
+            array.forEach(parola => {
+                stringa += parola.charAt(0).toUpperCase() + parola.slice(1) + " ";
+            });
+
+            // rimuovo lo spazio finale soltanto se ha inserito una sola parola
+            if (array.length == 1) {
+                stringa = stringa.trim();
+            }
+
+            $(this).val(stringa);
+        } else {
+            $(this).val(valore.charAt(0).toUpperCase() + valore.slice(1));
+        }
+
+        // riposiziono il cursore
+        this.selectionStart = start;
+        this.selectionEnd = start;
     });
 
-    $("#numeroCartaCredito").keyup(function() {
+    $("#numeroCartaCredito").keyup(function () {
         let valore = $(this).val();
-        $(this).val(valore.replace(/[^\d]/g, "").replace(/(.{4})/g, "$1 "));
+        $(this).val(valore.replace(/[^\d]/g, "").replace(/(.{4})/g, "$1-"));
 
         if ($(this).val().length > 19) {
             $(this).val(valore.slice(0, 19));
         }
     });
 
-    $("#email").keyup(function() {
+    $("#email").keyup(function () {
         let valore = $(this).val();
         $(this).val(valore.toLowerCase());
         $(this).val(valore.replace(/[^a-zA-Z0-9@._-]/g, ""));
     });
 
-    function validateEmail(email) {
-        let regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
-        return regex.test(email);
-    }
-
-    $("form").submit(function(e) {
+    $("form").submit(async function (e) {
         e.preventDefault();
 
         let nome = $("#nome").val();
@@ -53,39 +83,68 @@ $(document).ready(function() {
         let via = $("#via").val();
         let numeroCivico = $("#numeroCivico").val();
 
-        $.ajax({
-            type: $("form").attr("method"),
-            url: $("form").attr("action"),
-            data: {
-                nome: nome,
-                cognome: cognome,
-                username: username,
-                password: password,
+        let data = {
+            nome: nome,
+            cognome: cognome,
+            username: username,
+            password: password,
+            email: email,
+            numeroCartaCredito: numeroCartaCredito,
+            regione: regione,
+            provincia: provincia,
+            citta: citta,
+            cap: cap,
+            via: via,
+            numeroCivico: numeroCivico
+        };
+
+        let response = await request($("form").attr("method"), "../Controllers/checkRegistration.php", data);
+
+        response = JSON.parse(response);
+        let message = response.message;
+
+        if (response.status == "success") {
+            let data = {
                 email: email,
-                numeroCartaCredito: numeroCartaCredito,
-                regione: regione,
-                provincia: provincia,
-                citta: citta,
-                cap: cap,
-                via: via,
-                numeroCivico: numeroCivico
-            },
-            success: function(response) {
-                response = JSON.parse(response);
-                
-                if (response.status == "success") {
-                    window.location.href = "./home.php";
-                } else {
-                    $("#error").html(response.message);
-                }
-            },
-            error: function(response) {
-                console.log(response);
-                $("#error").html("Errore di connessione al server");
+                subject: "Registrazione avvenuta con successo",
+                message: message
+            };
+            let response = await request($("form").attr("method"), "../Controllers/sendEmail.php", data);
+            let array = response.split("<br>");
+
+            response = JSON.parse(array[array.length - 1].trim());
+
+            if (response.status == "success") {
+                window.location.href = "./login.php";
+            } else {
+                $("#error").html("Errore nell'invio dell'email di conferma");
             }
-        });
+
+        } else {
+            $("#error").html(response.message);
+        }
 
         return false;
     });
-    
+
 });
+
+function validateEmail(email) {
+    let regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+    return regex.test(email);
+}
+
+function loadSelect() {
+    let regioni = getRegioni();
+    let selectReg = $("#regione");
+    regioni.forEach(regione => {
+        selectReg.append(`<option value="${regione}">${regione}</option>`);
+    });
+
+    let province = getProvince($("#regione").val());
+    let selectProv = $("#provincia");
+    selectProv.empty();
+    province.forEach(provincia => {
+        selectProv.append(`<option value="${provincia.split("-")[0]}">${provincia}</option>`);
+    });
+}

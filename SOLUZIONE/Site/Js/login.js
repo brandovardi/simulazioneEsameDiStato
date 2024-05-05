@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    $("#loginForm").submit(function(e) {
+    $("#loginForm").submit(async function(e) {
         e.preventDefault();
 
         let username = $("#username").val();
@@ -10,28 +10,20 @@ $(document).ready(function() {
             return false;
         }
 
-        $.ajax({
-            type: $("#loginForm").attr("method"),
-            url: $("#loginForm").attr("action"),
-            data: {
-                username: username,
-                password: password,
-                numeroTessera: numeroTessera
-            },
-            success: function(response) {
-                response = JSON.parse(response);
+        let data = {
+            username: username,
+            password: password,
+            numeroTessera: numeroTessera
+        };
+        let response = await request($("#loginForm").attr("method"), $("#loginForm").attr("action"), data);
+
+        response = JSON.parse(response);
                 
-                if (response.status == "success") {
-                    window.location.href = "./home.php";
-                } else {
-                    $("#error").html(response.message);
-                }
-            },
-            error: function(response) {
-                console.log(response);
-                $("#error").html("Errore di connessione al server");
-            }
-        });
+        if (response.status == "success") {
+            window.location.href = "./Customers/home_c.php";
+        } else {
+            $("#error").html(response.message);
+        }
 
         return false;
     });

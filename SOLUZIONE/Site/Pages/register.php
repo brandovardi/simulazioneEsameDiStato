@@ -19,44 +19,20 @@ if (isset($_SESSION['username']) || (isset($_SESSION['isLogged']) && $_SESSION['
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registrati</title>
     <script src="../Js/jquery-3.7.1.min.js"></script>
-    <script src="../Js/register.js"></script>
+    <script src="../Js/request.js"></script>
     <script src="../Js/province.js"></script>
+    <script src="../Js/register.js"></script>
     <style>
         body {
             margin-top: 10%;
             text-align: center;
         }
     </style>
-    <script>
-        $(document).ready(function() {
-            let regioni = getRegioni();
-            let selectReg = $("#regione");
-            regioni.forEach(regione => {
-                selectReg.append(`<option value="${regione}">${regione}</option>`);
-            });
-
-            let province = getProvince($("#regione").val());
-            let selectProv = $("#provincia");
-            selectProv.empty();
-            province.forEach(provincia => {
-                selectProv.append(`<option value="${provincia.split("-")[0]}">${provincia}</option>`);
-            });
-
-            $("#regione").change(function() {
-                let province = getProvince($(this).val());
-                let select = $("#provincia");
-                select.empty();
-                province.forEach(provincia => {
-                    select.append(`<option value="${provincia.split("-")[0]}">${provincia}</option>`);
-                });
-            });
-        });
-    </script>
 </head>
 
 <body>
 
-    <form action="../Controllers/checkRegistration.php" method="POST">
+    <form method="POST">
         <h4>Dati Utente</h4>
         <label for="nome">Nome</label>
         <input type="text" id="nome" name="nome" required><br>

@@ -19,6 +19,7 @@ if (isset($_SESSION['username']) || (isset($_SESSION['isLogged']) && $_SESSION['
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Accedi</title>
     <script src="../Js/jquery-3.7.1.min.js"></script>
+    <script src="../Js/request.js"></script>
     <script src="../Js/login.js"></script>
     <style>
         body {
@@ -40,7 +41,15 @@ if (isset($_SESSION['username']) || (isset($_SESSION['isLogged']) && $_SESSION['
         <input type="submit" value="Login">
     </form>
 
-    <div id="error"></div>
+    <div id="error">
+        <?php
+
+        if (isset($_SESSION['mail-sent']) && $_SESSION['mail-sent'] == true) {
+            echo "Il numero di tessera è stato inviato alla tua email";
+        }
+
+        ?>
+    </div>
 
     Non hai ancora un'account? <a href="register.php">Registrati!</a>
 

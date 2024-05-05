@@ -7,12 +7,17 @@ if (!isset($_SESSION)) {
 if (isset($_POST['username']) && isset($_POST['password']) && isset($_POST['numeroTessera'])) {
     $conn = new mysqli("localhost", "root", "", "simulazione_esame");
     $conn->set_charset("utf8");
+    if ($conn->connect_error) {
+        echo json_encode(array("status" => "error", "message" => "Connessione al database fallita"));
+        exit;
+    }
 
     $username = $_POST['username'];
     $password = hash('sha256', $_POST['password']);
     $numeroTessera = $_POST['numeroTessera'];
 
     $stmt = null;
+    $is_admin = false;
     if (str_contains($username, "_")) {
         if (empty($numeroTessera) || !is_numeric($numeroTessera)) {
             echo json_encode(array("status" => "error", "message" => "Inserire un numero di tessera valido"));
@@ -27,6 +32,7 @@ if (isset($_POST['username']) && isset($_POST['password']) && isset($_POST['nume
         $select = "SELECT * FROM admin WHERE username = ? AND password = ?";
         $stmt = $conn->prepare($select);
         $stmt->bind_param("ss", $username, $password);
+        $is_admin = true;
     }
     else {
         echo json_encode(array("status" => "error", "message" => "Username non valido"));
@@ -38,10 +44,13 @@ if (isset($_POST['username']) && isset($_POST['password']) && isset($_POST['nume
 
     if ($result->num_rows > 0) {
         $_SESSION['username'] = $username;
+        $_SESSION['is_admin'] = $is_admin;
         $_SESSION['isLogged'] = true;
         echo json_encode(array("status" => "success"));
     } else {
+        session_unset();
         echo json_encode(array("status" => "error", "message" => "Username o password errati"));
     }
+
     exit;
 }
