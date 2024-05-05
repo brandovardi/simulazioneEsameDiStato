@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Mag 03, 2024 alle 22:06
+-- Creato il: Mag 05, 2024 alle 16:50
 -- Versione del server: 10.4.32-MariaDB
 -- Versione PHP: 8.2.12
 
@@ -54,7 +54,7 @@ CREATE TABLE `bicicletta` (
   `ID` int(11) NOT NULL,
   `codice` varchar(16) NOT NULL,
   `manutenzione` tinyint(1) NOT NULL,
-  `posizione` varchar(128) NOT NULL,
+  `ultima_posizione` varchar(128) NOT NULL,
   `GPS` varchar(32) NOT NULL,
   `RFID` varchar(32) NOT NULL,
   `kmEffettuati` int(64) NOT NULL
@@ -74,8 +74,8 @@ CREATE TABLE `cliente` (
   `password` varchar(64) NOT NULL,
   `id_indirizzo` int(11) NOT NULL,
   `email` varchar(64) NOT NULL,
-  `numeroCartaCredito` varchar(16) NOT NULL,
-  `numeroTessera` varchar(6) NOT NULL
+  `numeroCartaCredito` varchar(19) NOT NULL,
+  `numeroTessera` varchar(7) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
@@ -83,8 +83,10 @@ CREATE TABLE `cliente` (
 --
 
 INSERT INTO `cliente` (`ID`, `nome`, `cognome`, `username`, `password`, `id_indirizzo`, `email`, `numeroCartaCredito`, `numeroTessera`) VALUES
-(3, 'ajeje', 'brazorf', 'a_b', 'af26ae04a962399d2758055d4f09570dcd519ae725c8a28ba6c61e6b57550c75', 2, 'aje_braz@mail.com', '9786132475643546', '000000'),
-(13, 'Amedeo', 'Fumagalli', 'ame_fuma', '4d0782767987d11e8aaa1f07a5be55eae043c714e02d872ada52875a9b611be7', 6, 'ame.fuma@mail.com', '0909 1212 5454 8', '000001');
+(3, 'ajeje', 'brazorf', 'a_b', 'af26ae04a962399d2758055d4f09570dcd519ae725c8a28ba6c61e6b57550c75', 2, 'aje_braz@mail.com', '9786-1324-7564-3546', '0000000'),
+(13, 'Amedeo', 'Fumagalli', 'ame_fuma', '4d0782767987d11e8aaa1f07a5be55eae043c714e02d872ada52875a9b611be7', 6, 'ame.fuma@mail.com', '0909-1212-5454-8989', '0000001'),
+(29, 'Asd', 'Asd', 'asd_asd', '688787d8ff144c502c7f5cffaafe2cc588d86079f9de88304c26b0cb99ce91c6', 8, 'asd@asd.asd', '1234-5678-9012-3456', '0000002'),
+(33, 'Pietro', 'Brandovardi', 'ilde_brando', 'd07ee7e529af02ace472e74ef4be1bd92f3604f6c3a5b11602aad4496161ecb3', 7, 'brandovardipietro@gmail.com', '1234-5678-9012-3456', '0000003');
 
 -- --------------------------------------------------------
 
@@ -108,7 +110,9 @@ CREATE TABLE `indirizzo` (
 
 INSERT INTO `indirizzo` (`ID`, `regione`, `provincia`, `citta`, `cap`, `via`, `numeroCivico`) VALUES
 (2, 'Lombardia', 'Como', 'Mariano Comense', 22066, 'Santa Caterina da Siena', 3),
-(6, 'Lombardia', 'MI', 'Milano', 22019, 'Piazza delle Rose', 14);
+(6, 'Lombardia', 'MI', 'Milano', 22019, 'Piazza delle Rose', 14),
+(7, 'Lombardia', 'CO', 'Cantù', 22063, 'Ettore Brambilla', 34),
+(8, 'Abruzzo', 'AQ', 'Asd', 12312, 'asd', 123);
 
 -- --------------------------------------------------------
 
@@ -212,13 +216,13 @@ ALTER TABLE `bicicletta`
 -- AUTO_INCREMENT per la tabella `cliente`
 --
 ALTER TABLE `cliente`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT per la tabella `indirizzo`
 --
 ALTER TABLE `indirizzo`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT per la tabella `operazione`
