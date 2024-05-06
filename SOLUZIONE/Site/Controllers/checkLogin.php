@@ -26,7 +26,7 @@ if (isset($_POST['username']) && isset($_POST['password']) && isset($_POST['nume
 
         $select = "SELECT * FROM cliente WHERE username = ? AND password = ? AND numeroTessera = ?";
         $stmt = $conn->prepare($select);
-        $stmt->bind_param("ssi", $username, $password, $numeroTessera);
+        $stmt->bind_param("sss", $username, $password, $numeroTessera);
     }
     else if (str_contains($username, ".")) {
         $select = "SELECT * FROM admin WHERE username = ? AND password = ?";
@@ -44,12 +44,14 @@ if (isset($_POST['username']) && isset($_POST['password']) && isset($_POST['nume
 
     if ($result->num_rows > 0) {
         $_SESSION['username'] = $username;
-        $_SESSION['is_admin'] = $is_admin;
+        if ($is_admin) {
+            $_SESSION['is_admin'] = true;
+        }
         $_SESSION['isLogged'] = true;
         echo json_encode(array("status" => "success"));
     } else {
         session_unset();
-        echo json_encode(array("status" => "error", "message" => "Username o password errati"));
+        echo json_encode(array("status" => "error", "message" => "Username, password o numero di tessera errati"));
     }
 
     exit;

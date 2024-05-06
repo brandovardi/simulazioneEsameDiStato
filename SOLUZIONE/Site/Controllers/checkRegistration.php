@@ -21,8 +21,8 @@ if (isset($_POST['nome']) && isset($_POST['cognome']) && isset($_POST['username'
         exit;
     }
 
-    $regione = $_POST['regione'];
-    $provincia = $_POST['provincia'];
+    $regione = strtolower($_POST['regione']);
+    $provincia = strtoupper($_POST['provincia']);
     $citta = $_POST['citta'];
     $via = $_POST['via'];
     $cap = $_POST['cap'];
@@ -36,9 +36,10 @@ if (isset($_POST['nome']) && isset($_POST['cognome']) && isset($_POST['username'
         exit;
     }
 
-    $nome = $_POST['nome'];
-    $cognome = $_POST['cognome'];
-    $username = $_POST['username'];
+    $nome = ucfirst(strtolower($_POST['nome']));
+    $cognome = ucfirst(strtolower($_POST['cognome']));
+    $cognome = ucfirst($cognome);
+    $username = strtolower($_POST['username']);
     if (!str_contains($username, "_")) {
         echo json_encode(array("status" => "error", "message" => "L'username deve contenere il carattere '_'"));
         exit;

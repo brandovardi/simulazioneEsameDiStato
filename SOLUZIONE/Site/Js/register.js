@@ -14,6 +14,10 @@ $(document).ready(function () {
         $(this).val($(this).val().toUpperCase());
     });
 
+    $("#username").keyup(function () {
+        $(this).val($(this).val().toLowerCase());
+    });
+
     $("#citta, #nome, #cognome").keyup(function () {
         // mi salvo al posizione del cursore
         let start = this.selectionStart;
