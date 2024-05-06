@@ -59,7 +59,10 @@ try {
     // imposto il subject e il body del messaggio
     $mail->isHTML(true);
     $mail->Subject = $subject;
-    $mail->Body = $message . '<h2><b>' . $_SESSION['numeroTessera'] .'</b></h2><br>';
+    if (isset($_SESSION['numeroTessera']))
+        $mail->Body = $message . '<h2><b>' . $_SESSION['numeroTessera'] .'</b></h2><br>';
+    else
+        $mail->Body = $message . '<br>';
 
     // invio l'email
     $mail->send();
