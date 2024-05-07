@@ -5,7 +5,7 @@ if (!isset($_SESSION)) {
 }
 
 if (isset($_SESSION['username']) || (isset($_SESSION['isLogged']) && $_SESSION['isLogged'] == true)) {
-    header("Location: ./Customers/home_c.php");
+    header("Location: ./Customers/home.php");
     exit;
 }
 
@@ -67,16 +67,16 @@ if (isset($_SESSION['username']) || (isset($_SESSION['isLogged']) && $_SESSION['
                 <select name="provincia" id="provincia"></select>
             </div>
             <div class="form-group">
-                <label for="citta">Città</label>
-                <select name="citta" id="citta"></select>
+                <label for="comune">Comune</label>
+                <select name="citta" id="comune"></select>
+            </div>
+            <div class="form-group">
+                <label for="cap">CAP</label>
+                <input type="number" id="cap" name="cap" disabled required>
             </div>
             <div class="form-group">
                 <label for="via">Via</label>
                 <input type="text" id="via" name="via" minlength="2" required>
-            </div>
-            <div class="form-group">
-                <label for="cap">CAP</label>
-                <input type="number" id="cap" name="cap" min="10000" max="99999" required>
             </div>
             <div class="form-group">
                 <label for="numeroCivico">Numero Civico</label>

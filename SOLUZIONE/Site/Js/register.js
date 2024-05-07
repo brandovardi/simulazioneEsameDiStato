@@ -1,24 +1,57 @@
 $(document).ready(function () {
-    loadSelect();
+    $("#regione").change(async function () {
+        codice_regione = document.getElementById("regione").selectedIndex + 1;
+        if (codice_regione == 0) codice_regione = 1;
+        if (codice_regione < 10) {
+            codice_regione = "0" + codice_regione;
+        }
+        else {
+            codice_regione = codice_regione.toString();
+        }
 
-    $("#regione").change(function () {
-        let province = getProvince($(this).val());
-        let select = $("#provincia");
-        select.empty();
+        let province = await request("GET", "../Controllers/Address/getProvince.php", { codice_regione: codice_regione });
+        province = JSON.parse(province).province;
+
+        let selectProv = $("#provincia");
+        selectProv.html("");
+
         province.forEach(provincia => {
-            select.append(`<option value="${provincia.split("-")[0]}">${provincia}</option>`);
+            selectProv.append(`<option value="${provincia.split("-")[0]}">${provincia}</option>`);
         });
+
+        $("#provincia").trigger("change");
     });
 
-    $("#provincia").keyup(function () {
-        $(this).val($(this).val().toUpperCase());
+    $("#provincia").change(async function () {
+        let sigla_provincia = $("#provincia").val().split("-")[0];
+
+        let comuni = await request("GET", "../Controllers/Address/getComuni.php", { sigla_provincia: sigla_provincia });
+        comuni = JSON.parse(comuni).comuni;
+
+        let selectComune = $("#comune");
+        selectComune.html("");
+
+        comuni.forEach(comune => {
+            selectComune.append(`<option value="${comune}">${comune}</option>`);
+        });
+
+        $("#comune").trigger("change");
+    });
+
+    $("#comune").change(async function () {
+        let denominazione_ita_altra = $("#comune").val();
+
+        let cap = await request("GET", "../Controllers/Address/getCap.php", { denominazione_ita_altra: denominazione_ita_altra });
+        cap = JSON.parse(cap).cap;
+
+        $("#cap").val(cap);
     });
 
     $("#username").keyup(function () {
         $(this).val($(this).val().toLowerCase());
     });
 
-    $("#citta, #nome, #cognome").keyup(function () {
+    $("#comune, #nome, #cognome").keyup(function () {
         // mi salvo al posizione del cursore
         let start = this.selectionStart;
         $(this).val($(this).val().toLowerCase());
@@ -82,7 +115,7 @@ $(document).ready(function () {
 
         let regione = $("#regione").val();
         let provincia = $("#provincia").val();
-        let citta = $("#citta").val();
+        let comune = $("#comune").val();
         let cap = $("#cap").val();
         let via = $("#via").val();
         let numeroCivico = $("#numeroCivico").val();
@@ -96,7 +129,7 @@ $(document).ready(function () {
             numeroCartaCredito: numeroCartaCredito,
             regione: regione,
             provincia: provincia,
-            citta: citta,
+            comune: comune,
             cap: cap,
             via: via,
             numeroCivico: numeroCivico
@@ -131,6 +164,8 @@ $(document).ready(function () {
         return false;
     });
 
+    loadRegioni();
+    $("#regione").trigger("change");
 });
 
 function validateEmail(email) {
@@ -138,7 +173,7 @@ function validateEmail(email) {
     return regex.test(email);
 }
 
-async function loadSelect() {
+async function loadRegioni() {
     let regioni = await request("GET", "../Controllers/Address/getRegioni.php", {});
     regioni = JSON.parse(regioni).regioni;
     let selectReg = $("#regione");
@@ -146,18 +181,21 @@ async function loadSelect() {
         selectReg.append(`<option value="${regione}">${regione}</option>`);
     });
 
-    let province = await request("GET", "../Controllers/Address/getProvince.php", { codice_regione: "01" });
-    province = JSON.parse(province).province;
-    let selectProv = $("#provincia");
-    province.forEach(provincia => {
-        selectProv.append(`<option value="${provincia.split("-")[0]}">${provincia}</option>`);
-    });
+    // let province = await request("GET", "../Controllers/Address/getProvince.php", { codice_regione: "01" });
+    // province = JSON.parse(province).province;
+    // let selectProv = $("#provincia");
+    // province.forEach(provincia => {
+    //     selectProv.append(`<option value="${provincia.split("-")[0]}">${provincia}</option>`);
+    // });
 
-    let comuni = await request("GET", "../Controllers/Address/getComuni.php", { sigla_provincia: "AL" });
-    console.log(comuni);
-    comuni = JSON.parse(comuni).comuni;
-    let selectCitta = $("#citta");
-    comuni.forEach(comune => {
-        selectCitta.append(`<option value="${comune}">${comune}</option>`);
-    });
+    // let comuni = await request("GET", "../Controllers/Address/getComuni.php", { sigla_provincia: "AL" });
+    // comuni = JSON.parse(comuni).comuni;
+    // let selectComune = $("#comune");
+    // comuni.forEach(comune => {
+    //     selectComune.append(`<option value="${comune}">${comune}</option>`);
+    // });
+
+    // let cap = await request("GET", "../Controllers/Address/getCap.php", { denominazione_ita_altra: "Agliè" });
+    // cap = JSON.parse(cap).cap;
+    // $("#cap").val(cap);
 }

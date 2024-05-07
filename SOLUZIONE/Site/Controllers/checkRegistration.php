@@ -6,16 +6,16 @@ if (!isset($_SESSION)) {
 
 if (isset($_POST['nome']) && isset($_POST['cognome']) && isset($_POST['username'])
     && isset($_POST['password']) && isset($_POST['email']) && isset($_POST['numeroCartaCredito'])
-    && isset($_POST['regione']) && isset($_POST['provincia']) && isset($_POST['citta'])
+    && isset($_POST['regione']) && isset($_POST['provincia']) && isset($_POST['comune'])
     && isset($_POST['via']) && isset($_POST['cap']) && isset($_POST['numeroCivico'])
     // controllo se i campi sono vuoti
     && !empty($_POST['username']) && !empty($_POST['password']) && !empty($_POST['nome'])
     && !empty($_POST['cognome']) && !empty($_POST['email']) && !empty($_POST['numeroCartaCredito'])
-    && !empty($_POST['regione']) && !empty($_POST['provincia']) && !empty($_POST['citta'])
+    && !empty($_POST['regione']) && !empty($_POST['provincia']) && !empty($_POST['comune'])
     && !empty($_POST['via']) && !empty($_POST['cap']) && !empty($_POST['numeroCivico'])) {
     
     $conn = new mysqli("localhost", "root", "", "simulazione_esame");
-    $conn->set_charset("utf8mb4");
+    $conn->set_charset("utf8");
     
     if ($conn->connect_error) {
         echo json_encode(array("status" => "error", "message" => "Connessione al database fallita"));
@@ -24,7 +24,7 @@ if (isset($_POST['nome']) && isset($_POST['cognome']) && isset($_POST['username'
 
     $regione = strtolower($_POST['regione']);
     $provincia = strtoupper($_POST['provincia']);
-    $citta = $_POST['citta'];
+    $comune = $_POST['comune'];
     $via = $_POST['via'];
     $cap = $_POST['cap'];
     if (!is_numeric($cap) || strlen($cap) != 5) {
@@ -45,7 +45,7 @@ if (isset($_POST['nome']) && isset($_POST['cognome']) && isset($_POST['username'
         echo json_encode(array("status" => "error", "message" => "L'username deve contenere il carattere '_'"));
         exit;
     }
-    $password = hash('sha256', $_POST['password']);
+    $password = $_POST['password'];
     $email = $_POST['email'];
     if (!checkEmail($email)) {
         echo json_encode(array("status" => "error", "message" => "Email non valida"));
@@ -74,9 +74,9 @@ if (isset($_POST['nome']) && isset($_POST['cognome']) && isset($_POST['username'
         }
     
         // controllo se l'indirizzo è già presente
-        $select = "SELECT * FROM indirizzo WHERE regione = ? AND provincia = ? AND citta = ? AND cap = ? AND via = ? AND numeroCivico = ?";
+        $select = "SELECT * FROM indirizzo WHERE regione = ? AND provincia = ? AND comune = ? AND cap = ? AND via = ? AND numeroCivico = ?";
         $stmt = $conn->prepare($select);
-        $stmt->bind_param("sssisi", $regione, $provincia, $citta, $cap, $via, $numeroCivico);
+        $stmt->bind_param("sssisi", $regione, $provincia, $comune, $cap, $via, $numeroCivico);
         $stmt->execute();
         $result = $stmt->get_result();
         if ($result->num_rows > 0) {
@@ -85,9 +85,9 @@ if (isset($_POST['nome']) && isset($_POST['cognome']) && isset($_POST['username'
         }
         else {
             // altrimenti lo inserisco
-            $insert = "INSERT INTO indirizzo (regione, provincia, citta, cap, via, numeroCivico) VALUES (?, ?, ?, ?, ?, ?)";
+            $insert = "INSERT INTO indirizzo (regione, provincia, comune, cap, via, numeroCivico) VALUES (?, ?, ?, ?, ?, ?)";
             $stmt = $conn->prepare($insert);
-            $stmt->bind_param("sssisi", $regione, $provincia, $citta, $cap, $via, $numeroCivico);
+            $stmt->bind_param("sssisi", $regione, $provincia, $comune, $cap, $via, $numeroCivico);
             $stmt->execute();
 
             // vado a prendere l'id dell'indirizzo appena inserito

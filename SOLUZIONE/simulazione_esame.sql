@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Mag 05, 2024 alle 16:50
+-- Creato il: Mag 07, 2024 alle 16:46
 -- Versione del server: 10.4.32-MariaDB
 -- Versione PHP: 8.2.12
 
@@ -86,7 +86,8 @@ INSERT INTO `cliente` (`ID`, `nome`, `cognome`, `username`, `password`, `id_indi
 (3, 'ajeje', 'brazorf', 'a_b', 'af26ae04a962399d2758055d4f09570dcd519ae725c8a28ba6c61e6b57550c75', 2, 'aje_braz@mail.com', '9786-1324-7564-3546', '0000000'),
 (13, 'Amedeo', 'Fumagalli', 'ame_fuma', '4d0782767987d11e8aaa1f07a5be55eae043c714e02d872ada52875a9b611be7', 6, 'ame.fuma@mail.com', '0909-1212-5454-8989', '0000001'),
 (29, 'Asd', 'Asd', 'asd_asd', '688787d8ff144c502c7f5cffaafe2cc588d86079f9de88304c26b0cb99ce91c6', 8, 'asd@asd.asd', '1234-5678-9012-3456', '0000002'),
-(33, 'Pietro', 'Brandovardi', 'ilde_brando', 'd07ee7e529af02ace472e74ef4be1bd92f3604f6c3a5b11602aad4496161ecb3', 7, 'brandovardipietro@gmail.com', '1234-5678-9012-3456', '0000003');
+(33, 'Pietro', 'Brandovardi', 'ilde_brando', 'd07ee7e529af02ace472e74ef4be1bd92f3604f6c3a5b11602aad4496161ecb3', 7, 'brandovardipietro@outlook.it', '1234-5678-9012-3456', '0000003'),
+(34, 'Asd', 'Asd', 'asd_asd', '688787d8ff144c502c7f5cffaafe2cc588d86079f9de88304c26b0cb99ce91c6', 9, 'sdf@sdf.sdf', '1231-2312-3123-1231', '0000004');
 
 -- --------------------------------------------------------
 
@@ -98,7 +99,7 @@ CREATE TABLE `indirizzo` (
   `ID` int(11) NOT NULL,
   `regione` varchar(64) NOT NULL,
   `provincia` varchar(64) NOT NULL,
-  `citta` varchar(64) NOT NULL,
+  `comune` varchar(64) NOT NULL,
   `cap` int(11) NOT NULL,
   `via` varchar(64) NOT NULL,
   `numeroCivico` int(11) NOT NULL
@@ -108,11 +109,12 @@ CREATE TABLE `indirizzo` (
 -- Dump dei dati per la tabella `indirizzo`
 --
 
-INSERT INTO `indirizzo` (`ID`, `regione`, `provincia`, `citta`, `cap`, `via`, `numeroCivico`) VALUES
-(2, 'Lombardia', 'Como', 'Mariano Comense', 22066, 'Santa Caterina da Siena', 3),
+INSERT INTO `indirizzo` (`ID`, `regione`, `provincia`, `comune`, `cap`, `via`, `numeroCivico`) VALUES
+(2, 'Lombardia', 'CO', 'Mariano Comense', 22066, 'Santa Caterina da Siena', 3),
 (6, 'Lombardia', 'MI', 'Milano', 22019, 'Piazza delle Rose', 14),
 (7, 'Lombardia', 'CO', 'Cantù', 22063, 'Ettore Brambilla', 34),
-(8, 'Abruzzo', 'AQ', 'Asd', 12312, 'asd', 123);
+(8, 'Abruzzo', 'AQ', 'Asd', 12312, 'asd', 123),
+(9, 'emilia-romagna', 'PR', 'Sdf', 12312, 'sdf', 123);
 
 -- --------------------------------------------------------
 
@@ -216,13 +218,13 @@ ALTER TABLE `bicicletta`
 -- AUTO_INCREMENT per la tabella `cliente`
 --
 ALTER TABLE `cliente`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT per la tabella `indirizzo`
 --
 ALTER TABLE `indirizzo`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT per la tabella `operazione`

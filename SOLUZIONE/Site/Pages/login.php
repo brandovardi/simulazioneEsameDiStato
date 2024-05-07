@@ -21,6 +21,7 @@ if (isset($_SESSION['username']) || (isset($_SESSION['isLogged']) && $_SESSION['
     <link rel="stylesheet" href="../Css/login.css"> <!-- Link to your CSS file -->
     <script src="../Js/jquery-3.7.1.min.js"></script>
     <script src="../Js/request.js" defer></script>
+    <script src="../Js/Secure/crypto.js" defer></script>
     <script src="../Js/login.js" defer></script>
 </head>
 
@@ -44,6 +45,8 @@ if (isset($_SESSION['username']) || (isset($_SESSION['isLogged']) && $_SESSION['
             <button type="submit">Accedi</button>
         </form>
 
+        <div id="error" class="mt-3"></div>
+        
         <?php
 
         if (isset($_SESSION['mail-sent']) && $_SESSION['mail-sent'] == true) {

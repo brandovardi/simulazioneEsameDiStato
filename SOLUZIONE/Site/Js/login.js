@@ -1,9 +1,13 @@
-$(document).ready(function() {
-    $("#loginForm").submit(async function(e) {
+$(document).ready(function () {
+    $("#loginForm").submit(async function (e) {
         e.preventDefault();
 
         let username = $("#username").val();
         let password = $("#password").val();
+        
+        sha256(JSON.stringify(password));
+        console.log(password);
+
         let numeroTessera = $("#numeroTessera").val();
         if (username == "" || password == "") {
             $("#error").html("Compila tutti i campi");
@@ -18,9 +22,9 @@ $(document).ready(function() {
         let response = await request($("#loginForm").attr("method"), $("#loginForm").attr("action"), data);
 
         response = JSON.parse(response);
-                
+
         if (response.status == "success") {
-            window.location.href = "./Customers/home_c.php";
+            window.location.href = "./Customers/home.php";
         } else {
             $("#error").html(response.message);
         }
