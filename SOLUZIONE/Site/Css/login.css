@@ -57,7 +57,7 @@ button[type="submit"]:hover {
 }
 
 #error {
-    color: red;
+    color: rgb(52, 42, 42);
     margin-top: 10px;
     text-align: center;
 }

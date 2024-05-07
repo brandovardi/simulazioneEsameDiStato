@@ -67,7 +67,7 @@ if (isset($_POST['nome']) && isset($_POST['cognome']) && isset($_POST['username'
             exit;
         }
         // controllo la regex per la carta di credito
-        if (!preg_match("/^\d{4} \d{4} \d{4} \d{4}$/", $numeroCartaCredito)) {
+        if (!preg_match("/^\d{4}-\d{4}-\d{4}-\d{4}$/", $numeroCartaCredito)) {
             echo json_encode(array("status" => "error", "message" => "Il numero della carta di credito deve essere un numero di 16 cifre"));
             exit;
         }
