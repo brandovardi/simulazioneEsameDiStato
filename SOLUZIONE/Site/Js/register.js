@@ -138,17 +138,26 @@ function validateEmail(email) {
     return regex.test(email);
 }
 
-function loadSelect() {
-    let regioni = getRegioni();
+async function loadSelect() {
+    let regioni = await request("GET", "../Controllers/Address/getRegioni.php", {});
+    regioni = JSON.parse(regioni).regioni;
     let selectReg = $("#regione");
     regioni.forEach(regione => {
         selectReg.append(`<option value="${regione}">${regione}</option>`);
     });
 
-    let province = getProvince($("#regione").val());
+    let province = await request("GET", "../Controllers/Address/getProvince.php", { codice_regione: "01" });
+    province = JSON.parse(province).province;
     let selectProv = $("#provincia");
-    selectProv.empty();
     province.forEach(provincia => {
         selectProv.append(`<option value="${provincia.split("-")[0]}">${provincia}</option>`);
+    });
+
+    let comuni = await request("GET", "../Controllers/Address/getComuni.php", { sigla_provincia: "AL" });
+    console.log(comuni);
+    comuni = JSON.parse(comuni).comuni;
+    let selectCitta = $("#citta");
+    comuni.forEach(comune => {
+        selectCitta.append(`<option value="${comune}">${comune}</option>`);
     });
 }

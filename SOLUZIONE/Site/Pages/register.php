@@ -21,7 +21,6 @@ if (isset($_SESSION['username']) || (isset($_SESSION['isLogged']) && $_SESSION['
     <link rel="stylesheet" href="../Css/register.css"> <!-- Link to your CSS file -->
     <script src="../Js/jquery-3.7.1.min.js"></script>
     <script src="../Js/request.js" defer></script>
-    <script src="../Js/province.js" defer></script>
     <script src="../Js/register.js" defer></script>
 </head>
 
@@ -69,7 +68,7 @@ if (isset($_SESSION['username']) || (isset($_SESSION['isLogged']) && $_SESSION['
             </div>
             <div class="form-group">
                 <label for="citta">Città</label>
-                <input type="text" id="citta" name="citta" minlength="2" required>
+                <select name="citta" id="citta"></select>
             </div>
             <div class="form-group">
                 <label for="via">Via</label>

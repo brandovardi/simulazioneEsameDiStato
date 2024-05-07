@@ -16,6 +16,7 @@ if (isset($_POST['nome']) && isset($_POST['cognome']) && isset($_POST['username'
     
     $conn = new mysqli("localhost", "root", "", "simulazione_esame");
     $conn->set_charset("utf8mb4");
+    
     if ($conn->connect_error) {
         echo json_encode(array("status" => "error", "message" => "Connessione al database fallita"));
         exit;
