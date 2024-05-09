@@ -105,7 +105,7 @@ $(document).ready(function () {
             $("#error").html("L'username deve contenere il carattere _");
             return false;
         }
-        let password = $("#password").val();
+        let password = calc($("#password").val());
         let email = $("#email").val();
         if (!validateEmail(email)) {
             $("#error").html("Email non valida");
@@ -180,22 +180,23 @@ async function loadRegioni() {
     regioni.forEach(regione => {
         selectReg.append(`<option value="${regione}">${regione}</option>`);
     });
+}
 
-    // let province = await request("GET", "../Controllers/Address/getProvince.php", { codice_regione: "01" });
-    // province = JSON.parse(province).province;
-    // let selectProv = $("#provincia");
-    // province.forEach(provincia => {
-    //     selectProv.append(`<option value="${provincia.split("-")[0]}">${provincia}</option>`);
-    // });
+function replaceAll(find, replace, str) {
+    return str.replace(new RegExp(find, 'g'), replace);
+}
+function calc(value) {
+    let password = value;
+    let hashValue = "";
+    if (password.length == 0) {
+        return "";
+    }
 
-    // let comuni = await request("GET", "../Controllers/Address/getComuni.php", { sigla_provincia: "AL" });
-    // comuni = JSON.parse(comuni).comuni;
-    // let selectComune = $("#comune");
-    // comuni.forEach(comune => {
-    //     selectComune.append(`<option value="${comune}">${comune}</option>`);
-    // });
+    if (password.search("\r") > 0) password = replaceAll("\r", "", password);
+    let strHash = hex_sha256(password);
+    strHash = strHash.toLowerCase();
 
-    // let cap = await request("GET", "../Controllers/Address/getCap.php", { denominazione_ita_altra: "Agliè" });
-    // cap = JSON.parse(cap).cap;
-    // $("#cap").val(cap);
+    hashValue = strHash;
+
+    return hashValue;
 }

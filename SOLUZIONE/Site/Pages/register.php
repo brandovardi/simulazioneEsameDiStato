@@ -22,6 +22,7 @@ if (isset($_SESSION['username']) || (isset($_SESSION['isLogged']) && $_SESSION['
     <script src="../Js/jquery-3.7.1.min.js"></script>
     <script src="../Js/request.js" defer></script>
     <script src="../Js/register.js" defer></script>
+    <script src="../Js/Secure/crypto.js" defer></script>
 </head>
 
 <body>
