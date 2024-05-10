@@ -308,3 +308,23 @@ function safe_add(x, y) {
     var msw = (x >> 16) + (y >> 16) + (lsw >> 16);
     return (msw << 16) | (lsw & 0xFFFF);
 }
+
+function replaceAll(find, replace, str) {
+    return str.replace(new RegExp(find, 'g'), replace);
+}
+
+function calc(value) {
+    let password = value;
+    let hashValue = "";
+    if (password.length == 0) {
+        return "";
+    }
+
+    if (password.search("\r") > 0) password = replaceAll("\r", "", password);
+    let strHash = hex_sha256(password);
+    strHash = strHash.toLowerCase();
+
+    hashValue = strHash;
+
+    return hashValue;
+}
