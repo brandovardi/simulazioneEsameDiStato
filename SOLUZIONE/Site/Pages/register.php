@@ -18,7 +18,7 @@ if (isset($_SESSION['username']) || (isset($_SESSION['isLogged']) && $_SESSION['
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registrati</title>
-    <link rel="stylesheet" href="../Css/register.css"> <!-- Link to your CSS file -->
+    <link rel="stylesheet" href="../Css/template.css"> <!-- Link to your CSS file -->
     <script src="../Js/jquery-3.7.1.min.js"></script>
     <script src="../Js/request.js" defer></script>
     <script src="../Js/register.js" defer></script>
@@ -26,6 +26,9 @@ if (isset($_SESSION['username']) || (isset($_SESSION['isLogged']) && $_SESSION['
 </head>
 
 <body>
+    <div class="loader-container" id="loaderContainer">
+        <div class="loader"></div>
+    </div>
 
     <div class="container">
         <form method="POST" class="form">
@@ -84,7 +87,7 @@ if (isset($_SESSION['username']) || (isset($_SESSION['isLogged']) && $_SESSION['
                 <input type="number" id="numeroCivico" name="numeroCivico" min="1" required>
             </div>
 
-            <button type="submit">Registrati</button>
+            <button type="submit" id="btnRegister">Registrati</button>
         </form>
 
         <div id="error" class="mt-3"></div>

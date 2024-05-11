@@ -4,7 +4,7 @@ if (!isset($_SESSION)) {
     session_start();
 }
 
-if (!isset($_GET['codice_regione'])) {
+if (!isset($_GET['denominazione_regione'])) {
     echo json_encode(array("status" => "error", "message" => "Parametri mancanti"));
     exit;
 }
@@ -17,9 +17,9 @@ if ($conn->connect_error) {
     exit;
 }
 
-$select = "SELECT CONCAT(sigla_provincia, '-(', denominazione_provincia, ')') AS provincia FROM gi_province WHERE codice_regione = ? ORDER BY denominazione_provincia ASC";
+$select = "SELECT CONCAT(sigla_provincia, '-(', denominazione_provincia, ')') AS provincia FROM gi_province WHERE codice_regione = (SELECT codice_regione FROM gi_regioni WHERE denominazione_regione = ?) ORDER BY provincia ASC";
 $stmt = $conn->prepare($select);
-$stmt->bind_param("s", $_GET['codice_regione']);
+$stmt->bind_param("s", $_GET['denominazione_regione']);
 $stmt->execute();
 $result = $stmt->get_result();
 

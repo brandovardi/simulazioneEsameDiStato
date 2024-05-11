@@ -1,15 +1,8 @@
 $(document).ready(function () {
     $("#regione").change(async function () {
-        codice_regione = document.getElementById("regione").selectedIndex + 1;
-        if (codice_regione == 0) codice_regione = 1;
-        if (codice_regione < 10) {
-            codice_regione = "0" + codice_regione;
-        }
-        else {
-            codice_regione = codice_regione.toString();
-        }
+        denominazione_regione = $("#regione").val();
 
-        let province = await request("GET", "../Controllers/Address/getProvince.php", { codice_regione: codice_regione });
+        let province = await request("GET", "../Controllers/Address/getProvince.php", { denominazione_regione: denominazione_regione });
         province = JSON.parse(province).province;
 
         let selectProv = $("#provincia");
@@ -60,7 +53,7 @@ $(document).ready(function () {
         if (valore.includes(" ")) {
             let array = valore.split(" ");
             let stringa = "";
-            
+
             array.forEach(parola => {
                 stringa += parola.charAt(0).toUpperCase() + parola.slice(1) + " ";
             });
@@ -93,6 +86,13 @@ $(document).ready(function () {
         let valore = $(this).val();
         $(this).val(valore.toLowerCase());
         $(this).val(valore.replace(/[^a-zA-Z0-9@._-]/g, ""));
+    });
+
+    $("#btnRegister").click(function () {
+        if (checkInput()) {
+            $('#loaderContainer').show();
+            return;
+        }
     });
 
     $("form").submit(async function (e) {
@@ -155,10 +155,12 @@ $(document).ready(function () {
                 window.location.href = "./login.php";
             } else {
                 $("#error").html("Errore nell'invio dell'email di conferma");
+                $('#loaderContainer').hide();
             }
 
         } else {
             $("#error").html(response.message);
+            $('#loaderContainer').hide();
         }
 
         return false;
@@ -167,6 +169,44 @@ $(document).ready(function () {
     loadRegioni();
     $("#regione").trigger("change");
 });
+
+$(window).on('berofeunload', function () {
+    $('#loaderContainer').hide();
+});
+
+function checkInput() {
+    let nome = $("#nome").val();
+    let cognome = $("#cognome").val();
+    let username = $("#username").val();
+    if (!username.includes("_")) {
+        $("#error").html("L'username deve contenere il carattere _");
+        return false;
+    }
+    let password = calc($("#password").val());
+    let email = $("#email").val();
+    if (!validateEmail(email)) {
+        $("#error").html("Email non valida");
+        return false;
+    }
+    let numeroCartaCredito = $("#numeroCartaCredito").val();
+    let regione = $("#regione").val();
+    let provincia = $("#provincia").val();
+    let comune = $("#comune").val();
+    let cap = $("#cap").val();
+    let via = $("#via").val();
+    let numeroCivico = $("#numeroCivico").val();
+
+    if (nome == "" || cognome == "" || username == "" ||
+        password == "" || email == "" || numeroCartaCredito == "" ||
+        regione == "" || provincia == "" || comune == "" ||
+        cap == "" || via == "" || numeroCivico == "") {
+        $("#error").html("Compila tutti i campi");
+        return false;
+    }
+
+    return true;
+
+}
 
 function validateEmail(email) {
     let regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;

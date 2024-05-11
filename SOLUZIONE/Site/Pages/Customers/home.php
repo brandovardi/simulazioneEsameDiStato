@@ -18,14 +18,14 @@ if (!isset($_SESSION['username'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Users Home</title>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"/>
+    <link rel="stylesheet" href="../../Js/Map/leaflet/leaflet.css"/>
     <!-- Make sure you put this AFTER Leaflet's CSS -->
-    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-    <script src="../../Js/jquery-3.7.1.min.js"></script>
-    <script src="../../Js/Map/map.js"></script>
+    <script src="../../Js/Map/leaflet/leaflet.js" defer></script>
+    <script src="../../Js/jquery-3.7.1.min.js"defer></script>
+    <script src="../../Js/Map/map.js" defer></script>
     <style>
         #map {
-            height: 180px;
+            height: 500px;
         }
     </style>
 </head>

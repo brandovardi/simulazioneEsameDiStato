@@ -1,11 +1,17 @@
 body {
-    margin: 0;
+    margin: 10%;
     font-family: Arial, sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
     background-color: #323335;
+}
+
+/* For Firefox */
+input[type=number] {
+    -moz-appearance: textfield !important;
+    appearance: textfield !important;
 }
 
 .container {
@@ -35,7 +41,8 @@ body {
     margin-bottom: 5px;
 }
 
-.form-group input {
+.form-group input,
+.form-group select {
     padding: 10px;
     border: 1px solid #ced4da;
     border-radius: 5px;
@@ -60,4 +67,48 @@ button[type="submit"]:hover {
     color: rgb(52, 42, 42);
     margin-top: 10px;
     text-align: center;
+}
+
+p {
+    text-align: center;
+}
+
+/* Stili per il contenitore dell'animazione */
+.loader-container {
+    display: none;
+    /* Inizialmente nascosto */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 9999;
+}
+
+/* Stili per l'animazione di caricamento */
+.loader {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 4px solid #f3f3f3;
+    /* Grigio chiaro */
+    border-top: 4px solid #3498db;
+    /* Blu */
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+    /* Animazione di rotazione */
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
 }

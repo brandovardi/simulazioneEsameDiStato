@@ -47,6 +47,7 @@ if (isset($_POST['username']) && isset($_POST['password']) && isset($_POST['nume
         if ($is_admin) {
             $_SESSION['is_admin'] = true;
         }
+        $_SESSION['user_id'] = $result->fetch_assoc()['ID'];
         $_SESSION['isLogged'] = true;
         echo json_encode(array("status" => "success"));
     } else {
