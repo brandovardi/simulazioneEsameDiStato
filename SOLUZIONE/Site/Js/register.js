@@ -1,7 +1,7 @@
 $(document).ready(function () {
     $("#regione").change(async function () {
-        denominazione_regione = $("#regione").val();
-
+        denominazione_regione = ($("#regione").val() === null) ? "Abruzzo" : $("#regione").val();
+        
         let province = await request("GET", "../Controllers/Address/getProvince.php", { denominazione_regione: denominazione_regione });
         province = JSON.parse(province).province;
 

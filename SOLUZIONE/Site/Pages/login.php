@@ -46,7 +46,7 @@ if (isset($_SESSION['username']) || (isset($_SESSION['isLogged']) && $_SESSION['
         </form>
 
         <div id="error" class="mt-3"></div>
-        
+
         <?php
 
         if (isset($_SESSION['mail-sent']) && $_SESSION['mail-sent'] == true) {

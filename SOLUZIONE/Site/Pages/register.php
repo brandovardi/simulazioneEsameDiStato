@@ -25,7 +25,7 @@ if (isset($_SESSION['username']) || (isset($_SESSION['isLogged']) && $_SESSION['
     <script src="../Js/Secure/crypto.js" defer></script>
 </head>
 
-<body>
+<body  id="body-login">
     <div class="loader-container" id="loaderContainer">
         <div class="loader"></div>
     </div>

@@ -68,13 +68,13 @@ if (
 
     try {
         // controllo se l'email è già in uso
-        $select = "SELECT * FROM cliente WHERE email = ?";
+        $select = "SELECT * FROM cliente WHERE email = ? OR username = ?";
         $stmt = $conn->prepare($select);
-        $stmt->bind_param("s", $email);
+        $stmt->bind_param("ss", $email, $username);
         $stmt->execute();
         $result = $stmt->get_result();
         if ($result->num_rows > 0) {
-            echo json_encode(array("status" => "error", "message" => "Email  già in uso"));
+            echo json_encode(array("status" => "error", "message" => "Utente già registrato"));
             exit;
         }
         // controllo la regex per la carta di credito
