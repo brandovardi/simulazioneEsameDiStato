@@ -62,9 +62,7 @@ if (!isset($_SESSION['username'])) {
                     <a class="nav-link" href="./profile.php">Profilo</a>
                 </li>
             </ul>
-            <form class="form-inline my-2 my-lg-0">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit" onclick="window.location.href='../logout.php'">Logout</button>
-            </form>
+            <button class="btn btn-outline-success my-2 my-sm-0" onclick="window.location.href='../logout.php'">Logout</button>
         </div>
     </nav>
 
