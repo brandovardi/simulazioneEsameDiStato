@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Mag 07, 2024 alle 16:46
+-- Creato il: Mag 14, 2024 alle 08:45
 -- Versione del server: 10.4.32-MariaDB
 -- Versione PHP: 8.2.12
 
@@ -42,7 +42,7 @@ CREATE TABLE `admin` (
 --
 
 INSERT INTO `admin` (`ID`, `username`, `password`, `nome`, `cognome`, `email`, `privilegi_admin`) VALUES
-(1, 'admin.admin', '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918', 'admin', 'admin', 'admin.admin@admin.com', 1);
+(1, '.admin', '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918', 'admin', 'admin', 'admin.admin@admin.com', 1);
 
 -- --------------------------------------------------------
 
@@ -53,6 +53,7 @@ INSERT INTO `admin` (`ID`, `username`, `password`, `nome`, `cognome`, `email`, `
 CREATE TABLE `bicicletta` (
   `ID` int(11) NOT NULL,
   `codice` varchar(16) NOT NULL,
+  `id_stazione` int(11) NOT NULL,
   `manutenzione` tinyint(1) NOT NULL,
   `ultima_posizione` varchar(128) NOT NULL,
   `GPS` varchar(32) NOT NULL,
@@ -86,7 +87,7 @@ INSERT INTO `cliente` (`ID`, `nome`, `cognome`, `username`, `password`, `id_indi
 (3, 'ajeje', 'brazorf', 'a_b', 'af26ae04a962399d2758055d4f09570dcd519ae725c8a28ba6c61e6b57550c75', 2, 'aje_braz@mail.com', '9786-1324-7564-3546', '0000000'),
 (13, 'Amedeo', 'Fumagalli', 'ame_fuma', '4d0782767987d11e8aaa1f07a5be55eae043c714e02d872ada52875a9b611be7', 6, 'ame.fuma@mail.com', '0909-1212-5454-8989', '0000001'),
 (29, 'Asd', 'Asd', 'asd_asd', '688787d8ff144c502c7f5cffaafe2cc588d86079f9de88304c26b0cb99ce91c6', 8, 'asd@asd.asd', '1234-5678-9012-3456', '0000002'),
-(33, 'Pietro', 'Brandovardi', 'ilde_brando', 'd07ee7e529af02ace472e74ef4be1bd92f3604f6c3a5b11602aad4496161ecb3', 7, 'brandovardipietro@outlook.it', '1234-5678-9012-3456', '0000003');
+(34, 'Pietro', 'Brandovardi', 'brando_', 'd07ee7e529af02ace472e74ef4be1bd92f3604f6c3a5b11602aad4496161ecb3', 9, 'brandovardipietro@outlook.it', '1231-2312-3123-1231', '0000003');
 
 -- --------------------------------------------------------
 
@@ -101,18 +102,34 @@ CREATE TABLE `indirizzo` (
   `comune` varchar(64) NOT NULL,
   `cap` int(11) NOT NULL,
   `via` varchar(64) NOT NULL,
-  `numeroCivico` int(11) NOT NULL
+  `numeroCivico` int(11) NOT NULL,
+  `latitudine` double NOT NULL,
+  `longitudine` double NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dump dei dati per la tabella `indirizzo`
 --
 
-INSERT INTO `indirizzo` (`ID`, `regione`, `provincia`, `comune`, `cap`, `via`, `numeroCivico`) VALUES
-(2, 'Lombardia', 'CO', 'Mariano Comense', 22066, 'Santa Caterina da Siena', 3),
-(6, 'Lombardia', 'MI', 'Milano', 22019, 'Piazza delle Rose', 14),
-(7, 'Lombardia', 'CO', 'Cantù', 22063, 'Ettore Brambilla', 34),
-(8, 'Abruzzo', 'AQ', 'Asd', 12312, 'asd', 123);
+INSERT INTO `indirizzo` (`ID`, `regione`, `provincia`, `comune`, `cap`, `via`, `numeroCivico`, `latitudine`, `longitudine`) VALUES
+(2, 'Lombardia', 'Como', 'Mariano Comense', 22066, 'Santa Caterina da Siena', 3, 0, 0),
+(6, 'Lombardia', 'MI', 'Milano', 22019, 'Piazza delle Rose', 14, 0, 0),
+(8, 'Abruzzo', 'AQ', 'Asd', 12312, 'asd', 123, 0, 0),
+(9, 'Lombardia', 'CO', 'Cantù', 22063, 'ettore brambilla', 34, 45.7430842, 9.1314225);
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `noleggia`
+--
+
+CREATE TABLE `noleggia` (
+  `ID` int(11) NOT NULL,
+  `idCliente` int(11) NOT NULL,
+  `idBicicletta` int(11) NOT NULL,
+  `inizio_noleggio` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `fine_noleggio` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 -- --------------------------------------------------------
 
@@ -163,7 +180,8 @@ ALTER TABLE `bicicletta`
   ADD PRIMARY KEY (`ID`),
   ADD UNIQUE KEY `codice` (`codice`),
   ADD UNIQUE KEY `GPS` (`GPS`),
-  ADD UNIQUE KEY `RFID` (`RFID`);
+  ADD UNIQUE KEY `RFID` (`RFID`),
+  ADD KEY `id_stazione` (`id_stazione`);
 
 --
 -- Indici per le tabelle `cliente`
@@ -177,6 +195,12 @@ ALTER TABLE `cliente`
 -- Indici per le tabelle `indirizzo`
 --
 ALTER TABLE `indirizzo`
+  ADD PRIMARY KEY (`ID`);
+
+--
+-- Indici per le tabelle `noleggia`
+--
+ALTER TABLE `noleggia`
   ADD PRIMARY KEY (`ID`);
 
 --
@@ -225,6 +249,12 @@ ALTER TABLE `indirizzo`
   MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
+-- AUTO_INCREMENT per la tabella `noleggia`
+--
+ALTER TABLE `noleggia`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT per la tabella `operazione`
 --
 ALTER TABLE `operazione`
@@ -239,6 +269,12 @@ ALTER TABLE `stazione`
 --
 -- Limiti per le tabelle scaricate
 --
+
+--
+-- Limiti per la tabella `bicicletta`
+--
+ALTER TABLE `bicicletta`
+  ADD CONSTRAINT `bicicletta_ibfk_1` FOREIGN KEY (`id_stazione`) REFERENCES `stazione` (`ID`);
 
 --
 -- Limiti per la tabella `cliente`
