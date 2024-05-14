@@ -4,7 +4,7 @@ if (!isset($_SESSION)) {
     session_start();
 }
 
-if (!isset($_SESSION['username'])) {
+if (!isset($_SESSION['username']) || (!isset($_SESSION['isLogged']) || !$_SESSION['isLogged']) || !isset($_SESSION['user_id'])) {
     header("Location: ../login.php");
     exit;
 }
@@ -17,7 +17,7 @@ if (!isset($_SESSION['username'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
+    <title>Prenotazione</title>
     <script src="../../Js/jquery-3.7.1.min.js"></script>
 
     <!-- Bootstrap -->
@@ -30,22 +30,10 @@ if (!isset($_SESSION['username'])) {
     <script src="../../Js/Map/leaflet/leaflet.js"></script>
     <script src="../../Js/request.js"></script>
     <script src="../../Js/Map/map.js"></script>
-    <style>
-        #map {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin: 0 auto;
-            margin-top: 5%;
-            height: 500px;
-            width: 30%;
-            border-radius: 5%;
-            border: 2px solid gray;
-        }
-    </style>
 </head>
 
 <body>
+
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -68,11 +56,6 @@ if (!isset($_SESSION['username'])) {
         </div>
     </nav>
 
-    <div id="map"></div>
-
-    <script>
-        loadMap();
-    </script>
 </body>
 
 </html>

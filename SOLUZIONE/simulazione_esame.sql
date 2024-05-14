@@ -26,7 +26,7 @@ SET time_zone = "+00:00";
 --
 -- Struttura della tabella `admin`
 --
-
+DROP TABLE IF EXISTS `admin`;
 CREATE TABLE `admin` (
   `ID` int(11) NOT NULL,
   `username` varchar(32) NOT NULL,
@@ -49,7 +49,7 @@ INSERT INTO `admin` (`ID`, `username`, `password`, `nome`, `cognome`, `email`, `
 --
 -- Struttura della tabella `bicicletta`
 --
-
+DROP TABLE IF EXISTS `bicicletta`;
 CREATE TABLE `bicicletta` (
   `ID` int(11) NOT NULL,
   `codice` varchar(16) NOT NULL,
@@ -59,14 +59,14 @@ CREATE TABLE `bicicletta` (
   `GPS` varchar(32) NOT NULL,
   `RFID` varchar(32) NOT NULL,
   `kmEffettuati` int(64) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
 --
 -- Struttura della tabella `cliente`
 --
-
+DROP TABLE IF EXISTS `cliente`;
 CREATE TABLE `cliente` (
   `ID` int(11) NOT NULL,
   `nome` varchar(32) NOT NULL,
@@ -77,7 +77,7 @@ CREATE TABLE `cliente` (
   `email` varchar(64) NOT NULL,
   `numeroCartaCredito` varchar(19) NOT NULL,
   `numeroTessera` varchar(7) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dump dei dati per la tabella `cliente`
@@ -94,7 +94,7 @@ INSERT INTO `cliente` (`ID`, `nome`, `cognome`, `username`, `password`, `id_indi
 --
 -- Struttura della tabella `indirizzo`
 --
-
+DROP TABLE IF EXISTS `indirizzo`;
 CREATE TABLE `indirizzo` (
   `ID` int(11) NOT NULL,
   `regione` varchar(64) NOT NULL,
@@ -122,21 +122,21 @@ INSERT INTO `indirizzo` (`ID`, `regione`, `provincia`, `comune`, `cap`, `via`, `
 --
 -- Struttura della tabella `noleggia`
 --
-
+DROP TABLE IF EXISTS `noleggia`;
 CREATE TABLE `noleggia` (
   `ID` int(11) NOT NULL,
   `idCliente` int(11) NOT NULL,
   `idBicicletta` int(11) NOT NULL,
   `inizio_noleggio` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `fine_noleggio` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
 --
 -- Struttura della tabella `operazione`
 --
-
+DROP TABLE IF EXISTS `operazione`;
 CREATE TABLE `operazione` (
   `ID` int(11) NOT NULL,
   `idCliente` int(11) NOT NULL,
@@ -146,20 +146,20 @@ CREATE TABLE `operazione` (
   `fine_noleggio` timestamp NULL DEFAULT NULL,
   `tariffa` float DEFAULT NULL,
   `kmEffettuati` int(32) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
 --
 -- Struttura della tabella `stazione`
 --
-
+DROP TABLE IF EXISTS `stazione`;
 CREATE TABLE `stazione` (
   `ID` int(11) NOT NULL,
   `codice` int(11) NOT NULL,
   `id_indirizzo` int(11) NOT NULL,
   `numero_slot` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Indici per le tabelle scaricate

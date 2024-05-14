@@ -33,29 +33,36 @@ if (!isset($_SESSION['username']) || (!isset($_SESSION['isLogged']) || !$_SESSIO
     <script>
         $(document).ready(async function () {
             console.log("ready!");
-            var response = await request("../../Controllers/Customers/getProfile.php", "POST", {
-                user_id: <?php echo $_SESSION['user_id']; ?>
-            });
-            console.log(response);
+            let response = await request("POST", "../../Controllers/Customers/getProfile.php", {});
+            response = JSON.parse(response);
 
             if (response.status == "success") {
                 var user = response.user;
-                $("#username").text(user.username);
-                $("#nome").text(user.nome);
-                $("#cognome").text(user.cognome);
-                $("#email").text(user.email);
-                $("#numeroTessera").text(user.numeroTessera);
+                $("#username").val(user.username);
+                $("#nome").val(user.nome);
+                $("#cognome").val(user.cognome);
+                $("#email").val(user.email);
+                $("#numeroTessera").val(user.numeroTessera);
             }
             else {
                 alert(response.message);
             }
         });
+        function showCardNumber() {
+            $("#numeroTessera").prop("type", $("#numeroTessera").prop("type") === "password" ? "text" : "password");
+            $("#btnShowCardNumber").text($("#btnShowCardNumber").text() === "Mostra numero tessera" ? "Nascondi numero tessera" : "Mostra numero tessera");
+        }
     </script>
+    <style>
+        input {
+            width: 30%;
+            margin: 10px;
+        }
+    </style>
 </head>
 
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">Logo</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -69,9 +76,11 @@ if (!isset($_SESSION['username']) || (!isset($_SESSION['isLogged']) || !$_SESSIO
                 <li class="nav-item">
                     <a class="nav-link" href="./profile.php">Profilo</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="./booking.php">Prenotazione</a>
+                </li>
             </ul>
-            <button class="btn btn-outline-success my-2 my-sm-0"
-                onclick="window.location.href='../logout.php'">Logout</button>
+            <button class="btn btn-danger" onclick="window.location.href='../logout.php'">Logout</button>
         </div>
     </nav>
 
@@ -81,26 +90,35 @@ if (!isset($_SESSION['username']) || (!isset($_SESSION['isLogged']) || !$_SESSIO
         <div class="row">
             <div class="col">
                 <h3>Username</h3>
-                <p id="username"></p>
-            </div>
-            <div class="col">
-                <h3>Nome</h3>
-                <p id="nome"></p>
-            </div>
-            <div class="col">
-                <h3>Cognome</h3>
-                <p id="cognome"></p>
-            </div>
-            <div class="col">
-                <h3>Email</h3>
-                <p id="email"></p>
-            </div>
-            <div class="col">
-                <h3>Numero tessera</h3>
-                <p id="numeroTessera"></p>
+                <input type="text" id="username" disabled />
             </div>
         </div>
-
+        <div class="row">
+            <div class="col">
+                <h3>Nome</h3>
+                <input type="text" id="nome" disabled />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <h3>Cognome</h3>
+                <input type="text" id="cognome" disabled />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <h3>Email</h3>
+                <input type="email" id="email" disabled />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <h3>Numero tessera</h3>
+                <input type="password" id="numeroTessera" disabled />
+                <button id="btnShowCardNumber" onclick="showCardNumber()">Mostra numero tessera</button>
+            </div>
+        </div>
+    </div>
 
 </body>
 

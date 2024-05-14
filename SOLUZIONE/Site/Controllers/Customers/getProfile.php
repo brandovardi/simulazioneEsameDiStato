@@ -16,7 +16,7 @@ if ($conn->connect_error) {
     exit;
 }
 
-$user_id = $_POST['user_id'];
+$user_id = $_SESSION['user_id'];
 
 $select = "SELECT * FROM cliente WHERE ID = ?";
 $stmt = $conn->prepare($select);
