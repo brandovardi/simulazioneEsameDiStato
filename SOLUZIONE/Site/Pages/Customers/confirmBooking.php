@@ -17,7 +17,7 @@ if (!isset($_SESSION['username']) || (!isset($_SESSION['isLogged']) || !$_SESSIO
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Prenotazione</title>
+    <title>Conferma prenotazione</title>
     <script src="../../Js/jquery-3.7.1.min.js"></script>
 
     <!-- Bootstrap -->
@@ -30,21 +30,16 @@ if (!isset($_SESSION['username']) || (!isset($_SESSION['isLogged']) || !$_SESSIO
     <script src="../../Js/request.js"></script>
     <script src="../../Js/Map/map.js"></script>
     <script src="../../Js/template.js"></script>
-    <script src="../../Js/Customers/booking.js"></script>
 </head>
 
 <body>
-
-    <nav>
-        <script>
-            generateNavBar();
-        </script>
-    </nav>
-
-    <div id="table">
-        
-    </div>
-
+    
+        <nav>
+            <script>
+                generateNavBar();
+            </script>
+        </nav>
+    
 </body>
 
 </html>

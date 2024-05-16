@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Mag 16, 2024 alle 13:14
+-- Creato il: Mag 16, 2024 alle 14:16
 -- Versione del server: 10.4.32-MariaDB
 -- Versione PHP: 8.2.12
 
@@ -43,7 +43,7 @@ CREATE TABLE `admin` (
 --
 
 INSERT INTO `admin` (`ID`, `username`, `password`, `nome`, `cognome`, `email`, `privilegi_admin`) VALUES
-(1, '.admin', '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918', 'admin', 'admin', 'admin.admin@admin.com', 1);
+(1, '.admin', '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918', 'admin', 'admin', 'admin.admin@admin.admin', 1);
 
 -- --------------------------------------------------------
 
@@ -60,24 +60,25 @@ CREATE TABLE `bicicletta` (
   `ultima_posizione` int(11) NOT NULL,
   `GPS` varchar(32) NOT NULL,
   `RFID` varchar(32) NOT NULL,
-  `kmEffettuati` int(64) NOT NULL
+  `kmEffettuati` int(64) NOT NULL,
+  `immagine` mediumblob DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dump dei dati per la tabella `bicicletta`
 --
 
-INSERT INTO `bicicletta` (`ID`, `codice`, `id_stazione`, `manutenzione`, `ultima_posizione`, `GPS`, `RFID`, `kmEffettuati`) VALUES
-(1, 'B000001', 1, 0, 10, 'GPS0000001', 'RFID0000001', 120),
-(2, 'B000002', 1, 1, 11, 'GPS0000002', 'RFID0000002', 200),
-(3, 'B000003', 2, 0, 12, 'GPS0000003', 'RFID0000003', 150),
-(4, 'B000004', 3, 0, 13, 'GPS0000004', 'RFID0000004', 90),
-(5, 'B000005', 3, 1, 13, 'GPS0000005', 'RFID0000005', 300),
-(6, 'B000006', 4, 0, 14, 'GPS0000006', 'RFID0000006', 75),
-(7, 'B000007', 5, 0, 15, 'GPS0000007', 'RFID0000007', 180),
-(8, 'B000008', 6, 0, 16, 'GPS0000008', 'RFID0000008', 220),
-(9, 'B000009', 7, 0, 17, 'GPS0000009', 'RFID0000009', 130),
-(10, 'B000010', 8, 1, 18, 'GPS0000010', 'RFID0000010', 250);
+INSERT INTO `bicicletta` (`ID`, `codice`, `id_stazione`, `manutenzione`, `ultima_posizione`, `GPS`, `RFID`, `kmEffettuati`, `immagine`) VALUES
+(1, 'B000001', 1, 0, 10, 'GPS0000001', 'RFID0000001', 120, NULL),
+(2, 'B000002', 1, 1, 11, 'GPS0000002', 'RFID0000002', 200, NULL),
+(3, 'B000003', 2, 0, 12, 'GPS0000003', 'RFID0000003', 150, NULL),
+(4, 'B000004', 3, 0, 13, 'GPS0000004', 'RFID0000004', 90, NULL),
+(5, 'B000005', 3, 1, 13, 'GPS0000005', 'RFID0000005', 300, NULL),
+(6, 'B000006', 4, 0, 14, 'GPS0000006', 'RFID0000006', 75, NULL),
+(7, 'B000007', 5, 0, 15, 'GPS0000007', 'RFID0000007', 180, NULL),
+(8, 'B000008', 6, 0, 16, 'GPS0000008', 'RFID0000008', 220, NULL),
+(9, 'B000009', 7, 0, 17, 'GPS0000009', 'RFID0000009', 130, NULL),
+(10, 'B000010', 8, 1, 18, 'GPS0000010', 'RFID0000010', 250, NULL);
 
 -- --------------------------------------------------------
 
@@ -150,21 +151,6 @@ INSERT INTO `indirizzo` (`ID`, `regione`, `provincia`, `comune`, `cap`, `via`, `
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `noleggia`
---
-
-DROP TABLE IF EXISTS `noleggia`;
-CREATE TABLE `noleggia` (
-  `ID` int(11) NOT NULL,
-  `idCliente` int(11) NOT NULL,
-  `idBicicletta` int(11) NOT NULL,
-  `inizio_noleggio` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `fine_noleggio` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
 -- Struttura della tabella `operazione`
 --
 
@@ -173,8 +159,9 @@ CREATE TABLE `operazione` (
   `ID` int(11) NOT NULL,
   `idCliente` int(11) NOT NULL,
   `idBicicletta` int(11) NOT NULL,
-  `id_stazione` int(11) NOT NULL,
-  `inizio_noleggio` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `idStazionePartenza` int(11) NOT NULL,
+  `idStazioneArrivo` int(11) DEFAULT NULL,
+  `inizio_noleggio` timestamp NOT NULL DEFAULT current_timestamp(),
   `fine_noleggio` timestamp NULL DEFAULT NULL,
   `tariffa` float DEFAULT NULL,
   `kmEffettuati` int(32) DEFAULT NULL
@@ -248,19 +235,14 @@ ALTER TABLE `indirizzo`
   ADD PRIMARY KEY (`ID`);
 
 --
--- Indici per le tabelle `noleggia`
---
-ALTER TABLE `noleggia`
-  ADD PRIMARY KEY (`ID`);
-
---
 -- Indici per le tabelle `operazione`
 --
 ALTER TABLE `operazione`
   ADD PRIMARY KEY (`ID`),
-  ADD KEY `idCliente` (`idCliente`,`idBicicletta`,`id_stazione`),
+  ADD KEY `idCliente` (`idCliente`,`idBicicletta`),
   ADD KEY `idBicicletta` (`idBicicletta`),
-  ADD KEY `id_stazione` (`id_stazione`);
+  ADD KEY `idStazionePartenza` (`idStazionePartenza`,`idStazioneArrivo`),
+  ADD KEY `idStazioneArrivo` (`idStazioneArrivo`);
 
 --
 -- Indici per le tabelle `stazione`
@@ -299,12 +281,6 @@ ALTER TABLE `indirizzo`
   MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
--- AUTO_INCREMENT per la tabella `noleggia`
---
-ALTER TABLE `noleggia`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT per la tabella `operazione`
 --
 ALTER TABLE `operazione`
@@ -339,7 +315,8 @@ ALTER TABLE `cliente`
 ALTER TABLE `operazione`
   ADD CONSTRAINT `operazione_ibfk_2` FOREIGN KEY (`idBicicletta`) REFERENCES `bicicletta` (`ID`),
   ADD CONSTRAINT `operazione_ibfk_3` FOREIGN KEY (`idCliente`) REFERENCES `cliente` (`ID`),
-  ADD CONSTRAINT `operazione_ibfk_4` FOREIGN KEY (`id_stazione`) REFERENCES `stazione` (`ID`);
+  ADD CONSTRAINT `operazione_ibfk_4` FOREIGN KEY (`idStazionePartenza`) REFERENCES `stazione` (`ID`),
+  ADD CONSTRAINT `operazione_ibfk_5` FOREIGN KEY (`idStazioneArrivo`) REFERENCES `stazione` (`ID`);
 
 --
 -- Limiti per la tabella `stazione`

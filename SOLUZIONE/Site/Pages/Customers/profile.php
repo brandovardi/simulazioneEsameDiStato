@@ -23,13 +23,14 @@ if (!isset($_SESSION['username']) || (!isset($_SESSION['isLogged']) || !$_SESSIO
     <!-- Bootstrap -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
     <link rel="stylesheet" href="../../Js/Map/leaflet/leaflet.css" />
     <!-- Make sure you put this AFTER Leaflet's CSS -->
     <script src="../../Js/Map/leaflet/leaflet.js"></script>
     <script src="../../Js/request.js"></script>
     <script src="../../Js/Map/map.js"></script>
+    <script src="../../Js/template.js"></script>
+    <script src="../../Js/Customers/profile.js"></script>
     <script>
         $(document).ready(async function () {
             console.log("ready!");
@@ -62,26 +63,10 @@ if (!isset($_SESSION['username']) || (!isset($_SESSION['isLogged']) || !$_SESSIO
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="./home.php">Home <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="./profile.php">Profilo</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="./booking.php">Prenotazione</a>
-                </li>
-            </ul>
-            <button class="btn btn-danger" onclick="window.location.href='../logout.php'">Logout</button>
-        </div>
+    <nav>
+        <script>
+            generateNavBar();
+        </script>
     </nav>
 
     <h1 align="center">Il tuo profilo</h1>
@@ -114,7 +99,7 @@ if (!isset($_SESSION['username']) || (!isset($_SESSION['isLogged']) || !$_SESSIO
         <div class="row">
             <div class="col">
                 <h3>Numero tessera</h3>
-                <input type="text" id="numeroTessera" disabled />
+                <input type="password" id="numeroTessera" disabled />
                 <button id="btnShowCardNumber" onclick="showCardNumber()">Mostra numero tessera</button>
             </div>
         </div>
