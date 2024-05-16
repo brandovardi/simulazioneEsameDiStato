@@ -114,7 +114,7 @@ if (!isset($_SESSION['username']) || (!isset($_SESSION['isLogged']) || !$_SESSIO
         <div class="row">
             <div class="col">
                 <h3>Numero tessera</h3>
-                <input type="password" id="numeroTessera" disabled />
+                <input type="text" id="numeroTessera" disabled />
                 <button id="btnShowCardNumber" onclick="showCardNumber()">Mostra numero tessera</button>
             </div>
         </div>
