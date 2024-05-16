@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Mag 16, 2024 alle 14:16
+-- Creato il: Mag 16, 2024 alle 15:38
 -- Versione del server: 10.4.32-MariaDB
 -- Versione PHP: 8.2.12
 
@@ -55,7 +55,7 @@ DROP TABLE IF EXISTS `bicicletta`;
 CREATE TABLE `bicicletta` (
   `ID` int(11) NOT NULL,
   `codice` varchar(16) NOT NULL,
-  `id_stazione` int(11) NOT NULL,
+  `id_stazione` int(11) DEFAULT NULL,
   `manutenzione` tinyint(1) NOT NULL,
   `ultima_posizione` int(11) NOT NULL,
   `GPS` varchar(32) NOT NULL,
@@ -70,14 +70,14 @@ CREATE TABLE `bicicletta` (
 
 INSERT INTO `bicicletta` (`ID`, `codice`, `id_stazione`, `manutenzione`, `ultima_posizione`, `GPS`, `RFID`, `kmEffettuati`, `immagine`) VALUES
 (1, 'B000001', 1, 0, 10, 'GPS0000001', 'RFID0000001', 120, NULL),
-(2, 'B000002', 1, 1, 11, 'GPS0000002', 'RFID0000002', 200, NULL),
-(3, 'B000003', 2, 0, 12, 'GPS0000003', 'RFID0000003', 150, NULL),
+(2, 'B000002', 1, 1, 10, 'GPS0000002', 'RFID0000002', 200, NULL),
+(3, 'B000003', 2, 0, 10, 'GPS0000003', 'RFID0000003', 150, NULL),
 (4, 'B000004', 3, 0, 13, 'GPS0000004', 'RFID0000004', 90, NULL),
 (5, 'B000005', 3, 1, 13, 'GPS0000005', 'RFID0000005', 300, NULL),
-(6, 'B000006', 4, 0, 14, 'GPS0000006', 'RFID0000006', 75, NULL),
-(7, 'B000007', 5, 0, 15, 'GPS0000007', 'RFID0000007', 180, NULL),
-(8, 'B000008', 6, 0, 16, 'GPS0000008', 'RFID0000008', 220, NULL),
-(9, 'B000009', 7, 0, 17, 'GPS0000009', 'RFID0000009', 130, NULL),
+(6, 'B000006', 4, 0, 13, 'GPS0000006', 'RFID0000006', 75, NULL),
+(7, 'B000007', 5, 0, 14, 'GPS0000007', 'RFID0000007', 180, NULL),
+(8, 'B000008', NULL, 0, 13, 'GPS0000008', 'RFID0000008', 220, NULL),
+(9, 'B000009', 7, 0, 10, 'GPS0000009', 'RFID0000009', 130, NULL),
 (10, 'B000010', 8, 1, 18, 'GPS0000010', 'RFID0000010', 250, NULL);
 
 -- --------------------------------------------------------
@@ -104,9 +104,9 @@ CREATE TABLE `cliente` (
 --
 
 INSERT INTO `cliente` (`ID`, `nome`, `cognome`, `username`, `password`, `id_indirizzo`, `email`, `numeroCartaCredito`, `numeroTessera`) VALUES
-(3, 'ajeje', 'brazorf', 'a_b', 'af26ae04a962399d2758055d4f09570dcd519ae725c8a28ba6c61e6b57550c75', 2, 'aje_braz@mail.com', '9786-1324-7564-3546', '0000000'),
-(13, 'Amedeo', 'Fumagalli', 'ame_fuma', '4d0782767987d11e8aaa1f07a5be55eae043c714e02d872ada52875a9b611be7', 6, 'ame.fuma@mail.com', '0909-1212-5454-8989', '0000001'),
-(29, 'Asd', 'Asd', 'asd_asd', '688787d8ff144c502c7f5cffaafe2cc588d86079f9de88304c26b0cb99ce91c6', 8, 'asd@asd.asd', '1234-5678-9012-3456', '0000002'),
+(3, 'ajeje', 'brazorf', 'a_b', 'af26ae04a962399d2758055d4f09570dcd519ae725c8a28ba6c61e6b57550c75', 10, 'aje_braz@mail.com', '9786-1324-7564-3546', '0000000'),
+(13, 'Amedeo', 'Fumagalli', 'ame_fuma', '4d0782767987d11e8aaa1f07a5be55eae043c714e02d872ada52875a9b611be7', 11, 'ame.fuma@mail.com', '0909-1212-5454-8989', '0000001'),
+(29, 'Asd', 'Asd', 'asd_asd', '688787d8ff144c502c7f5cffaafe2cc588d86079f9de88304c26b0cb99ce91c6', 13, 'asd@asd.asd', '1234-5678-9012-3456', '0000002'),
 (34, 'Pietro', 'Brandovardi', 'brando_', 'd07ee7e529af02ace472e74ef4be1bd92f3604f6c3a5b11602aad4496161ecb3', 9, 'brandovardipietro@outlook.it', '1231-2312-3123-1231', '0000003');
 
 -- --------------------------------------------------------
@@ -133,9 +133,6 @@ CREATE TABLE `indirizzo` (
 --
 
 INSERT INTO `indirizzo` (`ID`, `regione`, `provincia`, `comune`, `cap`, `via`, `numeroCivico`, `latitudine`, `longitudine`) VALUES
-(2, 'Lombardia', 'Como', 'Mariano Comense', 22066, 'Santa Caterina da Siena', 3, 0, 0),
-(6, 'Lombardia', 'MI', 'Milano', 22019, 'Piazza delle Rose', 14, 0, 0),
-(8, 'Abruzzo', 'AQ', 'Asd', 12312, 'asd', 123, 0, 0),
 (9, 'Lombardia', 'CO', 'Cantù', 22063, 'ettore brambilla', 34, 45.7430842, 9.1314225),
 (10, 'Lombardia', 'Milano', 'Milano', 20121, 'Via Montenapoleone', 1, 45.469, 9.19),
 (11, 'Lazio', 'Roma', 'Roma', 184, 'Via dei Fori Imperiali', 3, 41.892, 12.485),
