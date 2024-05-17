@@ -19,7 +19,7 @@ if (!isset($_SESSION['username'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
     <script src="../../Js/Cdn/Jquery/jquery-3.7.1.min.js"></script>
-    
+
     <!-- Bootstrap -->
     <link href="../../Css/Cdn/Bootstrap/bootstrap.min.css" rel="stylesheet">
     <script src="../../Js/Cdn/Bootstrap/bootstrap.min.js"></script>
@@ -29,7 +29,7 @@ if (!isset($_SESSION['username'])) {
     <script src="../../Js/Map/leaflet/leaflet.js"></script>
     <script src="../../Js/request.js"></script>
     <script src="../../Js/template.js"></script>
-    <script src="../../Js/Map/map.js" defer></script>
+    <script src="../../Js/Map/adminMap.js" defer></script>
     <style>
         #map {
             display: flex;
@@ -42,6 +42,7 @@ if (!isset($_SESSION['username'])) {
             border-radius: 5%;
             border: 2px solid gray;
         }
+
     </style>
 </head>
 

@@ -1,4 +1,5 @@
 <?php
+include_once("../mysqliData/dataDB.php");
 
 if (!isset($_SESSION)) {
     session_start();
@@ -25,7 +26,7 @@ $message = $_POST['message'];
 // creo un oggetto PHPMailer
 $mail = new PHPMailer(true);
 
-$conn = new mysqli("localhost", "root", "", "simulazione_esame");
+$conn = new mysqli($hostname, $username, $password, $database);
 $select = "SELECT * FROM cliente WHERE email = ?";
 $stmt = $conn->prepare($select);
 $stmt->bind_param("s", $email);

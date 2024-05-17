@@ -1,10 +1,11 @@
 <?php
+include_once("../mysqliData/dataDB.php");
 
 if (!isset($_SESSION)) {
     session_start();
 }
 
-$conn = new mysqli("localhost", "root", "", "gi_db_comuni");
+$conn = new mysqli($hostname, $username, $password, $database);
 $conn->set_charset("utf8");
 
 if ($conn->connect_error) {
