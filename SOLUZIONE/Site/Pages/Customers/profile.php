@@ -33,7 +33,6 @@ if (!isset($_SESSION['username']) || (!isset($_SESSION['isLogged']) || !$_SESSIO
     <script src="../../Js/Customers/profile.js"></script>
     <script>
         $(document).ready(async function () {
-            console.log("ready!");
             let response = await request("POST", "../../Controllers/Customers/getProfile.php", {});
             response = JSON.parse(response);
 

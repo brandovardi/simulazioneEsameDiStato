@@ -18,6 +18,7 @@ if (isset($_POST['username']) && isset($_POST['password']) && isset($_POST['nume
 
     $stmt = null;
     $is_admin = false;
+    $_SESSION['is_admin'] = false;
     if (str_contains($username, "_")) {
         if (empty($numeroTessera) || !is_numeric($numeroTessera)) {
             echo json_encode(array("status" => "error", "message" => "Inserire un numero di tessera valido"));
