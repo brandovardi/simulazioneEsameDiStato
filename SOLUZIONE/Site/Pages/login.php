@@ -5,7 +5,7 @@ if (!isset($_SESSION)) {
 }
 
 if (isset($_SESSION['username']) || (isset($_SESSION['isLogged']) && $_SESSION['isLogged'] == true)) {
-    header("Location: ./Customers/home_c.php");
+    header("Location: ./Customers/home.php");
     exit;
 }
 
@@ -18,11 +18,11 @@ if (isset($_SESSION['username']) || (isset($_SESSION['isLogged']) && $_SESSION['
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Accedi</title>
-    <link rel="stylesheet" href="../Css/template.css"> <!-- Link to your CSS file -->
-    <script src="../Js/jquery-3.7.1.min.js"></script>
-    <script src="../Js/request.js" defer></script>
-    <script src="../Js/Secure/crypto.js" defer></script>
-    <script src="../Js/login.js" defer></script>
+    <link rel="stylesheet" href="../Css/template.css">
+    <script src="../Js/Cdn/Jquery/jquery-3.7.1.min.js"></script>
+    <script src="../Js/request.js"></script>
+    <script src="../Js/Secure/crypto.js"></script>
+    <script src="../Js/login.js"></script>
 </head>
 
 <body>

@@ -18,11 +18,11 @@ if (!isset($_SESSION['username']) || (!isset($_SESSION['isLogged']) || !$_SESSIO
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profilo</title>
-    <script src="../../Js/jquery-3.7.1.min.js"></script>
+    <script src="../../Js/Cdn/Jquery/jquery-3.7.1.min.js"></script>
 
     <!-- Bootstrap -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link href="../../Css/Cdn/Bootstrap/bootstrap.min.css" rel="stylesheet">
+    <script src="../../Js/Cdn/Bootstrap/bootstrap.min.js"></script>
 
     <link rel="stylesheet" href="../../Js/Map/leaflet/leaflet.css" />
     <!-- Make sure you put this AFTER Leaflet's CSS -->
