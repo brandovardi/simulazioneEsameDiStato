@@ -31,12 +31,13 @@ let navBarAdmin = `
         <li class="nav-item active">
             <a class="nav-link" href="./home.php">Home <span class="sr-only">(current)</span></a>
         </li>
-        
+        <li class="nav-item">
+            <a class="nav-link" href="./mapView.php">Mappa</a>
+        </li>
     </ul>
     <button class="btn btn-danger" onclick="window.location.href='../logout.php'">Logout</button>
 </div>
 `;
-
 
 function generateNavBar(userType) {
     $("nav").attr("class", "navbar navbar-expand-lg navbar-light bg-light");

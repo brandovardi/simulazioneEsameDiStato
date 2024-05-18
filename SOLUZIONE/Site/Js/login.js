@@ -21,7 +21,7 @@ $(document).ready(function () {
         response = JSON.parse(response);
 
         if (response.status == "success") {
-            window.location.href = "./Customers/home.php";
+            window.location.href = "./Admin/home.php";
         } else {
             $("#error").html(response.message);
         }

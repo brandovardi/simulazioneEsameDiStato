@@ -1,5 +1,5 @@
 <?php
-include_once("../mysqliData/dataDB.php");
+include_once("./mysqliData/dataDB.php");
 
 if (!isset($_SESSION)) {
     session_start();

@@ -5,7 +5,14 @@ if (!isset($_SESSION)) {
 }
 
 if (isset($_SESSION['username']) || (isset($_SESSION['isLogged']) && $_SESSION['isLogged'] == true)) {
-    header("Location: ./Customers/home.php");
+    if (isset($_SESSION["is_admin"]) && $_SESSION["is_admin"] == true)
+    {
+        header("Location: ./Admin/home.php");
+    }
+    else
+    {
+        header("Location: ./Customers/home.php");
+    }
     exit;
 }
 

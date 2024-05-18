@@ -4,7 +4,7 @@ if (!isset($_SESSION)) {
     session_start();
 }
 
-if (!isset($_SESSION['username']) || !isset($_SESSION["isLogged"]) || $_SESSION["isLogged"] == false) {
+if (!isset($_SESSION['username'])) {
     header("Location: ../login.php");
     exit;
 }
@@ -28,32 +28,52 @@ if (!isset($_SESSION['username']) || !isset($_SESSION["isLogged"]) || $_SESSION[
     <!-- Make sure you put this AFTER Leaflet's CSS -->
     <script src="../../Js/Map/leaflet/leaflet.js"></script>
     <script src="../../Js/request.js"></script>
-    <script src="../../Js/Map/map.js" defer></script>
     <script src="../../Js/template.js"></script>
+    <script src="../../Js/Map/adminMap.js" defer></script>
     <style>
         #map {
             display: flex;
             justify-content: center;
             align-items: center;
             margin: 0 auto;
-            margin-top: 5%;
             height: 500px;
             width: 30%;
             border-radius: 5%;
             border: 2px solid gray;
         }
+
+        .container {
+            display: flex;
+            margin: 0;
+        }
     </style>
 </head>
 
 <body>
+
     <nav>
         <script>
-            generateNavBar();
+            generateNavBar('admin');
         </script>
     </nav>
 
+    <h1 align="center">Mappa stazioni</h1>
+
+    <!-- modifica le stazioni partendo da una select -->
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <select class="form-select" id="selectStation" aria-label="Default select example">
+                    <option selected disabled>Seleziona una stazione</option>
+                </select>
+            </div>
+            <div class="col">
+                <button type="button" class="btn btn-primary" id="editStation">Modifica</button>
+            </div>
+        </div>
+    </div>
+
     <div id="map"></div>
-    
 </body>
 
 </html>
