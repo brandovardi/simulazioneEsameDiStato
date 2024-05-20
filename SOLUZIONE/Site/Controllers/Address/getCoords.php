@@ -9,7 +9,7 @@ if (!isset($_SESSION['username']) || (!isset($_SESSION['isLogged']) || !$_SESSIO
     return json_encode(array("status" => "errore", "message" => "Utente non autenticato"));
 }
 
-$conn = new mysqli($hostname, $username, $password, $database);
+$conn = new mysqli($hostname, $username, $password, $database_simulazione);
 $conn->set_charset("utf8");
 if ($conn->connect_error) {
     return json_encode(array("status" => "errore", "message" => "Connessione al database fallita"));

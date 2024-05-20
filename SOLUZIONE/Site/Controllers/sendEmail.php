@@ -26,7 +26,7 @@ $message = $_POST['message'];
 // creo un oggetto PHPMailer
 $mail = new PHPMailer(true);
 
-$conn = new mysqli($hostname, $username, $password, $database);
+$conn = new mysqli($hostname, $username, $password, $database_simulazione);
 $select = "SELECT * FROM cliente WHERE email = ?";
 $stmt = $conn->prepare($select);
 $stmt->bind_param("s", $email);

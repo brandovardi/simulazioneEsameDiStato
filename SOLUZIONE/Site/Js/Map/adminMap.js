@@ -14,7 +14,6 @@ $(document).ready(async function () {
     }).addTo(map);
 
     let response = await request("GET", "../../Controllers/Address/getStationAddress.php", {});
-    console.log(response);
     let jsonStation = JSON.parse(response);
     let stationCoords = jsonStation.coords;
 
@@ -24,35 +23,62 @@ $(document).ready(async function () {
         let marker = L.marker([lat, lng]).addTo(map);
         let popUpText = `
             <h6 style='color:green;'><b>Stazione di ${stationCoords[i].comune}</b></h6>
-            <p style='color:blue;'>Posti Disponibili: ${stationCoords[i].numero_slot - stationCoords[i].numBici}</p>    
+            <p style='color:blue;'>Posti Disponibili: ${stationCoords[i].numero_slot - stationCoords[i].numBici}</p>
+            <button class='btn btn-primary' onclick='editStation(${stationCoords[i].codice})'>Modifica</button>
         `;
         marker.bindPopup(popUpText);
-        marker.on('click', async function(e) {
+        marker.on('click', async function (e) {
             map.setView(e.latlng, 15);
-
-            let data = {
-                latitudine: e.latlng.lat,
-                longitudine: e.latlng.lng
-            };
-            let response = await request("GET", "../../Controllers/Get/getStations.php", data);
-            console.log(response);
         });
+
+        let select = $("#selectStation");
+        select.append(`<option value="${lat};${lng};${stationCoords[i].codice}">${stationCoords[i].codice} - ${stationCoords[i].comune}</option>`);
+
+        select.on("change", function () {
+            let coords = $(this).val().split(";");
+            map.setView([coords[0], coords[1]], 15);
+            let codice = coords[2];
+            editStation(codice);
+        });
+
     }
 
-    let select = $("#selectStation");
-
-    let address = await request("GET", "../../Controllers/Address/getStationAddress.php", {});
-    let stations = JSON.parse(address).coords;
-
-    stations.forEach(station => {
-        select.append(`<option value="${station.latitudine};${station.longitudine}">${station.codice} - ${station.comune}</option>`);
-    });
-
-    $("#selectStation").change(async function () {
-        let latitudine = $(this).val().split(";")[0];
-        let longitudine = $(this).val().split(";")[1];
-        
-        
-    });
-
 });
+
+function editStation(codice) {
+    if (codice == null) {
+        return;
+    }
+
+    let popup = generatePopUp();
+    let form = $(popup);
+
+    $("body").append(form);
+
+}
+
+function generatePopUp() {
+    let popUp = `
+        <from id="popup">
+            <div class="form-group">
+                <label for="indirizzo">Indirizzo</label>
+                <input type="text" class="form-control" id="indirizzo" placeholder="Indirizzo" disabled>
+            </div>
+            <div class="form-group">
+                <label for="codice_slot">Codice</label>
+                <input type="number" class="form-control" id="codice_slot" placeholder="Codice slot" disabled>
+            </div>
+            <div class="form-group">
+                <label for="numero_slot">Numero Slot</label>
+                <input type="number" class="form-control" id="numero_slot" placeholder="Numero Slot" disabled>
+            </div>
+            <div class="form-group">
+                <label for="numBici">Numero Bici</label>
+                <input type="number" class="form-control" id="numBici" placeholder="Numero Bici" disabled>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Salva</button>
+        </form>
+    `;
+    return popUp;
+}

@@ -30,7 +30,6 @@ if (!isset($_SESSION['username'])) {
     <script src="../../Js/request.js"></script>
     <script src="../../Js/template.js"></script>
     <script src="../../Js/Map/adminMap.js" defer></script>
-    <script src="../../Js/Admin/home.js"></script>
     <style>
         #map {
             display: flex;
@@ -46,6 +45,16 @@ if (!isset($_SESSION['username'])) {
         .container {
             display: flex;
             margin: 0;
+        }
+
+        #popup {
+            position: absolute;
+            background-color: white;
+            border: 1px solid black;
+            padding: 5px;
+            border-radius: 5px;
+            transform: translate(0, -110%);
+            margin-left: 2%;
         }
     </style>
 </head>
@@ -75,6 +84,9 @@ if (!isset($_SESSION['username'])) {
     </div>
 
     <div id="map"></div>
+
+
+    
 </body>
 
 </html>

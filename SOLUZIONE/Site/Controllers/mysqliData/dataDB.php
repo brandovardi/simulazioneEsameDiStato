@@ -2,4 +2,5 @@
 $hostname = "localhost";
 $username = "root";
 $password = "";
-$database = "simulazione_esame";
+$database_simulazione = "simulazione_esame";
+$database_comuni = "gi_db_comuni";

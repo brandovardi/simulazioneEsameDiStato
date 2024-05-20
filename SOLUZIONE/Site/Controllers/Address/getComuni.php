@@ -10,7 +10,7 @@ if (!isset($_GET['sigla_provincia'])) {
     exit;
 }
 
-$conn = new mysqli($hostname, $username, $password, $database);
+$conn = new mysqli($hostname, $username, $password, $database_comuni);
 $conn->set_charset("utf8");
 
 if ($conn->connect_error) {
