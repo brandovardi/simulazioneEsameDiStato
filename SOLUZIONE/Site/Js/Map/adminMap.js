@@ -24,7 +24,7 @@ $(document).ready(async function () {
         let marker = L.marker([lat, lng]).addTo(map);
         let popUpText = `
             <h6 style='color:green;'><b>Stazione di ${stationCoords[i].comune}</b></h6>
-            <p style='color:blue;'>Posti Disponibili: ${stationCoords[i].numero_slot - stationCoords[i].numBici}</p>
+            <p style='color:blue;'>Posti Disponibili: ${stationCoords[i].numero_slot - stationCoords[i].numBici}</p>    
         `;
         marker.bindPopup(popUpText);
         marker.on('click', async function(e) {
@@ -38,5 +38,21 @@ $(document).ready(async function () {
             console.log(response);
         });
     }
+
+    let select = $("#selectStation");
+
+    let address = await request("GET", "../../Controllers/Address/getStationAddress.php", {});
+    let stations = JSON.parse(address).coords;
+
+    stations.forEach(station => {
+        select.append(`<option value="${station.latitudine};${station.longitudine}">${station.codice} - ${station.comune}</option>`);
+    });
+
+    $("#selectStation").change(async function () {
+        let latitudine = $(this).val().split(";")[0];
+        let longitudine = $(this).val().split(";")[1];
+        
+        
+    });
 
 });

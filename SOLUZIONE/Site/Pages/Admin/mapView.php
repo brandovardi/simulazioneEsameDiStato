@@ -30,6 +30,7 @@ if (!isset($_SESSION['username'])) {
     <script src="../../Js/request.js"></script>
     <script src="../../Js/template.js"></script>
     <script src="../../Js/Map/adminMap.js" defer></script>
+    <script src="../../Js/Admin/home.js"></script>
     <style>
         #map {
             display: flex;
