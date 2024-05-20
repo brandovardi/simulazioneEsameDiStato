@@ -55,6 +55,13 @@ if (!isset($_SESSION['username'])) {
             border-radius: 5px;
             transform: translate(0, -110%);
             margin-left: 2%;
+            width: 600px;
+        }
+
+        /* For Firefox */
+        input[type=number] {
+            -moz-appearance: textfield !important;
+            appearance: textfield !important;
         }
     </style>
 </head>
@@ -86,7 +93,7 @@ if (!isset($_SESSION['username'])) {
     <div id="map"></div>
 
 
-    
+
 </body>
 
 </html>
