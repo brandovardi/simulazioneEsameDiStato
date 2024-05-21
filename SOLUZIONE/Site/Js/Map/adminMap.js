@@ -1,5 +1,5 @@
 $(document).ready(async function () {
-    let coords = await request("GET", "../../Controllers/Address/getCoords.php", {});
+    let coords = await request("GET", "../../Controllers/Get/Address/getCoords.php", {});
     let jsonCoords = JSON.parse(coords);
     coords = jsonCoords.coords;
 
@@ -13,7 +13,7 @@ $(document).ready(async function () {
         maxZoom: 19
     }).addTo(map);
 
-    let response = await request("GET", "../../Controllers/Address/getStationAddress.php", {});
+    let response = await request("GET", "../../Controllers/Get/Address/getStationAddress.php", {});
     let jsonStation = JSON.parse(response);
     let stationCoords = jsonStation.coords;
 
@@ -28,7 +28,7 @@ $(document).ready(async function () {
         `;
         marker.bindPopup(popUpText);
         marker.on('click', async function (e) {
-            map.setView(e.latlng, 15);
+            map.setView(e.latlng, 12);
         });
 
         let select = $("#selectStation");
@@ -51,15 +51,12 @@ async function editStation(codice) {
     }
 
     let popup = await generatePopUp(codice);
-    let form = $(popup);
-
-    $("body").append(form);
 
 }
 
 async function generatePopUp(codice) {
-    
-    let response = await request("GET", "../../Controllers/Address/getStationAddress.php", {});
+
+    let response = await request("GET", "../../Controllers/Get/Address/getStationAddress.php", {});
     let jsonCoords = JSON.parse(response).coords;
 
     for (let i = 0; i < jsonCoords.length; i++) {
@@ -90,9 +87,13 @@ async function generatePopUp(codice) {
         </form>
     `;
 
+
+    let form = $(popUp);
+    $("body").append(form);
+
     $('#btnSalva').on('click', async function () {
         let numero_slot = $('#numero_slot').val();
-        let response = await request("POST", "../../Controllers/Address/updateStation.php", { numero_slot: numero_slot });
+        let response = await request("POST", "../../Controllers/Get/Address/updateStation.php", { numero_slot: numero_slot });
         response = JSON.parse(response);
         if (response.status == "success") {
             alert("Stazione modificata con successo");
@@ -103,7 +104,7 @@ async function generatePopUp(codice) {
     });
 
     $('#btnMdoficaIndirizzo').on('click', async function () {
-        let response = await request("GET", "../../Controllers/Address/getAddress.php", {});
+        let response = await request("GET", "../../Controllers/Get/Address/getAddress.php", {});
         let jsonAddress = JSON.parse(response).address;
 
         let popUp = `
@@ -142,7 +143,7 @@ async function generatePopUp(codice) {
         $('#popup').remove();
         $("body").append(popUp);
     });
-    
+
     $('#btnSalvaIndirizzo').on('click', async function () {
         let regione = $('#regione').val();
         let via = $('#via').val();
@@ -151,7 +152,7 @@ async function generatePopUp(codice) {
         let provincia = $('#provincia').val();
         let cap = $('#cap').val();
 
-        let response = await request("POST", "../../Controllers/Address/updateAddress.php", { codice: codice, regione: regione, via: via, numeroCivico: numeroCivico, comune: comune, provincia: provincia, cap: cap });
+        let response = await request("POST", "../../Controllers/Get/Address/updateAddress.php", { codice: codice, regione: regione, via: via, numeroCivico: numeroCivico, comune: comune, provincia: provincia, cap: cap });
         response = JSON.parse(response);
         if (response.status == "success") {
             alert("Indirizzo modificato con successo");
@@ -162,7 +163,9 @@ async function generatePopUp(codice) {
     });
 
     $('#btnEliminaStazione').on('click', async function () {
-        let response = await request("POST", "../../Controllers/Address/deleteStation.php", { codice: codice });
+        let res = confirm("Vuoi eliminare anche le bici presenti nella stazione?");
+
+        let response = await request("POST", "../../Controllers/Get/Address/deleteStation.php", { codice: codice, deleteBikes: res });
         response = JSON.parse(response);
         if (response.status == "success") {
             alert("Stazione eliminata con successo");
@@ -170,7 +173,6 @@ async function generatePopUp(codice) {
         } else {
             alert("Errore nell'eliminazione della stazione");
         }
-    });
 
-    return popUp;
+    });
 }

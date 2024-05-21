@@ -49,11 +49,11 @@ if (!isset($_SESSION['username'])) {
 
         #popup {
             position: absolute;
+            transform: translate(0, -110%);
             background-color: white;
             border: 1px solid black;
             padding: 5px;
             border-radius: 5px;
-            transform: translate(0, -110%);
             margin-left: 2%;
             width: 600px;
         }
@@ -85,7 +85,7 @@ if (!isset($_SESSION['username'])) {
                 </select>
             </div>
             <div class="col">
-                <button type="button" class="btn btn-primary" id="editStation">Modifica</button>
+                <button type="button" class="btn btn-primary" id="newStation">Nuova Stazione</button>
             </div>
         </div>
     </div>

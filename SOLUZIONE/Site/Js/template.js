@@ -12,9 +12,6 @@ let navBar = `
         <li class="nav-item">
             <a class="nav-link" href="./profile.php">Profilo</a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link" href="./booking.php">Prenotazione</a>
-        </li>
     </ul>
     <button class="btn btn-danger" onclick="window.location.href='../logout.php'">Logout</button>
 </div>

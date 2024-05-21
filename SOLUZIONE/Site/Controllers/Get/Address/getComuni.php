@@ -1,11 +1,11 @@
 <?php
-include_once("../mysqliData/dataDB.php");
+include_once("../../mysqliData/dataDB.php");
 
 if (!isset($_SESSION)) {
     session_start();
 }
 
-if (!isset($_GET['denominazione_ita_altra'])) {
+if (!isset($_GET['sigla_provincia'])) {
     echo json_encode(array("status" => "error", "message" => "Parametri mancanti"));
     exit;
 }
@@ -18,9 +18,9 @@ if ($conn->connect_error) {
     exit;
 }
 
-$select = "SELECT cap FROM gi_cap WHERE codice_istat = (SELECT codice_istat FROM gi_comuni WHERE denominazione_ita_altra = ?)";
+$select = "SELECT denominazione_ita_altra FROM gi_comuni WHERE sigla_provincia = ? ORDER BY denominazione_ita_altra ASC";
 $stmt = $conn->prepare($select);
-$stmt->bind_param("s", $_GET['denominazione_ita_altra']);
+$stmt->bind_param("s", $_GET['sigla_provincia']);
 $stmt->execute();
 $result = $stmt->get_result();
 
@@ -31,7 +31,7 @@ if ($result->num_rows <= 0) {
 
 $comuni = array();
 while ($row = $result->fetch_assoc()) {
-    $comuni[] = $row['cap'];
+    $comuni[] = $row['denominazione_ita_altra'];
 }
 
-echo json_encode(array("status" => "ok", "cap" => $comuni));
+echo json_encode(array("status" => "ok", "comuni" => $comuni));

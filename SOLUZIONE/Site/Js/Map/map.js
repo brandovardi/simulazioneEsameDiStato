@@ -1,5 +1,5 @@
 $(document).ready(async function () {
-    let coords = await request("GET", "../../Controllers/Address/getCoords.php", {});
+    let coords = await request("GET", "../../Controllers/Get/Address/getCoords.php", {});
     let jsonCoords = JSON.parse(coords);
     coords = jsonCoords.coords;
 
