@@ -43,19 +43,8 @@ if (!isset($_SESSION['username'])) {
         }
 
         .container {
-            display: flex;
-            margin: 0;
-        }
-
-        #popup {
-            position: absolute;
-            transform: translate(0, -110%);
-            background-color: white;
-            border: 1px solid black;
-            padding: 5px;
-            border-radius: 5px;
-            margin-left: 2%;
-            width: 600px;
+            margin: 0 auto;
+            width: 50%;
         }
 
         /* For Firefox */
@@ -75,24 +64,32 @@ if (!isset($_SESSION['username'])) {
     </nav>
 
     <h1 align="center">Mappa stazioni</h1>
+    
+    <br>
+    <div id="map"></div>
 
+    <br>
     <!-- modifica le stazioni partendo da una select -->
     <div class="container">
         <div class="row">
             <div class="col">
+                <label for="selectStation" class="form-label">Stazione Selezionata:</label>
                 <select class="form-select" id="selectStation" aria-label="Default select example">
                     <option selected disabled>Seleziona una stazione</option>
                 </select>
             </div>
             <div class="col">
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newStation">
-                    Aggiungi Stazione
+                    Nuova Stazione
+                </button>
+            </div>
+            <div class="col">
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newBike">
+                    Nuova Bicicletta
                 </button>
             </div>
         </div>
     </div>
-
-    <div id="map"></div>
 
 </body>
 

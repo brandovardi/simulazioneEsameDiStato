@@ -58,6 +58,9 @@ if ($conn->connect_error) {
     exit;
 }
 
+$conn->autocommit(false);
+$conn->begin_transaction();
+
 // controllo che la stazione esista
 $select = "SELECT * FROM stazione WHERE codice = ?";
 $stmt = $conn->prepare($select);
@@ -102,6 +105,13 @@ $update = "UPDATE stazione SET id_indirizzo = ?, numero_slot = ? WHERE codice = 
 $stmt = $conn->prepare($update);
 $stmt->bind_param("iii", $id_indirizzo, $numero_slot, $codice);
 $stmt->execute();
+
+if ($stmt->affected_rows == 0) {
+    echo json_encode(array("status" => "error", "message" => "Errore nell'aggiornamento della stazione"));
+    exit;
+}
+
+$conn->commit();
 
 echo json_encode(array("status" => "success", "message" => "Stazione aggiornata correttamente"));
 

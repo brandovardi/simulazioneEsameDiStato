@@ -35,6 +35,9 @@ if ($conn->connect_error) {
     exit;
 }
 
+$conn->autocommit(false);
+$conn->begin_transaction();
+
 // controllo se l'indiriizzo è già presente
 $check = "SELECT * FROM indirizzo WHERE regione = ? AND provincia = ? AND comune = ? AND cap = ? AND via = ? AND numeroCivico = ?";
 $stmt = $conn->prepare($check);
@@ -74,6 +77,8 @@ $insert = "INSERT INTO stazione (codice, id_indirizzo, numero_slot) VALUES (?, ?
 $stmt = $conn->prepare($insert);
 $stmt->bind_param("iii", $codice, $id_indirizzo, $numero_slot);
 $stmt->execute();
+
+$conn->commit();
 
 echo json_encode(array("status" => "success", "message" => "Stazione inserita correttamente"));
 
