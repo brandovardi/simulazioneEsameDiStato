@@ -9,6 +9,11 @@ if (!isset($_SESSION['username']) || !isset($_SESSION["isLogged"]) || $_SESSION[
     exit;
 }
 
+if (isset($_SESSION["is_admin"]) && $_SESSION["is_admin"] == true) {
+    header("Location: ../Admin/home.php");
+    exit;
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -53,7 +58,7 @@ if (!isset($_SESSION['username']) || !isset($_SESSION["isLogged"]) || $_SESSION[
     </nav>
 
     <div id="map"></div>
-    
+
 </body>
 
 </html>

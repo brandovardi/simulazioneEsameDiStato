@@ -6,16 +6,18 @@ if (!isset($_SESSION)) {
 }
 
 if (!isset($_SESSION['username']) || (!isset($_SESSION['isLogged']) || !$_SESSION['isLogged']) || !isset($_SESSION['user_id'])) {
-    return json_encode(array("status" => "errore", "message" => "Utente non autenticato"));
+    echo json_encode(array("status" => "errore", "message" => "Utente non autenticato"));
+    exit;
 }
 
 $conn = new mysqli($hostname, $username, $password, $database_simulazione);
 $conn->set_charset("utf8");
 if ($conn->connect_error) {
-    return json_encode(array("status" => "errore", "message" => "Connessione al database fallita"));
+    echo json_encode(array("status" => "errore", "message" => "Connessione al database fallita"));
+    exit;
 }
 
-$select = "SELECT s.codice, s.numero_slot, i.latitudine, i.longitudine, i.comune, i.provincia, i.cap, i.via, i.numeroCivico, i.regione, COUNT(b.ID) AS numBici
+$select = "SELECT s.codice, s.numero_slot, i.*, COUNT(b.ID) AS numBici
 FROM stazione AS s
 JOIN indirizzo AS i ON s.id_indirizzo = i.ID
 LEFT JOIN bicicletta AS b ON s.ID = b.id_stazione
@@ -23,7 +25,8 @@ GROUP BY s.codice";
 $result = $conn->query($select);
 
 if ($result->num_rows <= 0) {
-    return json_encode(array("status" => "errore", "message" => "Stazione non trovata"));
+    echo json_encode(array("status" => "errore", "message" => "Stazione non trovata"));
+    exit;
 }
 
 $coords = array();

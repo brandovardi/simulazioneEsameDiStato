@@ -85,14 +85,14 @@ if (!isset($_SESSION['username'])) {
                 </select>
             </div>
             <div class="col">
-                <button type="button" class="btn btn-primary" id="newStation">Nuova Stazione</button>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newStation">
+                    Aggiungi Stazione
+                </button>
             </div>
         </div>
     </div>
 
     <div id="map"></div>
-
-
 
 </body>
 

@@ -28,12 +28,10 @@ if (!isset($_SESSION['username']) || (!isset($_SESSION['isLogged']) || !$_SESSIO
     <!-- Make sure you put this AFTER Leaflet's CSS -->
     <script src="../../Js/Map/leaflet/leaflet.js"></script>
     <script src="../../Js/request.js"></script>
-    <script src="../../Js/Map/map.js"></script>
     <script src="../../Js/template.js"></script>
-    <script src="../../Js/Customers/profile.js"></script>
     <script>
         $(document).ready(async function () {
-            let response = await request("POST", "../../Controllers/Customers/getProfile.php", {});
+            let response = await request("POST", "../../Controllers/Get/Customers/getProfile.php", {});
             response = JSON.parse(response);
 
             if (response.status == "success") {

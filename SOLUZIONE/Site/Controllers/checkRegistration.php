@@ -33,6 +33,10 @@ if (
     } else
         $regione = ucfirst($regione);
     $provincia = strtoupper($_POST['provincia']);
+    if (strlen($provincia) != 2) {
+        echo json_encode(array("status" => "error", "message" => "La provincia deve essere di 2 lettere"));
+        exit;
+    }
     $comune = $_POST['comune'];
     $via = $_POST['via'];
     $cap = $_POST['cap'];
@@ -100,11 +104,8 @@ if (
             $stmt->bind_param("sssisidd", $regione, $provincia, $comune, $cap, $via, $numeroCivico, $latLng['lat'], $latLng['lon']);
             $stmt->execute();
 
-            // vado a prendere l'id dell'indirizzo appena inserito
-            $select = "SELECT ID FROM indirizzo ORDER BY ID DESC LIMIT 1";
-            $result = $conn->query($select);
-            $row = $result->fetch_assoc();
-            $id_indirizzo = $row['ID'];
+            // prendo l'id dell'indirizzo appena inserito
+            $id_indirizzo = $conn->insert_id;
         }
 
         // vado a prendere l'ultimo valore di tessera inserito e lo incremento di 1
