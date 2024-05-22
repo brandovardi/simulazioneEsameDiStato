@@ -10,12 +10,12 @@ if (!isset($_SESSION['username']) || (!isset($_SESSION["isLogged"]) || !$_SESSIO
     exit;
 }
 
-if (!isset($_POST['codice'])) {
+if (!isset($_POST['codiceBici'])) {
     echo json_encode(array("status" => "error", "message" => "Parametri mancanti"));
     exit;
 }
 
-$codice = $_POST['codice'];
+$codice = $_POST['codiceBici'];
 
 $conn = new mysqli($hostname, $username, $password, $database_simulazione);
 $conn->set_charset("utf8");
@@ -27,23 +27,17 @@ if ($conn->connect_error) {
 $conn->autocommit(false);
 $conn->begin_transaction();
 
-// prima vado a togliere tutte le bici dalla stazione
-$update = "UPDATE bicicletta SET id_stazione = NULL WHERE id_stazione = (SELECT ID FROM stazione WHERE codice = ?)";
-$stmt = $conn->prepare($update);
-$stmt->bind_param("i", $codice);
-$stmt->execute();
-
 // poi cancello la stazione
-$delete = "DELETE FROM stazione WHERE codice = ?";
+$delete = "DELETE FROM bicicletta WHERE codice = ?";
 $stmt = $conn->prepare($delete);
 $stmt->bind_param("i", $codice);
 $stmt->execute();
 
 if ($stmt->affected_rows == 0) {
-    echo json_encode(array("status" => "error", "message" => "Errore nella cancellazione della stazione"));
+    echo json_encode(array("status" => "error", "message" => "Errore nella cancellazione della bicicletta"));
     exit;
 }
 
 $conn->commit();
 
-echo json_encode(array("status" => "success", "message" => "Stazione cancellata con successo"));
+echo json_encode(array("status" => "success", "message" => "Bicicletta cancellata con successo"));

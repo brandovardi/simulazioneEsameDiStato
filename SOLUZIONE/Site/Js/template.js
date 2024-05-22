@@ -31,6 +31,9 @@ let navBarAdmin = `
         <li class="nav-item">
             <a class="nav-link" href="./mapView.php">Mappa</a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link" href="./report.php">Report</a>
+        </li>
     </ul>
     <button class="btn btn-danger" onclick="window.location.href='../logout.php'">Logout</button>
 </div>

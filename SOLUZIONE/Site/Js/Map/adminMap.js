@@ -76,14 +76,6 @@ $(document).ready(async function () {
         });
     }
 
-    $(document).on('keydown', function (e) {
-        if (e.key === "Escape") {
-            $('#selectStation').val("");
-            map.closePopup();
-            map.setView([lat, lng], zoom);
-        }
-    });
-
     $("#selectStation").on("change", async function () {
         let coords = $(this).val().split(";");
         map.setView([coords[0], coords[1]], 12);
