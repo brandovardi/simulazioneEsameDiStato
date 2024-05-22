@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Mag 21, 2024 alle 23:25
+-- Creato il: Mag 23, 2024 alle 00:18
 -- Versione del server: 10.4.32-MariaDB
 -- Versione PHP: 8.2.12
 
@@ -60,25 +60,18 @@ CREATE TABLE `bicicletta` (
   `GPS` varchar(32) NOT NULL,
   `RFID` varchar(32) NOT NULL,
   `kmEffettuati` int(64) NOT NULL,
-  `immagine` mediumblob DEFAULT NULL
+  `id_posizione` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dump dei dati per la tabella `bicicletta`
 --
 
-INSERT INTO `bicicletta` (`ID`, `codice`, `id_stazione`, `manutenzione`, `GPS`, `RFID`, `kmEffettuati`, `immagine`) VALUES
-(1, 'B000001', NULL, 0, 'GPS0000001', 'RFID0000001', 120, NULL),
-(2, 'B000002', NULL, 1, 'GPS0000002', 'RFID0000002', 200, NULL),
-(3, 'B000003', NULL, 0, 'GPS0000003', 'RFID0000003', 150, NULL),
-(4, 'B000004', 3, 0, 'GPS0000004', 'RFID0000004', 90, NULL),
-(5, 'B000005', 3, 1, 'GPS0000005', 'RFID0000005', 300, NULL),
-(6, 'B000006', 4, 0, 'GPS0000006', 'RFID0000006', 75, NULL),
-(7, 'B000007', 5, 0, 'GPS0000007', 'RFID0000007', 180, NULL),
-(8, 'B000008', NULL, 0, 'GPS0000008', 'RFID0000008', 220, NULL),
-(9, 'B000009', 7, 0, 'GPS0000009', 'RFID0000009', 130, NULL),
-(10, 'B000010', NULL, 1, 'GPS0000010', 'RFID0000010', 250, NULL),
-(11, 'B000011', 6, 1, 'GPS1234', 'RFID1235', 0, NULL);
+INSERT INTO `bicicletta` (`ID`, `codice`, `id_stazione`, `manutenzione`, `GPS`, `RFID`, `kmEffettuati`, `id_posizione`) VALUES
+(17, 'B000001', 9, 1, 'GPS12342134', 'RFID12342134', 220, 18),
+(18, 'B000002', 9, 0, 'GPS21345', 'RFID2345', 150, 18),
+(19, 'B000003', 4, 0, 'GPS324213', 'RFID2435', 80, 13),
+(20, 'B000004', 4, 0, 'GPS1234', 'RFID23456', 64, 13);
 
 -- --------------------------------------------------------
 
@@ -216,7 +209,8 @@ ALTER TABLE `bicicletta`
   ADD UNIQUE KEY `codice` (`codice`),
   ADD UNIQUE KEY `GPS` (`GPS`),
   ADD UNIQUE KEY `RFID` (`RFID`),
-  ADD KEY `id_stazione` (`id_stazione`);
+  ADD KEY `id_stazione` (`id_stazione`),
+  ADD KEY `id_posizione` (`id_posizione`);
 
 --
 -- Indici per le tabelle `cliente`
@@ -264,7 +258,7 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT per la tabella `bicicletta`
 --
 ALTER TABLE `bicicletta`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT per la tabella `cliente`
@@ -298,7 +292,8 @@ ALTER TABLE `stazione`
 -- Limiti per la tabella `bicicletta`
 --
 ALTER TABLE `bicicletta`
-  ADD CONSTRAINT `bicicletta_ibfk_1` FOREIGN KEY (`id_stazione`) REFERENCES `stazione` (`ID`);
+  ADD CONSTRAINT `bicicletta_ibfk_1` FOREIGN KEY (`id_stazione`) REFERENCES `stazione` (`ID`),
+  ADD CONSTRAINT `bicicletta_ibfk_2` FOREIGN KEY (`id_posizione`) REFERENCES `indirizzo` (`ID`);
 
 --
 -- Limiti per la tabella `cliente`
