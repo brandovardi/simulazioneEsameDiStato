@@ -43,8 +43,11 @@ if (!isset($_SESSION['username'])) {
         }
 
         .container {
-            margin: 0 auto;
-            width: 50%;
+            width: 30%;
+        }
+
+        .row {
+            justify-content: space-evenly;
         }
 
         /* For Firefox */
@@ -64,13 +67,9 @@ if (!isset($_SESSION['username'])) {
     </nav>
 
     <h1 align="center">Mappa stazioni</h1>
-    
-    <br>
-    <div id="map"></div>
 
     <br>
-    <!-- modifica le stazioni partendo da una select -->
-    <div class="container">
+    <div class="container" style="width: 20%;">
         <div class="row">
             <div class="col">
                 <label for="selectStation" class="form-label">Stazione Selezionata:</label>
@@ -78,19 +77,21 @@ if (!isset($_SESSION['username'])) {
                     <option selected disabled>Seleziona una stazione</option>
                 </select>
             </div>
-            <div class="col">
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newStation">
-                    Nuova Stazione
-                </button>
-            </div>
-            <div class="col">
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newBike">
-                    Nuova Bicicletta
-                </button>
-            </div>
         </div>
     </div>
-
+    <br>
+    <div id="map"></div>
+    <br>
+    <div class="container">
+        <div class="row">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newStation">
+                Nuova Stazione
+            </button>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newBike">
+                Nuova Bicicletta
+            </button>
+        </div>
+    </div>
 </body>
 
 </html>

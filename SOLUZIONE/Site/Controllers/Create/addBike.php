@@ -35,32 +35,42 @@ if ($conn->connect_error) {
 $conn->autocommit(false);
 $conn->begin_transaction();
 
-// controllo se la stazione è già presente
-$check = "SELECT * FROM stazione WHERE codice = ?";
-$stmt = $conn->prepare($check);
-$stmt->bind_param("s", $codiceStazione);
-$stmt->execute();
-$result = $stmt->get_result();
+$id_stazione = null;
+$id_posizione = null;
+if ($codiceStazione != null) {
+    // controllo se la stazione esiste
+    $check = "SELECT * FROM stazione WHERE codice = ?";
+    $stmt = $conn->prepare($check);
+    $stmt->bind_param("s", $codiceStazione);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    
+    if ($result->num_rows == 0) {
+        echo json_encode(array("status" => "error", "message" => "Stazione non trovata"));
+        exit;
+    }
 
-if ($result->num_rows == 0) {
-    echo json_encode(array("status" => "error", "message" => "Stazione non trovata"));
-    exit;
+    $stazione = $result->fetch_assoc();
+    $id_stazione = $stazione['ID'];
+    $id_posizione = $stazione['id_indirizzo'];
 }
-
-$stazione = $result->fetch_assoc();
-$id_stazione = $stazione['ID'];
 
 // prendo il codice dell'ultima bicicletta
 $select = "SELECT codice FROM bicicletta ORDER BY codice DESC LIMIT 1";
 $result = $conn->query($select);
-$codice = str_replace("B", "", $result->fetch_assoc()['codice']) + 1;
-$codice = str_pad((string)$codice, 6, "0", STR_PAD_LEFT);
-$codice = "B" . $codice;
+$codice = null;
+if ($result->num_rows == 0) {
+    $codice = "B000001";
+} else {
+    $codice = str_replace("B", "", $result->fetch_assoc()['codice']) + 1;
+    $codice = str_pad((string)$codice, 6, "0", STR_PAD_LEFT);
+    $codice = "B" . $codice;
+}
 
 // inserisco la bicicletta
-$insert = "INSERT INTO bicicletta (codice, id_stazione, manutenzione, GPS, RFID, kmEffettuati, immagine) VALUES (?, ?, ?, ?, ?, 0, NULL)";
+$insert = "INSERT INTO bicicletta (codice, id_stazione, manutenzione, GPS, RFID, kmEffettuati, id_posizione) VALUES (?, ?, ?, ?, ?, 0, ?)";
 $stmt = $conn->prepare($insert);
-$stmt->bind_param("siiiss", $codice, $id_stazione, $manutenzione, $gps, $rfid);
+$stmt->bind_param("siissi", $codice, $id_stazione, $manutenzione, $gps, $rfid, $id_posizione);
 $stmt->execute();
 
 if ($stmt->affected_rows == 0) {

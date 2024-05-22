@@ -15,8 +15,10 @@ if (!isset($_SESSION['isLogged']) || !$_SESSION['isLogged'] || !isset($_SESSION[
     exit;
 }
 
-if (!isset($_POST['codice']) || !isset($_POST['manutenzione']) || !isset($_POST['gps'])
-    || !isset($_POST['rfid']) || !isset($_POST['codiceStazione'])) {
+if (
+    !isset($_POST['codice']) || !isset($_POST['manutenzione']) || !isset($_POST['gps'])
+    || !isset($_POST['rfid']) || !isset($_POST['codiceStazione'])
+) {
     echo json_encode(array("status" => "errore", "message" => "Parametri mancanti"));
     exit;
 }
@@ -37,26 +39,30 @@ if ($conn->connect_error) {
 $conn->autocommit(false);
 $conn->begin_transaction();
 
-// controllo che la stazione esista
-$select = "SELECT * FROM stazione WHERE codice = ?";
-$stmt = $conn->prepare($select);
-$stmt->bind_param("i", $codiceStazione);
-$stmt->execute();
-$result = $stmt->get_result();
 $id_stazione = null;
+$id_posizione = null;
+if ($codiceStazione != null) {
+    // controllo che la stazione esista
+    $select = "SELECT * FROM stazione WHERE codice = ?";
+    $stmt = $conn->prepare($select);
+    $stmt->bind_param("i", $codiceStazione);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
-if ($result->num_rows > 0) {
-    $row = $result->fetch_assoc();
-    $id_stazione = $row['ID'];
-} else {
-    echo json_encode(array("status" => "errore", "message" => "Stazione non trovata"));
-    exit;
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $id_stazione = $row['ID'];
+        $id_posizione = $row['id_indirizzo'];
+    } else {
+        echo json_encode(array("status" => "errore", "message" => "Stazione non trovata"));
+        exit;
+    }
 }
 
 // aggiorno la Bicicletta
-$update = "UPDATE bicicletta SET manutenzione = ?, GPS = ?, RFID = ?, id_stazione = ? WHERE codice = ?";
+$update = "UPDATE bicicletta SET manutenzione = ?, GPS = ?, RFID = ?, id_stazione = ?, id_posizione = ? WHERE codice = ?";
 $stmt = $conn->prepare($update);
-$stmt->bind_param("issis", $manutenzione, $gps, $rfid, $id_stazione, $codice);
+$stmt->bind_param("ississ", $manutenzione, $gps, $rfid, $id_stazione, $id_posizione, $codice);
 $stmt->execute();
 
 if ($stmt->affected_rows == 0) {

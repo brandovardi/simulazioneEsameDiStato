@@ -29,6 +29,7 @@ if (!isset($_SESSION['username']) || (!isset($_SESSION["isLogged"]) || !$_SESSIO
     <script src="../../Js/Map/leaflet/leaflet.js"></script>
     <script src="../../Js/request.js"></script>
     <script src="../../Js/template.js"></script>
+    <script src="../../Js/adminReport.js" defer></script>
     <style>
         .bordered-div {
             border: 2px solid black;
@@ -56,19 +57,26 @@ if (!isset($_SESSION['username']) || (!isset($_SESSION["isLogged"]) || !$_SESSIO
             <table class="table table-striped table-bordered">
                 <thead class="thead-dark">
                     <tr>
-                        <th scope="col">ID</th>
-                        <th scope="col">User</th>
-                        <th scope="col">Description</th>
-                        <th scope="col">Date</th>
-                        <th scope="col">Status</th>
-                        <th scope="col">Action</th>
+                        <th scope="col">#</th>
+                        <th scope="col">Codice</th>
+                        <th scope="col">Km Effettuati</th>
+                        <th scope="col">GPS</th>
+                        <th scope="col">RFID</th>
+                        <th scope="col">Manutenzione</th>
+                        <th scope="col">Stazione</th>
                     </tr>
                 </thead>
                 <tbody id="reportTable">
                 </tbody>
-                </tbody>
             </table>
         </div>
+    </div>
+
+    <div class="container">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center" id="pagination">
+            </ul>
+        </nav>
     </div>
 
 </body>

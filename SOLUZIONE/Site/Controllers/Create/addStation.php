@@ -75,7 +75,7 @@ if ($result->num_rows > 0) {
 
 $insert = "INSERT INTO stazione (codice, id_indirizzo, numero_slot) VALUES (?, ?, ?)";
 $stmt = $conn->prepare($insert);
-$stmt->bind_param("iii", $codice, $id_indirizzo, $numero_slot);
+$stmt->bind_param("sii", $codice, $id_indirizzo, $numero_slot);
 $stmt->execute();
 
 $conn->commit();

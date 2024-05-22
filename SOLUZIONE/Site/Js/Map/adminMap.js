@@ -65,6 +65,11 @@ $(document).ready(async function () {
             let numeroCivico = $('#numeroCivico_' + code).val();
             let numeroSlot = $('#numeroSlot_' + code).val();
 
+            if (regione == "" || provincia == "" || comune == "" || cap == "" || via == "" || numeroCivico == "" || numeroSlot == "") {
+                alert("Compilare tutti i campi");
+                return;
+            }
+
             let response = await request("POST", "../../Controllers/Update/updateStation.php", { codice: codice, regione: regione, provincia: provincia, comune: comune, cap: cap, via: via, numeroCivico: numeroCivico, numero_slot: numeroSlot });
             response = JSON.parse(response);
             if (response.status == "success") {
@@ -158,6 +163,11 @@ $(document).ready(async function () {
         let numeroCivico = $("#numeroCivico").val();
         let numero_slot = $("#numeroSlot").val();
 
+        if (regione == "" || provincia == "" || comune == "" || cap == "" || via == "" || numeroCivico == "" || numero_slot == "") {
+            alert("Compilare tutti i campi");
+            return;
+        }
+
         let response = await request("POST", "../../Controllers/Create/addStation.php", { regione: regione, provincia: provincia, comune: comune, cap: cap, via: via, numeroCivico: numeroCivico, numero_slot: numero_slot });
         response = JSON.parse(response);
         if (response.status == "success") {
@@ -176,7 +186,7 @@ $(document).ready(async function () {
         let select = $("#stazione");
         select.html("");
 
-        select.append(`<option value="None">Nessuna</option>`);
+        select.append(`<option value="null" selected>Nessuna</option>`);
         jsonCoords.forEach(coords => {
             if (coords.numBici < coords.numero_slot)
                 select.append(`<option value="${coords.codice}">${coords.codice} - ${coords.comune}</option>`);
@@ -184,10 +194,15 @@ $(document).ready(async function () {
     });
 
     $("#btnAddBike").on("click", async function () {
-        let codiceStazione = $("#stazione").val();
+        let codiceStazione = ($("#stazione").val() == "null") ? null : $("#stazione").val();
         let manutenzione = $("#manutenzione").val();
         let gps = $("#gps").val();
         let rfid = $("#rfid").val();
+
+        if (codiceStazione == "" || manutenzione == "" || gps == "" || rfid == "") {
+            alert("Compilare tutti i campi");
+            return;
+        }
 
         let response = await request("POST", "../../Controllers/Create/addBike.php", { codiceStazione: codiceStazione, manutenzione: manutenzione, gps: gps, rfid: rfid });
         response = JSON.parse(response);
@@ -578,9 +593,14 @@ async function insertDataIntoPopup(codice, type) {
             $('#btnEditBike_' + jsonCoords[i].codice).on('click', async function () {
                 let codice = jsonCoords[i].codice;
                 let manutenzione = $('#manutenzione_' + codice).val();
-                let codiceStazione = $('#stazione_' + codice).val().split(" ")[0];
+                let codiceStazione = ($('#stazione_' + codice).val() == "null") ? null : $('#stazione_' + codice).val();
                 let gps = $('#gps_' + codice).val();
                 let rfid = $('#rfid_' + codice).val();
+
+                if (manutenzione == "" || gps == "" || rfid == "") {
+                    alert("Compilare tutti i campi");
+                    return;
+                }
 
                 let response = await request("POST", "../../Controllers/Update/updateBike.php", { codice: codice, manutenzione: manutenzione, gps: gps, rfid: rfid, codiceStazione: codiceStazione });
                 response = JSON.parse(response);
@@ -616,12 +636,11 @@ async function insertDataIntoPopup(codice, type) {
         let responseStations = await request("GET", "../../Controllers/Get/Address/getStationAddress.php", {});
         let jsonStations = JSON.parse(responseStations).coords;
 
-        select.append(`<option value="None">Nessuna</option>`);
+        select.append(`<option value="null">Nessuna</option>`);
         jsonStations.forEach(station => {
             select.append(`<option value="${station.codice}">${station.codice} - ${station.comune}</option>`);
         });
 
-        console.log(jsonCoords[0]);
         select.val(jsonCoords[0].codice_stazione);
         $('#manutenzione_' + codice).val(jsonCoords[0].manutenzione);
         $('#gps_' + codice).val(jsonCoords[0].GPS);

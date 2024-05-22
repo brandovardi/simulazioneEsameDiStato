@@ -30,7 +30,7 @@ $conn->begin_transaction();
 // poi cancello la stazione
 $delete = "DELETE FROM bicicletta WHERE codice = ?";
 $stmt = $conn->prepare($delete);
-$stmt->bind_param("i", $codice);
+$stmt->bind_param("s", $codice);
 $stmt->execute();
 
 if ($stmt->affected_rows == 0) {
