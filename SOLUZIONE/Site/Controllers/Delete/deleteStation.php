@@ -30,19 +30,19 @@ $conn->begin_transaction();
 // prima vado a togliere tutte le bici dalla stazione
 $update = "UPDATE bicicletta SET id_stazione = NULL WHERE id_stazione = (SELECT ID FROM stazione WHERE codice = ?)";
 $stmt = $conn->prepare($update);
-$stmt->bind_param("s", $codice);
+$stmt->bind_param("i", $codice);
 $stmt->execute();
 
 // vado a settare a null tutte le operazioni relative alla stazione
 $update = "UPDATE operazione SET id_stazione = NULL WHERE id_stazione = (SELECT ID FROM stazione WHERE codice = ?)";
 $stmt = $conn->prepare($update);
-$stmt->bind_param("s", $codice);
+$stmt->bind_param("i", $codice);
 $stmt->execute();
 
 // poi cancello la stazione
 $delete = "DELETE FROM stazione WHERE codice = ?";
 $stmt = $conn->prepare($delete);
-$stmt->bind_param("s", $codice);
+$stmt->bind_param("i", $codice);
 $stmt->execute();
 
 if ($stmt->affected_rows == 0) {

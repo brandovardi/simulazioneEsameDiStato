@@ -59,7 +59,7 @@ $conn->begin_transaction();
 // controllo che la stazione esista
 $select = "SELECT * FROM stazione WHERE codice = ?";
 $stmt = $conn->prepare($select);
-$stmt->bind_param("s", $codice);
+$stmt->bind_param("i", $codice);
 $stmt->execute();
 $result = $stmt->get_result();
 
@@ -98,7 +98,7 @@ if ($result->num_rows > 0) {
 // aggiorno la stazione
 $update = "UPDATE stazione SET id_indirizzo = ?, numero_slot = ? WHERE codice = ?";
 $stmt = $conn->prepare($update);
-$stmt->bind_param("iis", $id_indirizzo, $numero_slot, $codice);
+$stmt->bind_param("iii", $id_indirizzo, $numero_slot, $codice);
 $stmt->execute();
 
 if ($stmt->affected_rows == 0) {
