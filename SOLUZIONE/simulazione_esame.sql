@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Mag 23, 2024 alle 11:37
+-- Creato il: Mag 23, 2024 alle 12:03
 -- Versione del server: 10.4.32-MariaDB
 -- Versione PHP: 8.0.30
 
@@ -152,12 +152,28 @@ CREATE TABLE `operazione` (
   `ID` int(11) NOT NULL,
   `idCliente` int(11) NOT NULL,
   `idBicicletta` int(11) NOT NULL,
-  `idStazionePartenza` int(11) NOT NULL,
+  `idStazione` int(11) NOT NULL,
   `tipo` enum('noleggio','riconsegna') NOT NULL,
   `timestamp` timestamp NOT NULL DEFAULT current_timestamp(),
   `tariffa` float DEFAULT NULL,
   `kmEffettuati` int(32) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dump dei dati per la tabella `operazione`
+--
+
+INSERT INTO `operazione` (`ID`, `idCliente`, `idBicicletta`, `idStazione`, `tipo`, `timestamp`, `tariffa`, `kmEffettuati`) VALUES
+(51, 13, 17, 5, 'noleggio', '2023-05-01 06:00:00', NULL, NULL),
+(52, 13, 17, 7, 'riconsegna', '2023-05-01 07:00:00', 5, 15),
+(53, 29, 18, 3, 'noleggio', '2023-05-02 08:30:00', NULL, NULL),
+(54, 29, 18, 6, 'riconsegna', '2023-05-02 09:45:00', 6.5, 20),
+(55, 3, 17, 4, 'noleggio', '2023-05-03 05:15:00', NULL, NULL),
+(56, 3, 17, 6, 'riconsegna', '2023-05-03 06:30:00', 7.25, 10),
+(57, 34, 19, 4, 'noleggio', '2023-05-04 07:00:00', NULL, NULL),
+(58, 34, 19, 7, 'riconsegna', '2023-05-04 08:00:00', 4.75, 12),
+(59, 34, 20, 5, 'noleggio', '2023-05-05 04:45:00', NULL, NULL),
+(60, 34, 20, 3, 'riconsegna', '2023-05-05 05:30:00', 5.5, 8);
 
 -- --------------------------------------------------------
 
@@ -232,7 +248,7 @@ ALTER TABLE `operazione`
   ADD PRIMARY KEY (`ID`),
   ADD KEY `idCliente` (`idCliente`,`idBicicletta`),
   ADD KEY `idBicicletta` (`idBicicletta`),
-  ADD KEY `idStazionePartenza` (`idStazionePartenza`);
+  ADD KEY `idStazionePartenza` (`idStazione`);
 
 --
 -- Indici per le tabelle `stazione`
@@ -274,7 +290,7 @@ ALTER TABLE `indirizzo`
 -- AUTO_INCREMENT per la tabella `operazione`
 --
 ALTER TABLE `operazione`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
 
 --
 -- AUTO_INCREMENT per la tabella `stazione`
@@ -305,7 +321,7 @@ ALTER TABLE `cliente`
 ALTER TABLE `operazione`
   ADD CONSTRAINT `operazione_ibfk_2` FOREIGN KEY (`idBicicletta`) REFERENCES `bicicletta` (`ID`),
   ADD CONSTRAINT `operazione_ibfk_3` FOREIGN KEY (`idCliente`) REFERENCES `cliente` (`ID`),
-  ADD CONSTRAINT `operazione_ibfk_4` FOREIGN KEY (`idStazionePartenza`) REFERENCES `stazione` (`ID`);
+  ADD CONSTRAINT `operazione_ibfk_4` FOREIGN KEY (`idStazione`) REFERENCES `stazione` (`ID`);
 
 --
 -- Limiti per la tabella `stazione`
