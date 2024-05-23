@@ -150,7 +150,6 @@ $(document).ready(async function () {
     });
 
     genPopUpNewStation();
-    await loadRegioni();
     $("#regione").change(async function () {
         let denominazione_regione = ($("#regione").val() === null) ? "Abruzzo" : $("#regione").val();
 

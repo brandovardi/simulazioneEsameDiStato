@@ -69,6 +69,7 @@ if (
     $numeroCartaCredito = $_POST['numeroCartaCredito'];
 
     // faccio partire una transaction
+    $conn->autocommit(FALSE);
     $conn->begin_transaction();
 
     try {
