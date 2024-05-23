@@ -49,7 +49,7 @@ if (!isset($_SESSION['username']) || (!isset($_SESSION['isLogged']) || !$_SESSIO
 <body>
     <nav>
         <script>
-            generateNavBar();
+            generateNavBar("customer");
         </script>
     </nav>
 

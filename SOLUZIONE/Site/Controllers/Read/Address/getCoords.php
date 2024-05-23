@@ -19,10 +19,12 @@ if ($conn->connect_error) {
 
 $ID = $_SESSION['user_id'];
 if (isset($_SESSION['is_admin']) && $_SESSION['is_admin']) {
+    // coordinate di centro Italia per l'admin
     $latitudine = 43.0271328;
     $longitudine = 12.4570495;
     $array = array("status" => "success", "coords" => array("latitudine" => $latitudine, "longitudine" => $longitudine), "is_admin" => true);
     echo json_encode($array);
+    exit;
 }
 $select = "SELECT i.latitudine, i.longitudine FROM indirizzo AS i JOIN cliente AS c on i.ID = c.id_indirizzo WHERE c.ID = ?";
 $stmt = $conn->prepare($select);

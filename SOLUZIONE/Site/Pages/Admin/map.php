@@ -36,8 +36,8 @@ if (!isset($_SESSION['username']) || (!isset($_SESSION["isLogged"]) || !$_SESSIO
             justify-content: center;
             align-items: center;
             margin: 0 auto;
-            height: 500px;
-            width: 30%;
+            height: 700px;
+            width: 50%;
             border-radius: 5%;
             border: 2px solid gray;
         }
@@ -80,8 +80,6 @@ if (!isset($_SESSION['username']) || (!isset($_SESSION["isLogged"]) || !$_SESSIO
         </div>
     </div>
     <br>
-    <div id="map"></div>
-    <br>
     <div class="container">
         <div class="row">
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newStation">
@@ -92,6 +90,9 @@ if (!isset($_SESSION['username']) || (!isset($_SESSION["isLogged"]) || !$_SESSIO
             </button>
         </div>
     </div>
+    <br>
+    <div id="map"></div>
+    
 </body>
 
 </html>

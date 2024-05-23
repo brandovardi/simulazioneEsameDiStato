@@ -44,7 +44,7 @@ if (!isset($_SESSION['username']) || (!isset($_SESSION['isLogged']) || !$_SESSIO
 
     <nav>
         <script>
-            generateNavBar();
+            generateNavBar("customer");
         </script>
     </nav>
 

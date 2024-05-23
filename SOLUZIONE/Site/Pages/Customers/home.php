@@ -30,7 +30,6 @@ if (isset($_SESSION["is_admin"]) && $_SESSION["is_admin"] == true) {
     <script src="../../Js/Cdn/Bootstrap/bootstrap.min.js"></script>
 
     <link rel="stylesheet" href="../../Js/Map/leaflet/leaflet.css" />
-    <!-- Make sure you put this AFTER Leaflet's CSS -->
     <script src="../../Js/Map/leaflet/leaflet.js"></script>
     <script src="../../Js/request.js"></script>
     <script src="../../Js/Customers/home.js" defer></script>
@@ -42,8 +41,8 @@ if (isset($_SESSION["is_admin"]) && $_SESSION["is_admin"] == true) {
             align-items: center;
             margin: 0 auto;
             margin-top: 5%;
-            height: 500px;
-            width: 30%;
+            height: 700px;
+            width: 50%;
             border-radius: 5%;
             border: 2px solid gray;
         }
@@ -53,7 +52,7 @@ if (isset($_SESSION["is_admin"]) && $_SESSION["is_admin"] == true) {
 <body>
     <nav>
         <script>
-            generateNavBar();
+            generateNavBar("customer");
         </script>
     </nav>
 
