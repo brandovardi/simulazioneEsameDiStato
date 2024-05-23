@@ -5,7 +5,7 @@ if (!isset($_SESSION)) {
 }
 
 if (!isset($_SESSION['username']) || !isset($_SESSION["isLogged"]) || $_SESSION["isLogged"] == false) {
-    header("Location: ../login.php");
+    header("Location: ../../index.php");
     exit;
 }
 

@@ -6,7 +6,7 @@ if (!isset($_SESSION)) {
 }
 
 if (!isset($_SESSION['username']) || (!isset($_SESSION["isLogged"]) || !$_SESSION["isLogged"]) || (!isset($_SESSION["is_admin"]) || !$_SESSION["is_admin"])) {
-    header("Location: ../login.php");
+    header("Location: ../../index.php");
     exit;
 }
 

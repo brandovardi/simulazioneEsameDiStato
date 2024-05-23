@@ -6,13 +6,15 @@ if (!isset($_SESSION)) {
 }
 
 if (!isset($_SESSION['username']) || (!isset($_SESSION['isLogged']) || !$_SESSION['isLogged']) || !isset($_SESSION['user_id'])) {
-    return json_encode(array("status" => "errore", "message" => "Utente non autenticato"));
+    header("Location: ../../../index.php");
+    exit;
 }
 
 $conn = new mysqli($hostname, $username, $password, $database_simulazione);
 $conn->set_charset("utf8");
 if ($conn->connect_error) {
-    return json_encode(array("status" => "errore", "message" => "Connessione al database fallita"));
+    echo json_encode(array("status" => "errore", "message" => "Connessione al database fallita"));
+    exit;
 }
 
 $ID = $_SESSION['user_id'];
@@ -29,7 +31,8 @@ $stmt->execute();
 $result = $stmt->get_result();
 
 if ($result->num_rows <= 0) {
-    return json_encode(array("status" => "errore", "message" => "Utente non trovato"));
+    echo json_encode(array("status" => "errore", "message" => "Utente non trovato"));
+    exit;
 }
 
 $coords = $result->fetch_assoc();

@@ -6,7 +6,7 @@ if (!isset($_SESSION)) {
 }
 
 if (!isset($_SESSION['username']) || (!isset($_SESSION['isLogged']) || !$_SESSION['isLogged']) || !isset($_SESSION['user_id'])) {
-    echo json_encode(array("status" => "errore", "message" => "Utente non autenticato"));
+    header("Location: ../../../index.php");
     exit;
 }
 

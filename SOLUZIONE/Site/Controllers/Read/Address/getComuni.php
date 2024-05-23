@@ -5,6 +5,11 @@ if (!isset($_SESSION)) {
     session_start();
 }
 
+if (!isset($_SESSION['username']) || (!isset($_SESSION['isLogged']) || !$_SESSION['isLogged']) || !isset($_SESSION['user_id'])) {
+    header("Location: ../../../index.php");
+    exit;
+}
+
 if (!isset($_GET['sigla_provincia'])) {
     echo json_encode(array("status" => "error", "message" => "Parametri mancanti"));
     exit;

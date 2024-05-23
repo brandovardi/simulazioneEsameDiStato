@@ -4,8 +4,8 @@ if (!isset($_SESSION)) {
     session_start();
 }
 
-if (!isset($_SESSION['username'])) {
-    header("Location: ../login.php");
+if (!isset($_SESSION['username']) || (!isset($_SESSION["isLogged"]) || !$_SESSION["isLogged"]) || (!isset($_SESSION["is_admin"]) || !$_SESSION["is_admin"])) {
+    header("Location: ../../index.php");
     exit;
 }
 

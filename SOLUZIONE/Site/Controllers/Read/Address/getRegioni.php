@@ -5,6 +5,11 @@ if (!isset($_SESSION)) {
     session_start();
 }
 
+if (!isset($_SESSION['username']) || (!isset($_SESSION['isLogged']) || !$_SESSION['isLogged']) || !isset($_SESSION['user_id'])) {
+    header("Location: ../../../index.php");
+    exit;
+}
+
 $conn = new mysqli($hostname, $username, $password, $database_comuni);
 $conn->set_charset("utf8");
 
