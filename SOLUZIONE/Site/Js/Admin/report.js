@@ -42,7 +42,7 @@ async function changePagination() {
     $(event.target).parent().addClass('active');
     let page = $(event.target).text();
 
-    let tableData = await request('GET', '../../Controllers/Read/getReport.php', { pagina: page });
+    let tableData = await request('GET', '../../Controllers/Read/Admin/getReport.php', { pagina: page });
     tableData = JSON.parse(tableData);
 
     let reports = tableData.reports;

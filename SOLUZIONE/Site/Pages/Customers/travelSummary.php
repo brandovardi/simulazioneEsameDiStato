@@ -29,6 +29,7 @@ if (!isset($_SESSION['username']) || (!isset($_SESSION['isLogged']) || !$_SESSIO
     <script src="../../Js/Map/leaflet/leaflet.js"></script>
     <script src="../../Js/request.js"></script>
     <script src="../../Js/template.js"></script>
+    <script src="../../Js/Customers/travelSummary.js"></script>
     <style>
         .bordered-div {
             border: 2px solid black;
@@ -62,6 +63,7 @@ if (!isset($_SESSION['username']) || (!isset($_SESSION['isLogged']) || !$_SESSIO
                         <th scope="col">Bicicletta utilizzata</th>
                         <th scope="col">Distanza Percorsa</th>
                         <th scope="col">Data</th>
+                        <th scope="col">Tariffa</th>
                     </tr>
                 </thead>
                 <tbody id="summaryTable">

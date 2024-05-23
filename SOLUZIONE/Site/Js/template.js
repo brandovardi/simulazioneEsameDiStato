@@ -32,7 +32,7 @@ let navBarAdmin = `
             <a class="nav-link" href="./home.php">Home <span class="sr-only">(current)</span></a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="./mapView.php">Mappa</a>
+            <a class="nav-link" href="./map.php">Mappa</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="./report.php">Report</a>

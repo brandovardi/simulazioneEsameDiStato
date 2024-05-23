@@ -26,6 +26,7 @@ $message = $_POST['message'];
 // creo un oggetto PHPMailer
 $mail = new PHPMailer(true);
 
+// controllo se l'email è registrata
 $conn = new mysqli($hostname, $username, $password, $database_simulazione);
 $select = "SELECT * FROM cliente WHERE email = ?";
 $stmt = $conn->prepare($select);
