@@ -1,6 +1,6 @@
 $(document).ready(async function () {
 
-    let tableData = await request('GET', '../../Controllers/Get/getReport.php', {});
+    let tableData = await request('GET', '../../Controllers/Get/Admin/getReport.php', {});
     tableData = JSON.parse(tableData);
 
     let reports = tableData.reports;

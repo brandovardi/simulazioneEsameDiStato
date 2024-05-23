@@ -29,6 +29,14 @@ if (!isset($_SESSION['username']) || (!isset($_SESSION['isLogged']) || !$_SESSIO
     <script src="../../Js/Map/leaflet/leaflet.js"></script>
     <script src="../../Js/request.js"></script>
     <script src="../../Js/template.js"></script>
+    <style>
+        .bordered-div {
+            border: 2px solid black;
+            border-radius: 5px;
+            padding: 20px;
+            margin: 20px;
+        }
+    </style>
 </head>
 
 <body>
@@ -40,6 +48,34 @@ if (!isset($_SESSION['username']) || (!isset($_SESSION['isLogged']) || !$_SESSIO
     </nav>
 
     
+    <h1 align="center">Riepilogo Viaggi</h1>
+
+    <div class="container">
+        <div class="bordered-div">
+            <h2 class="text-center">Viaggi Completati</h2>
+            <table class="table table-striped table-bordered">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Stazione di Partenza</th>
+                        <th scope="col">Stazione d'Arrivo</th>
+                        <th scope="col">Bicicletta utilizzata</th>
+                        <th scope="col">Distanza Percorsa</th>
+                        <th scope="col">Data</th>
+                    </tr>
+                </thead>
+                <tbody id="summaryTable">
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="container">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center" id="pagination">
+            </ul>
+        </nav>
+    </div>
 
 </body>
 
