@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Mag 23, 2024 alle 00:18
+-- Creato il: Mag 23, 2024 alle 11:37
 -- Versione del server: 10.4.32-MariaDB
--- Versione PHP: 8.2.12
+-- Versione PHP: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -68,7 +68,7 @@ CREATE TABLE `bicicletta` (
 --
 
 INSERT INTO `bicicletta` (`ID`, `codice`, `id_stazione`, `manutenzione`, `GPS`, `RFID`, `kmEffettuati`, `id_posizione`) VALUES
-(17, 'B000001', 9, 1, 'GPS12342134', 'RFID12342134', 220, 18),
+(17, 'B000001', 4, 1, 'GPS12342134', 'RFID12342134', 220, 13),
 (18, 'B000002', 9, 0, 'GPS21345', 'RFID2345', 150, 18),
 (19, 'B000003', 4, 0, 'GPS324213', 'RFID2435', 80, 13),
 (20, 'B000004', 4, 0, 'GPS1234', 'RFID23456', 64, 13);
@@ -100,7 +100,7 @@ INSERT INTO `cliente` (`ID`, `nome`, `cognome`, `username`, `password`, `id_indi
 (3, 'ajeje', 'brazorf', 'a_b', 'af26ae04a962399d2758055d4f09570dcd519ae725c8a28ba6c61e6b57550c75', 10, 'aje_braz@mail.com', '9786-1324-7564-3546', '0000000'),
 (13, 'Amedeo', 'Fumagalli', 'ame_fuma', '4d0782767987d11e8aaa1f07a5be55eae043c714e02d872ada52875a9b611be7', 11, 'ame.fuma@mail.com', '0909-1212-5454-8989', '0000001'),
 (29, 'Asd', 'Asd', 'asd_asd', '688787d8ff144c502c7f5cffaafe2cc588d86079f9de88304c26b0cb99ce91c6', 13, 'asd@asd.asd', '1234-5678-9012-3456', '0000002'),
-(34, 'Pietro', 'Brandovardi', 'brando_', 'd07ee7e529af02ace472e74ef4be1bd92f3604f6c3a5b11602aad4496161ecb3', 9, 'brandovardipietro@outlook.it', '1231-2312-3123-1231', '0000003');
+(34, 'Pietro', 'Brandovardi', 'brandu_', 'd07ee7e529af02ace472e74ef4be1bd92f3604f6c3a5b11602aad4496161ecb3', 9, 'brandovardipietro@outlook.it', '1231-2312-3123-1231', '0000003');
 
 -- --------------------------------------------------------
 
@@ -153,9 +153,8 @@ CREATE TABLE `operazione` (
   `idCliente` int(11) NOT NULL,
   `idBicicletta` int(11) NOT NULL,
   `idStazionePartenza` int(11) NOT NULL,
-  `idStazioneArrivo` int(11) DEFAULT NULL,
-  `inizio_noleggio` timestamp NOT NULL DEFAULT current_timestamp(),
-  `fine_noleggio` timestamp NULL DEFAULT NULL,
+  `tipo` enum('noleggio','riconsegna') NOT NULL,
+  `timestamp` timestamp NOT NULL DEFAULT current_timestamp(),
   `tariffa` float DEFAULT NULL,
   `kmEffettuati` int(32) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -233,8 +232,7 @@ ALTER TABLE `operazione`
   ADD PRIMARY KEY (`ID`),
   ADD KEY `idCliente` (`idCliente`,`idBicicletta`),
   ADD KEY `idBicicletta` (`idBicicletta`),
-  ADD KEY `idStazionePartenza` (`idStazionePartenza`,`idStazioneArrivo`),
-  ADD KEY `idStazioneArrivo` (`idStazioneArrivo`);
+  ADD KEY `idStazionePartenza` (`idStazionePartenza`);
 
 --
 -- Indici per le tabelle `stazione`
@@ -307,8 +305,7 @@ ALTER TABLE `cliente`
 ALTER TABLE `operazione`
   ADD CONSTRAINT `operazione_ibfk_2` FOREIGN KEY (`idBicicletta`) REFERENCES `bicicletta` (`ID`),
   ADD CONSTRAINT `operazione_ibfk_3` FOREIGN KEY (`idCliente`) REFERENCES `cliente` (`ID`),
-  ADD CONSTRAINT `operazione_ibfk_4` FOREIGN KEY (`idStazionePartenza`) REFERENCES `stazione` (`ID`),
-  ADD CONSTRAINT `operazione_ibfk_5` FOREIGN KEY (`idStazioneArrivo`) REFERENCES `stazione` (`ID`);
+  ADD CONSTRAINT `operazione_ibfk_4` FOREIGN KEY (`idStazionePartenza`) REFERENCES `stazione` (`ID`);
 
 --
 -- Limiti per la tabella `stazione`

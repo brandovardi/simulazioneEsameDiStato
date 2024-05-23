@@ -29,32 +29,19 @@ if (!isset($_SESSION['username']) || (!isset($_SESSION['isLogged']) || !$_SESSIO
     <script src="../../Js/Map/leaflet/leaflet.js"></script>
     <script src="../../Js/request.js"></script>
     <script src="../../Js/template.js"></script>
-    <script>
-        $(document).ready(async function () {
-            let response = await request("POST", "../../Controllers/Get/Customers/getProfile.php", {});
-            response = JSON.parse(response);
-
-            if (response.status == "success") {
-                var user = response.user;
-                $("#username").val(user.username);
-                $("#nome").val(user.nome);
-                $("#cognome").val(user.cognome);
-                $("#email").val(user.email);
-                $("#numeroTessera").val(user.numeroTessera);
-            }
-            else {
-                alert(response.message);
-            }
-        });
-        function showCardNumber() {
-            $("#numeroTessera").prop("type", $("#numeroTessera").prop("type") === "password" ? "text" : "password");
-            $("#btnShowCardNumber").text($("#btnShowCardNumber").text() === "Mostra numero tessera" ? "Nascondi numero tessera" : "Mostra numero tessera");
-        }
-    </script>
+    <script src="../../Js/Customers/profile.js" defer></script>
     <style>
         input {
             width: 30%;
             margin: 10px;
+        }
+
+        .form-container {
+            border: 2px solid black;
+            padding: 30px;
+            border-radius: 8px;
+            background-color: #f8f9fa;
+            width: 60%;
         }
     </style>
 </head>
@@ -66,39 +53,65 @@ if (!isset($_SESSION['username']) || (!isset($_SESSION['isLogged']) || !$_SESSIO
         </script>
     </nav>
 
-    <h1 align="center">Il tuo profilo</h1>
-
-    <div class="container">
-        <div class="row">
-            <div class="col">
-                <h3>Username</h3>
-                <input type="text" id="username" disabled />
-            </div>
-        </div>
-        <div class="row">
-            <div class="col">
-                <h3>Nome</h3>
-                <input type="text" id="nome" disabled />
-            </div>
-        </div>
-        <div class="row">
-            <div class="col">
-                <h3>Cognome</h3>
-                <input type="text" id="cognome" disabled />
-            </div>
-        </div>
-        <div class="row">
-            <div class="col">
-                <h3>Email</h3>
-                <input type="email" id="email" disabled />
-            </div>
-        </div>
-        <div class="row">
-            <div class="col">
-                <h3>Numero tessera</h3>
-                <input type="password" id="numeroTessera" disabled />
-                <button id="btnShowCardNumber" onclick="showCardNumber()">Mostra numero tessera</button>
-            </div>
+    <div align="center">
+        <div class="form-container" align="center">
+            <h1 class="text-center mb-4">Il Tuo Profilo</h1>
+            <form id="profileForm">
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="nome">Nome</label>
+                        <input type="text" class="form-control" id="nome" readonly />
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="cognome">Cognome</label>
+                        <input type="text" class="form-control" id="cognome" readonly />
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="email">Email</label>
+                        <input type="text" class="form-control" id="email" readonly />
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="regione">Regione</label>
+                        <select class="form-control" id="regione" disabled></select>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="provincia">Provincia</label>
+                        <select class="form-control" id="provincia" disabled></select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="comune">Comune</label>
+                        <select class="form-control" id="comune" disabled></select>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="cap">CAP</label>
+                        <input type="text" class="form-control" id="cap" readonly disabled />
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="via">Via/Viale/Piazza</label>
+                        <input type="text" class="form-control" id="via" readonly />
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="numeroCivico">Numero Civico</label>
+                        <input type="text" class="form-control" id="numeroCivico" readonly />
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="numeroCartaCredito">Numero Carta Di Credito</label>
+                        <input type="text" class="form-control" id="numeroCartaCredito" readonly disabled />
+                    </div>
+                </div>
+                <button type="button" class="btn btn-primary" id="modifica">Modifica</button>
+                <button type="button" class="btn btn-success" id="conferma" disabled>Conferma</button>
+            </form>
         </div>
     </div>
 

@@ -13,7 +13,7 @@ let navBar = `
             <a class="nav-link" href="./profile.php">Profilo</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="./profile.php">Riepiloghi Viaggi</a>
+            <a class="nav-link" href="./travelSummary.php">Riepiloghi Viaggi</a>
         </li>
     </ul>
     <button class="btn btn-danger" onclick="window.location.href='../logout.php'">Logout</button>
