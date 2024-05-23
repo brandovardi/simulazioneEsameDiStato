@@ -2,7 +2,7 @@ $(document).ready(function () {
     $("#regione").change(async function () {
         denominazione_regione = ($("#regione").val() === null) ? "Abruzzo" : $("#regione").val();
         
-        let province = await request("GET", "../Controllers/Get/Address/getProvince.php", { denominazione_regione: denominazione_regione });
+        let province = await request("GET", "../Controllers/Read/Address/getProvince.php", { denominazione_regione: denominazione_regione });
         province = JSON.parse(province).province;
 
         let selectProv = $("#provincia");
@@ -18,7 +18,7 @@ $(document).ready(function () {
     $("#provincia").change(async function () {
         let sigla_provincia = $("#provincia").val().split("-")[0];
 
-        let comuni = await request("GET", "../Controllers/Get/Address/getComuni.php", { sigla_provincia: sigla_provincia });
+        let comuni = await request("GET", "../Controllers/Read/Address/getComuni.php", { sigla_provincia: sigla_provincia });
         comuni = JSON.parse(comuni).comuni;
 
         let selectComune = $("#comune");
@@ -34,7 +34,7 @@ $(document).ready(function () {
     $("#comune").change(async function () {
         let denominazione_ita_altra = $("#comune").val();
 
-        let cap = await request("GET", "../Controllers/Get/Address/getCap.php", { denominazione_ita_altra: denominazione_ita_altra });
+        let cap = await request("GET", "../Controllers/Read/Address/getCap.php", { denominazione_ita_altra: denominazione_ita_altra });
         cap = JSON.parse(cap).cap;
 
         $("#cap").val(cap);
@@ -214,7 +214,7 @@ function validateEmail(email) {
 }
 
 async function loadRegioni() {
-    let regioni = await request("GET", "../Controllers/Get/Address/getRegioni.php", {});
+    let regioni = await request("GET", "../Controllers/Read/Address/getRegioni.php", {});
     regioni = JSON.parse(regioni).regioni;
     let selectReg = $("#regione");
     regioni.forEach(regione => {

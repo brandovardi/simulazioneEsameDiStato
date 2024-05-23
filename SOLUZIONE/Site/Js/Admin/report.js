@@ -1,6 +1,6 @@
 $(document).ready(async function () {
 
-    let tableData = await request('GET', '../../Controllers/Get/Admin/getReport.php', {});
+    let tableData = await request('GET', '../../Controllers/Read/Admin/getReport.php', {});
     tableData = JSON.parse(tableData);
 
     let reports = tableData.reports;
@@ -42,7 +42,7 @@ async function changePagination() {
     $(event.target).parent().addClass('active');
     let page = $(event.target).text();
 
-    let tableData = await request('GET', '../../Controllers/Get/getReport.php', { pagina: page });
+    let tableData = await request('GET', '../../Controllers/Read/getReport.php', { pagina: page });
     tableData = JSON.parse(tableData);
 
     let reports = tableData.reports;
@@ -69,7 +69,7 @@ async function genStazioni(code) {
     select.addClass("form-control");
     select.attr("id", code);
 
-    let jsonStations = JSON.parse(await request("GET", "../../Controllers/Get/Address/getStationAddress.php", {})).coords;
+    let jsonStations = JSON.parse(await request("GET", "../../Controllers/Read/Address/getStationAddress.php", {})).coords;
 
     select.append(`<option value="null">Nessuna</option>`);
     jsonStations.forEach(station => {

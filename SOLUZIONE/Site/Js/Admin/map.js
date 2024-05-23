@@ -1,5 +1,5 @@
 $(document).ready(async function () {
-    let coords = await request("GET", "../../Controllers/Get/Address/getCoords.php", {});
+    let coords = await request("GET", "../../Controllers/Read/Address/getCoords.php", {});
     let jsonCoords = JSON.parse(coords);
     coords = jsonCoords.coords;
 
@@ -13,7 +13,7 @@ $(document).ready(async function () {
         maxZoom: 19
     }).addTo(map);
 
-    let response = await request("GET", "../../Controllers/Get/Address/getStationAddress.php", {});
+    let response = await request("GET", "../../Controllers/Read/Address/getStationAddress.php", {});
     let jsonStation = JSON.parse(response);
     let stationCoords = jsonStation.coords;
 
@@ -113,7 +113,7 @@ $(document).ready(async function () {
     $("#regione").change(async function () {
         denominazione_regione = ($("#regione").val() === null) ? "Abruzzo" : $("#regione").val();
 
-        let province = await request("GET", "../../Controllers/Get/Address/getProvince.php", { denominazione_regione: denominazione_regione });
+        let province = await request("GET", "../../Controllers/Read/Address/getProvince.php", { denominazione_regione: denominazione_regione });
         province = JSON.parse(province).province;
 
         let selectProv = $("#provincia");
@@ -129,7 +129,7 @@ $(document).ready(async function () {
     $("#provincia").change(async function () {
         let sigla_provincia = $("#provincia").val().split("-")[0];
 
-        let comuni = await request("GET", "../../Controllers/Get/Address/getComuni.php", { sigla_provincia: sigla_provincia });
+        let comuni = await request("GET", "../../Controllers/Read/Address/getComuni.php", { sigla_provincia: sigla_provincia });
         comuni = JSON.parse(comuni).comuni;
 
         let selectComune = $("#comune");
@@ -145,7 +145,7 @@ $(document).ready(async function () {
     $("#comune").change(async function () {
         let denominazione_ita_altra = $("#comune").val();
 
-        let cap = await request("GET", "../../Controllers/Get/Address/getCap.php", { denominazione_ita_altra: denominazione_ita_altra });
+        let cap = await request("GET", "../../Controllers/Read/Address/getCap.php", { denominazione_ita_altra: denominazione_ita_altra });
         cap = JSON.parse(cap).cap;
 
         $("#cap").val(cap[0]);
@@ -180,7 +180,7 @@ $(document).ready(async function () {
 
     genPopUpNewBike();
     $('#newBike').on('show.bs.modal', async function (e) {
-        let response = await request("GET", "../../Controllers/Get/Address/getStationAddress.php", {});
+        let response = await request("GET", "../../Controllers/Read/Address/getStationAddress.php", {});
         let jsonCoords = JSON.parse(response).coords;
 
         let select = $("#stazione");
@@ -217,7 +217,7 @@ $(document).ready(async function () {
 });
 
 async function loadRegioni() {
-    let regioni = await request("GET", "../../Controllers/Get/Address/getRegioni.php", {});
+    let regioni = await request("GET", "../../Controllers/Read/Address/getRegioni.php", {});
     regioni = JSON.parse(regioni).regioni;
     let selectReg = $("#regione");
     regioni.forEach(regione => {
@@ -539,7 +539,7 @@ function popupConfirmDeleteStation() {
 async function insertDataIntoPopup(codice, type) {
 
     if (type == "station") {
-        let response = await request("GET", "../../Controllers/Get/Address/getStationAddress.php", {});
+        let response = await request("GET", "../../Controllers/Read/Address/getStationAddress.php", {});
         let jsonCoords = JSON.parse(response).coords;
 
         for (let i = 0; i < jsonCoords.length; i++) {
@@ -563,7 +563,7 @@ async function insertDataIntoPopup(codice, type) {
         $('body').append(`<input type="hidden" id="codiceStazione" value="${jsonCoords.codice}">`);
     }
     else if (type == "bikes") {
-        let response = await request("GET", "../../Controllers/Get/Address/getBikeAddress.php", { codice: codice });
+        let response = await request("GET", "../../Controllers/Read/Address/getBikeAddress.php", { codice: codice });
         let jsonCoords = JSON.parse(response).coords;
         console.log(jsonCoords);
 
@@ -627,13 +627,13 @@ async function insertDataIntoPopup(codice, type) {
         }
     }
     else if (type == "bike") {
-        let response = await request("GET", "../../Controllers/Get/Address/getBikeAddress.php", { codiceBici: codice });
+        let response = await request("GET", "../../Controllers/Read/Address/getBikeAddress.php", { codiceBici: codice });
         let jsonCoords = JSON.parse(response).coords;
 
         let select = $("#stazione_" + codice);
         select.html("");
 
-        let responseStations = await request("GET", "../../Controllers/Get/Address/getStationAddress.php", {});
+        let responseStations = await request("GET", "../../Controllers/Read/Address/getStationAddress.php", {});
         let jsonStations = JSON.parse(responseStations).coords;
 
         select.append(`<option value="null">Nessuna</option>`);

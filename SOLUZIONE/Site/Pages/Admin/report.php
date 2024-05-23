@@ -29,7 +29,7 @@ if (!isset($_SESSION['username']) || (!isset($_SESSION["isLogged"]) || !$_SESSIO
     <script src="../../Js/Map/leaflet/leaflet.js"></script>
     <script src="../../Js/request.js"></script>
     <script src="../../Js/template.js"></script>
-    <script src="../../Js/adminReport.js" defer></script>
+    <script src="../../Js/Admin/report.js" defer></script>
     <style>
         .bordered-div {
             border: 2px solid black;

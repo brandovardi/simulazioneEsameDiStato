@@ -1,5 +1,5 @@
 $(document).ready(async function () {
-    let coords = await request("GET", "../../Controllers/Get/Address/getCoords.php", {});
+    let coords = await request("GET", "../../Controllers/Read/Address/getCoords.php", {});
     let jsonCoords = JSON.parse(coords);
     coords = jsonCoords.coords;
 
@@ -19,7 +19,7 @@ $(document).ready(async function () {
         maxZoom: 19
     }).addTo(map);
 
-    let response = await request("GET", "../../Controllers/Get/Address/getStationAddress.php", {});
+    let response = await request("GET", "../../Controllers/Read/Address/getStationAddress.php", {});
     let jsonStation = JSON.parse(response);
     let stationCoords = jsonStation.coords;
 

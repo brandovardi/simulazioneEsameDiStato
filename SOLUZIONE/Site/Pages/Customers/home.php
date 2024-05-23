@@ -33,7 +33,7 @@ if (isset($_SESSION["is_admin"]) && $_SESSION["is_admin"] == true) {
     <!-- Make sure you put this AFTER Leaflet's CSS -->
     <script src="../../Js/Map/leaflet/leaflet.js"></script>
     <script src="../../Js/request.js"></script>
-    <script src="../../Js/Map/map.js" defer></script>
+    <script src="../../Js/Customers/home.js" defer></script>
     <script src="../../Js/template.js"></script>
     <style>
         #map {
