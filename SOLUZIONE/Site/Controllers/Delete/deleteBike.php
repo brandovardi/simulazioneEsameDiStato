@@ -27,7 +27,13 @@ if ($conn->connect_error) {
 $conn->autocommit(false);
 $conn->begin_transaction();
 
-// poi cancello la stazione
+// setto a null tutte le operazioni collegate alla bicicletta
+$update = "UPDATE operazione SET id_bicicletta = NULL WHERE id_bicicletta = (SELECT ID FROM bicicletta WHERE codice = ?)";
+$stmt = $conn->prepare($update);
+$stmt->bind_param("s", $codice);
+$stmt->execute();
+
+// poi cancello la bicicletta
 $delete = "DELETE FROM bicicletta WHERE codice = ?";
 $stmt = $conn->prepare($delete);
 $stmt->bind_param("s", $codice);

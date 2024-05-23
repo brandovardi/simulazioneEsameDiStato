@@ -33,6 +33,12 @@ $stmt = $conn->prepare($update);
 $stmt->bind_param("s", $codice);
 $stmt->execute();
 
+// vado a settare a null tutte le operazioni relative alla stazione
+$update = "UPDATE operazione SET id_stazione = NULL WHERE id_stazione = (SELECT ID FROM stazione WHERE codice = ?)";
+$stmt = $conn->prepare($update);
+$stmt->bind_param("s", $codice);
+$stmt->execute();
+
 // poi cancello la stazione
 $delete = "DELETE FROM stazione WHERE codice = ?";
 $stmt = $conn->prepare($delete);

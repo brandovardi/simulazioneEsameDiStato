@@ -26,9 +26,9 @@ if (isset($_GET["pagina"])) {
 $selectNoleggio = "SELECT DATE(o.timestamp) AS dataNoleggio, CONCAT(i.comune, ' (', s.codice, ')') AS stazionePartenza, b.codice AS bicicletta
 FROM operazione AS o
 JOIN cliente AS c ON o.id_cliente = c.ID
-JOIN stazione AS s ON o.id_stazione = s.ID
-JOIN indirizzo AS i ON s.id_indirizzo = i.ID
-JOIN bicicletta AS b ON o.id_bicicletta = b.ID
+LEFT JOIN stazione AS s ON o.id_stazione = s.ID
+LEFT JOIN indirizzo AS i ON s.id_indirizzo = i.ID
+LEFT JOIN bicicletta AS b ON o.id_bicicletta = b.ID
 WHERE c.ID = ? AND o.tipo = 'noleggio'
 ORDER BY o.timestamp DESC
 LIMIT " . (($pagina - 1) * 10) . ", 10;";
@@ -42,9 +42,9 @@ $resultNoleggio = $resultNoleggio->fetch_all(MYSQLI_ASSOC);
 $selectRiconsegna = "SELECT DATE(o.timestamp) AS dataRiconsegna, CONCAT(i.comune, ' (', s.codice, ')') AS stazioneArrivo, o.kmEffettuati, o.tariffa
 FROM operazione AS o
 JOIN cliente AS c ON o.id_cliente = c.ID
-JOIN stazione AS s ON o.id_stazione = s.ID
-JOIN indirizzo AS i ON s.id_indirizzo = i.ID
-JOIN bicicletta AS b ON o.id_bicicletta = b.ID
+LEFT JOIN stazione AS s ON o.id_stazione = s.ID
+LEFT JOIN indirizzo AS i ON s.id_indirizzo = i.ID
+LEFT JOIN bicicletta AS b ON o.id_bicicletta = b.ID
 WHERE c.ID = ? AND o.tipo = 'riconsegna'
 ORDER BY o.timestamp DESC
 LIMIT " . (($pagina - 1) * 10) . ", 10;";
@@ -60,14 +60,14 @@ $viaggi = array();
 foreach ($resultNoleggio as $noleggio) {
     $viaggio = array();
     $viaggio['data'] = $noleggio['dataNoleggio'];
-    $viaggio['stazionePartenza'] = $noleggio['stazionePartenza'];
-    $viaggio['bicicletta'] = $noleggio['bicicletta'];
-    $viaggio['stazioneArrivo'] = "";
-    $viaggio['kmEffettuati'] = "";
-    $viaggio['tariffa'] = "";
+    $viaggio['stazionePartenza'] = $noleggio['stazionePartenza'] == null ? "Stazione non trovata" : $noleggio['stazionePartenza'];
+    $viaggio['bicicletta'] = $noleggio['bicicletta'] == null ? "Bicicletta non trovata" : $noleggio['bicicletta'];
+    $viaggio['stazioneArrivo'] = "Stazione non trovata";
+    $viaggio['kmEffettuati'] = "Distanza non trovata";
+    $viaggio['tariffa'] = "Tariffa non trovata";
     foreach ($resultRiconsegna as $riconsegna) {
         if ($noleggio['dataNoleggio'] == $riconsegna['dataRiconsegna']) {
-            $viaggio['stazioneArrivo'] = $riconsegna['stazioneArrivo'];
+            $viaggio['stazioneArrivo'] = $riconsegna['stazioneArrivo'] == null ? "Stazione non trovata" : $riconsegna['stazioneArrivo'];
             $viaggio['kmEffettuati'] = $riconsegna['kmEffettuati'];
             $viaggio['tariffa'] = $riconsegna['tariffa'];
             break;

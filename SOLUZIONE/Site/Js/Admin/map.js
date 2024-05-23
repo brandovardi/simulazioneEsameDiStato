@@ -44,6 +44,46 @@ $(document).ready(async function () {
             let codice = $(this).attr('id').split('_')[1];
 
             insertDataIntoPopup(codice, "station");
+            $("#regione_" + codice).change(async function () {
+                denominazione_regione = ($("#regione_" + codice).val() === null) ? "Abruzzo" : $("#regione_" + codice).val();
+
+                let province = await request("GET", "../../Controllers/Read/Address/getProvince.php", { denominazione_regione: denominazione_regione });
+                province = JSON.parse(province).province;
+
+                let selectProv = $("#provincia_" + codice);
+                selectProv.html("");
+
+                province.forEach(provincia => {
+                    selectProv.append(`<option value="${provincia.split("-")[0]}">${provincia}</option>`);
+                });
+
+                await $("#provincia_" + codice).trigger("change");
+            });
+
+            $("#provincia_" + codice).change(async function () {
+                let sigla_provincia = $("#provincia_" + codice).val();
+
+                let comuni = await request("GET", "../../Controllers/Read/Address/getComuni.php", { sigla_provincia: sigla_provincia });
+                comuni = JSON.parse(comuni).comuni;
+
+                let selectComune = $("#comune_" + codice);
+                selectComune.html("");
+
+                comuni.forEach(comune => {
+                    selectComune.append(`<option value="${comune}">${comune}</option>`);
+                });
+
+                await $("#comune_" + codice).trigger("change");
+            });
+
+            $("#comune_" + codice).change(async function () {
+                let denominazione_ita_altra = $("#comune_" + codice).val();
+
+                let cap = await request("GET", "../../Controllers/Read/Address/getCap.php", { denominazione_ita_altra: denominazione_ita_altra });
+                cap = JSON.parse(cap).cap[0];
+
+                $("#cap_"+ codice).val(cap);
+            });
         });
         genPopUpModifyBike(code);
         $('#editBikes_' + code).on('show.bs.modal', async function (e) {
@@ -110,8 +150,9 @@ $(document).ready(async function () {
     });
 
     genPopUpNewStation();
+    await loadRegioni();
     $("#regione").change(async function () {
-        denominazione_regione = ($("#regione").val() === null) ? "Abruzzo" : $("#regione").val();
+        let denominazione_regione = ($("#regione").val() === null) ? "Abruzzo" : $("#regione").val();
 
         let province = await request("GET", "../../Controllers/Read/Address/getProvince.php", { denominazione_regione: denominazione_regione });
         province = JSON.parse(province).province;
@@ -361,21 +402,21 @@ function genPopUpModifyStation(id) {
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="regione_${id}">Regione:</label>
-                                <input type="text" class="form-control" id="regione_${id}" />
+                                <select name="regione_${id}" class="form-control" id="regione_${id}"></select>
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="provincia_${id}">Provincia:</label>
-                                <input type="text" class="form-control" id="provincia_${id}" />
+                                <select name="provincia_${id}" class="form-control" id="provincia_${id}"></select>
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="comune_${id}">Comune:</label>
-                                <input type="text" class="form-control" id="comune_${id}" />
+                                <select name="comune_${id}" class="form-control" id="comune_${id}"></select>
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="cap_${id}">CAP:</label>
-                                <input type="number" class="form-control" id="cap_${id}" />
+                                <input type="text" class="form-control" id="cap_${id}" readonly disabled />
                             </div>
                         </div>
                         <div class="form-row">
@@ -536,6 +577,42 @@ function popupConfirmDeleteStation() {
     $("body").append(confirmModal);
 }
 
+async function loadRegioni(codice = null) {
+    if (codice == null) {
+        let regioni = await request("GET", "../../Controllers/Read/Address/getRegioni.php", {});
+        regioni = JSON.parse(regioni).regioni;
+        let selectReg = $("#regione");
+        regioni.forEach(regione => {
+            selectReg.append(`<option value="${regione}">${regione}</option>`);
+        });
+        return;
+    }
+    let regioni = await request("GET", "../../Controllers/Read/Address/getRegioni.php", {});
+    regioni = JSON.parse(regioni).regioni;
+    let selectReg = $("#regione_" + codice);
+    regioni.forEach(regione => {
+        selectReg.append(`<option value="${regione}">${regione}</option>`);
+    });
+}
+
+async function loadProvince(regione = "Abruzzo") {
+    let province = await request("GET", "../../Controllers/Read/Address/getProvince.php", { denominazione_regione: regione });
+    province = JSON.parse(province).province;
+    let selectProv = $("#provincia");
+    province.forEach(provincia => {
+        selectProv.append(`<option value="${provincia.split("-")[0]}">${provincia}</option>`);
+    });
+}
+
+async function loadComuni(provincia = "CH") {
+    let comuni = await request("GET", "../../Controllers/Read/Address/getComuni.php", { sigla_provincia: provincia });
+    comuni = JSON.parse(comuni).comuni;
+    let selectComune = $("#comune");
+    comuni.forEach(comune => {
+        selectComune.append(`<option value="${comune}">${comune}</option>`);
+    });
+}
+
 async function insertDataIntoPopup(codice, type) {
 
     if (type == "station") {
@@ -550,10 +627,19 @@ async function insertDataIntoPopup(codice, type) {
         }
 
         $('#codice_' + codice).val(jsonCoords.codice);
-        $('#regione_' + codice).val(jsonCoords.regione);
-        $('#provincia_' + codice).val(jsonCoords.provincia);
-        $('#comune_' + codice).val(jsonCoords.comune);
-        $('#cap_' + codice).val(jsonCoords.cap);
+
+        await loadRegioni(codice);
+        $("#regione_" + codice).val(jsonCoords.regione);
+        await $("#regione_" + codice).trigger("change");
+
+        await loadProvince($("#regione_" + codice).val());
+        $("#provincia_" + codice).val(jsonCoords.provincia);
+        await $("#provincia_" + codice).trigger("change");
+
+        await loadComuni($("#provincia_" + codice).val());
+        $("#comune_" + codice).val(jsonCoords.comune);
+        await $("#comune_" + codice).trigger("change");
+
         $('#via_' + codice).val(jsonCoords.via);
         $('#numeroCivico_' + codice).val(jsonCoords.numeroCivico);
 
@@ -565,7 +651,6 @@ async function insertDataIntoPopup(codice, type) {
     else if (type == "bikes") {
         let response = await request("GET", "../../Controllers/Read/Address/getBikeAddress.php", { codice: codice });
         let jsonCoords = JSON.parse(response).coords;
-        console.log(jsonCoords);
 
         let table = $('#editBikes_' + codice + ' tbody');
         table.html("");

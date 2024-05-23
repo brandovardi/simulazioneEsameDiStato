@@ -39,7 +39,7 @@ $(document).ready(async function () {
         let denominazione_ita_altra = $("#comune").val();
 
         let cap = await request("GET", "../../Controllers/Read/Address/getCap.php", { denominazione_ita_altra: denominazione_ita_altra });
-        cap = JSON.parse(cap).cap;
+        cap = JSON.parse(cap).cap[0];
 
         $("#cap").val(cap);
     });
