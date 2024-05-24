@@ -22,6 +22,17 @@ $conn->begin_transaction();
 
 $distanzaPercorsa = 0;
 
+// verifiche che la bici esista
+$select = "SELECT ID FROM bicicletta WHERE GPS = ?";
+$stmt = $conn->prepare($select);
+$stmt->bind_param("s", $GPS);
+$stmt->execute();
+$result = $stmt->get_result();
+if ($result->num_rows == 0) {
+    echo json_encode(array("status" => "error", "message" => "Bicicletta non trovata"));
+    exit;
+}
+
 $select = "SELECT o.ID, o.kmEffettuati AS opKM, b.id_posizione, b.kmEffettuati AS bKM FROM operazione AS o
 JOIN bicicletta AS b ON o.id_bicicletta = b.ID
 WHERE o.id_bicicletta = (SELECT ID FROM bicicletta WHERE GPS = ?)

@@ -21,6 +21,17 @@ if ($conn->connect_error) {
 $conn->autocommit(FALSE);
 $conn->begin_transaction();
 
+// controllo che il cliente esista
+$select = "SELECT ID FROM cliente WHERE numeroTessera = ?";
+$stmt = $conn->prepare($select);
+$stmt->bind_param("s", $numeroTessera);
+$stmt->execute();
+$result = $stmt->get_result();
+if ($result->num_rows == 0) {
+    echo json_encode(array("status" => "error", "message" => "Cliente non trovato"));
+    exit;
+}
+
 if ($tipoOperazione == "noleggio") {
     // inserisco l'operazione di noleggio
     $insert = "INSERT INTO operazione (id_cliente, id_bicicletta, id_stazione, tipo, timestamp, tariffa, kmEffettuati)
@@ -66,7 +77,6 @@ if ($tipoOperazione == "noleggio") {
         exit;
     }
     $kmEffettuati = $row['kmEffettuati'];
-    echo "kmEffettuati: " . $kmEffettuati;
     $oraPartenza = $row['oraPartenza'];
     $id_operazione = $row['ID'];
     $stmt->close();
