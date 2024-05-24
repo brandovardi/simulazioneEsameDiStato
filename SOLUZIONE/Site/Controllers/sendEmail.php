@@ -34,6 +34,7 @@ $stmt->bind_param("s", $email);
 $stmt->execute();
 $result = $stmt->get_result();
 $stmt->close();
+print_r($result);
 
 if ($result->num_rows == 0) {
     echo json_encode(array("status" => "error", "message" => "Email non registrata"));
@@ -68,8 +69,12 @@ try {
 
     // invio l'email
     $mail->send();
-    session_unset();
-    $_SESSION["mail-sent"] = true;
+    if (isset($_SESSION['cardReset']) && $_SESSION['cardReset']) {
+        $_SESSION["numeroTessera"] = null;
+    }
+    else {
+        $_SESSION["mail-sent"] = true;
+    }
     echo json_encode(array("status" => "success"));
 } catch (Exception $e) {
     echo json_encode(array("status" => "error", "message" => "Errore nell'invio dell'email"));

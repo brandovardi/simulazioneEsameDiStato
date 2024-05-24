@@ -37,7 +37,6 @@ $(document).ready(async function () {
 });
 
 async function changePagination() {
-    // Change the active page
     $('#pagination').find('.active').removeClass('active');
     $(event.target).parent().addClass('active');
     let page = $(event.target).text();
@@ -125,6 +124,5 @@ function popupConfirmChangeStation(code) {
     // se esce dal popup senza confermare, rimetto la select come prima
     $('#confirmModal').on('hidden.bs.modal', function () {
         $('#reportTable').find('select#' + code).val('null');
-        alert("Operazione annullata");
     });
 }

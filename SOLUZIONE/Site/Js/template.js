@@ -41,7 +41,7 @@ let navBarAdmin = `
             <a class="nav-link" href="./report.php">Report</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="./userRequest.php">Visualizza Richieste Utenti</a>
+            <a class="nav-link" href="./userSupport.php">Richieste Supporto</a>
         </li>
     </ul>
     <button class="btn btn-danger" onclick="window.location.href='../logout.php'">Logout</button>
