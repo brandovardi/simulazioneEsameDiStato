@@ -25,6 +25,20 @@ if (isset($_POST['username']) && isset($_POST['password']) && isset($_POST['nume
             exit;
         }
 
+        // controllo che la tessera dell'utente non sia bloccata
+        $select = "SELECT tesseraBloccata FROM cliente WHERE numeroTessera = ?";
+        $stmt = $conn->prepare($select);
+        $stmt->bind_param("s", $numeroTessera);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if ($result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            if ($row['tesseraBloccata'] == 1) {
+                echo json_encode(array("status" => "error", "message" => "Tessera bloccata"));
+                exit;
+            }
+        }
+
         $select = "SELECT * FROM cliente WHERE username = ? AND password = ? AND numeroTessera = ?";
         $stmt = $conn->prepare($select);
         $stmt->bind_param("sss", $username, $password, $numeroTessera);
