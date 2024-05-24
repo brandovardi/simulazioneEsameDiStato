@@ -75,18 +75,13 @@ $(document).ready(async function () {
         let cap = $("#cap").val();
         let via = $("#via").val();
         let numeroCivico = $("#numeroCivico").val();
-        if (username == "" || nome == "" || cognome == ""
-            || regione == "" || provincia == "" || comune == "" || cap == "" || via == "" || numeroCivico == ""
+        if (nome == "" || cognome == "" || regione == "" ||
+        provincia == "" || comune == "" || cap == "" || via == "" || numeroCivico == ""
         ) {
             alert("Compilare tutti i campi");
             return;
         }
-        if (!username.includes("_")) {
-            alert("L'username deve contenere il carattere _");
-            return;
-        }
         let data = {
-            username: username,
             nome: nome,
             cognome: cognome,
             regione: regione,
@@ -109,6 +104,7 @@ $(document).ready(async function () {
             alert("Profilo modificato con successo");
         }
         else {
+            alert(response.message);
         }
     });
 });
