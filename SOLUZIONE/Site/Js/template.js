@@ -15,6 +15,9 @@ let navBarUser = `
         <li class="nav-item">
             <a class="nav-link" href="./travelSummary.php">Riepiloghi Viaggi</a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link" href="./support.php">Supporto Utente</a>
+        </li>
     </ul>
     <button class="btn btn-danger" onclick="window.location.href='../logout.php'">Logout</button>
 </div>
@@ -36,6 +39,9 @@ let navBarAdmin = `
         </li>
         <li class="nav-item">
             <a class="nav-link" href="./report.php">Report</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="./userRequest.php">Visualizza Richieste Utenti</a>
         </li>
     </ul>
     <button class="btn btn-danger" onclick="window.location.href='../logout.php'">Logout</button>
