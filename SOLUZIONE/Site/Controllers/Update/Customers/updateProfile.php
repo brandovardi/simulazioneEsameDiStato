@@ -82,6 +82,11 @@ $result = $stmt->get_result();
 $id_indirizzo = $result->fetch_assoc()['id_indirizzo'];
 
 $latlng = getLatLng($regione . ', ' . $provincia . ', ' . $comune . ', ' . $via . ', ' . $cap . ', ' . $numeroCivico);
+if ($latlng == null) {
+    $conn->rollback();
+    echo json_encode(array("status" => "errore", "message" => "Indirizzo non trovato"));
+    exit;
+}
 
 $update = "UPDATE indirizzo SET regione = ?, provincia = ?, comune = ?, cap = ?, via = ?, numeroCivico = ?, latitudine = ?, longitudine = ? WHERE ID = ?";
 $stmt = $conn->prepare($update);

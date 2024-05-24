@@ -68,27 +68,3 @@ if ($stmt->affected_rows == 0) {
 $conn->commit();
 
 echo json_encode(array("status" => "success", "message" => "Bicicletta aggiornata correttamente"));
-
-function getLatLng($data)
-{
-    $url = 'https://nominatim.openstreetmap.org/search?format=json&limit=1&q=' . urlencode($data);
-
-    // devo dirgli che sto mandando la richiesta da un browser perché altrimenti dà errore: "HTTP request failed! HTTP/1.1 403 Forbidden"
-    $context = stream_context_create([
-        'http' => [
-            'header' => "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:90.0) Gecko/20100101 Firefox/90.0\r\n"
-        ]
-    ]);
-
-    // gli passo l'header appena modificato
-    $response = file_get_contents($url, false, $context);
-
-    $data = json_decode($response, true);
-    if (!empty($data) && is_array($data)) {
-        $lat = $data[0]['lat'];
-        $lon = $data[0]['lon'];
-        return array('lat' => $lat, 'lon' => $lon);
-    } else {
-        return null;
-    }
-}
