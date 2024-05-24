@@ -50,4 +50,6 @@ if ($stmt->affected_rows == 0) {
 }
 
 $conn->commit();
+session_unset();
+session_destroy();
 echo json_encode(array("status" => "success", "message" => "Tessera bloccata correttamente"));

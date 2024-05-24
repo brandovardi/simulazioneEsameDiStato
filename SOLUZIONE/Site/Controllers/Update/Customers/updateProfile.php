@@ -11,7 +11,7 @@ if (!isset($_SESSION['username']) || !isset($_SESSION['isLogged']) || !$_SESSION
 }
 
 if (
-    !isset($_POST['nome']) || !isset($_POST['cognome']) || !isset($_POST['email'])
+    !isset($_POST['nome']) || !isset($_POST['cognome'])
     || !isset($_POST['regione']) || !isset($_POST['provincia']) || !isset($_POST['comune'])
     || !isset($_POST['cap']) || !isset($_POST['via']) || !isset($_POST['numeroCivico'])
 ) {
@@ -21,7 +21,6 @@ if (
 
 $nome = $_POST['nome'];
 $cognome = $_POST['cognome'];
-$email = $_POST['email'];
 
 $regione = strtolower($_POST['regione']);
 if (str_contains('-', $regione)) {
@@ -48,15 +47,11 @@ if (!is_numeric($numeroCivico)) {
 }
 
 if (
-    empty($nome) || empty($cognome) || empty($email)
+    empty($nome) || empty($cognome)
     || empty($regione) || empty($provincia) || empty($comune)
     || empty($cap) || empty($via) || empty($numeroCivico)
 ) {
     echo json_encode(array("status" => "errore", "message" => "Parametri vuoti"));
-    exit;
-}
-if (!checkEmail($email)) {
-    echo json_encode(array("status" => "errore", "message" => "Email non valida"));
     exit;
 }
 
@@ -69,9 +64,9 @@ if ($conn->connect_error) {
 $conn->autocommit(false);
 $conn->begin_transaction();
 
-$update = "UPDATE cliente SET nome = ?, cognome = ?, email = ? WHERE ID = ?";
+$update = "UPDATE cliente SET nome = ?, cognome = ? WHERE ID = ?";
 $stmt = $conn->prepare($update);
-$stmt->bind_param("sssi", $nome, $cognome, $email, $_SESSION['user_id']);
+$stmt->bind_param("ssi", $nome, $cognome, $_SESSION['user_id']);
 $stmt->execute();
 
 if ($stmt->affected_rows == 0) {
@@ -103,11 +98,6 @@ if ($stmt->affected_rows == 1) {
     exit;
 }
 
-
-function checkEmail($email)
-{
-    return filter_var($email, FILTER_VALIDATE_EMAIL) !== false;
-}
 
 function getLatLng($data)
 {

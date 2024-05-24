@@ -7,7 +7,8 @@ $(document).ready(function () {
         response = JSON.parse(response);
 
         if (response.status == "success") {
-            alert("Tessera bloccata con successo");
+            alert("Tessera bloccata con successo, verrai sloggato automaticamente. La nuova tessera ti verrà inviata via email.");
+            location.reload();
         } else {
             alert(response.message);
         }

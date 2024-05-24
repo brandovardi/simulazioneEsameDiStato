@@ -70,7 +70,7 @@ if (!isset($_SESSION['username']) || (!isset($_SESSION['isLogged']) || !$_SESSIO
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="email">Email</label>
-                        <input type="text" class="form-control" id="email" readonly />
+                        <input type="text" class="form-control" id="email" readonly disabled />
                     </div>
                 </div>
                 <div class="form-row">

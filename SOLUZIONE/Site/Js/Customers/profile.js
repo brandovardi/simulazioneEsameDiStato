@@ -49,7 +49,6 @@ $(document).ready(async function () {
     $('#modifica').click(async function () {
         $("#nome").attr("readonly", !$("#nome").attr("readonly"));
         $("#cognome").attr("readonly", !$("#cognome").attr("readonly"));
-        $("#email").attr("readonly", !$("#email").attr("readonly"));
         $("#conferma").attr("disabled", !$("#conferma").attr("disabled"));
 
         $("#regione").attr("disabled", !$("#regione").attr("disabled"));
@@ -70,21 +69,16 @@ $(document).ready(async function () {
     $('#conferma').click(async function () {
         let nome = $("#nome").val();
         let cognome = $("#cognome").val();
-        let email = $("#email").val();
         let regione = $("#regione").val();
         let provincia = $("#provincia").val();
         let comune = $("#comune").val();
         let cap = $("#cap").val();
         let via = $("#via").val();
         let numeroCivico = $("#numeroCivico").val();
-        if (username == "" || nome == "" || cognome == "" || email == ""
+        if (username == "" || nome == "" || cognome == ""
             || regione == "" || provincia == "" || comune == "" || cap == "" || via == "" || numeroCivico == ""
         ) {
             alert("Compilare tutti i campi");
-            return;
-        }
-        if (!validateEmail(email)) {
-            alert("Email non valida");
             return;
         }
         if (!username.includes("_")) {
@@ -95,7 +89,6 @@ $(document).ready(async function () {
             username: username,
             nome: nome,
             cognome: cognome,
-            email: email,
             regione: regione,
             provincia: provincia,
             comune: comune,
@@ -111,7 +104,6 @@ $(document).ready(async function () {
             $("#username").attr("readonly", !$("#username").attr("readonly"));
             $("#nome").attr("readonly", !$("#nome").attr("readonly"));
             $("#cognome").attr("readonly", !$("#cognome").attr("readonly"));
-            $("#email").attr("readonly", !$("#email").attr("readonly"));
 
             $("#conferma").attr("disabled", !$("#conferma").attr("disabled"));
             alert("Profilo modificato con successo");
@@ -131,8 +123,8 @@ async function start() {
 
         $("#nome").val(user.nome);
         $("#cognome").val(user.cognome);
-        $("#email").val(user.email);
         $("#numeroCartaCredito").val(user.numeroCartaCredito);
+        $("#email").val(user.email);
 
         $("#regione").val(user.regione);
         await $("#regione").trigger("change");
@@ -150,11 +142,6 @@ async function start() {
     else {
         alert(response.message);
     }
-}
-
-function validateEmail(email) {
-    let regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
-    return regex.test(email);
 }
 
 async function loadRegioni() {
