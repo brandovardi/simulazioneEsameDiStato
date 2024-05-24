@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Mag 24, 2024 alle 00:54
+-- Creato il: Mag 24, 2024 alle 09:50
 -- Versione del server: 10.4.32-MariaDB
 -- Versione PHP: 8.2.12
 
@@ -74,9 +74,10 @@ INSERT INTO `bicicletta` (`ID`, `codice`, `id_stazione`, `manutenzione`, `GPS`, 
 (25, 'B000006', 6, 1, 'GPS7890', 'RFID6789', 0, 15),
 (26, 'B000007', 4, 0, 'GPS5768975689', 'RFID7568975869', 0, 13),
 (27, 'B000008', NULL, 0, 'GPS67896789', 'RFID67897689', 0, NULL),
-(28, 'B000009', NULL, 0, 'GPS56785678', 'RFID54376547', 0, NULL),
+(28, 'B000009', 4, 0, 'GPS56785678', 'RFID54376547', 0, 13),
 (29, 'B000010', NULL, 0, 'GPS56786578', 'RFID5674567', 0, NULL),
-(30, 'B000011', NULL, 0, 'GPS34562345', 'RFID23454536', 0, NULL);
+(30, 'B000011', NULL, 0, 'GPS34562345', 'RFID23454536', 0, NULL),
+(32, 'B000012', NULL, 1, 'GPS345763456', 'RFID23532452354', 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -94,18 +95,19 @@ CREATE TABLE `cliente` (
   `id_indirizzo` int(11) NOT NULL,
   `email` varchar(64) NOT NULL,
   `numeroCartaCredito` varchar(19) NOT NULL,
-  `numeroTessera` varchar(7) NOT NULL
+  `numeroTessera` varchar(7) DEFAULT NULL,
+  `tesseraBloccata` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dump dei dati per la tabella `cliente`
 --
 
-INSERT INTO `cliente` (`ID`, `nome`, `cognome`, `username`, `password`, `id_indirizzo`, `email`, `numeroCartaCredito`, `numeroTessera`) VALUES
-(3, 'ajeje', 'brazorf', 'a_b', 'af26ae04a962399d2758055d4f09570dcd519ae725c8a28ba6c61e6b57550c75', 10, 'aje_braz@mail.com', '9786-1324-7564-3546', '0000000'),
-(13, 'Amedeo', 'Fumagalli', 'ame_fuma', '4d0782767987d11e8aaa1f07a5be55eae043c714e02d872ada52875a9b611be7', 11, 'ame.fuma@mail.com', '0909-1212-5454-8989', '0000001'),
-(29, 'Asd', 'Asd', 'asd_asd', '688787d8ff144c502c7f5cffaafe2cc588d86079f9de88304c26b0cb99ce91c6', 13, 'asd@asd.asd', '1234-5678-9012-3456', '0000002'),
-(34, 'Pietro', 'Brandovardi', 'brando_', 'd07ee7e529af02ace472e74ef4be1bd92f3604f6c3a5b11602aad4496161ecb3', 9, 'brandovardipietro@outlook.it', '1231-2312-3123-1231', '0000003');
+INSERT INTO `cliente` (`ID`, `nome`, `cognome`, `username`, `password`, `id_indirizzo`, `email`, `numeroCartaCredito`, `numeroTessera`, `tesseraBloccata`) VALUES
+(3, 'ajeje', 'brazorf', 'a_b', 'af26ae04a962399d2758055d4f09570dcd519ae725c8a28ba6c61e6b57550c75', 10, 'aje_braz@mail.com', '9786-1324-7564-3546', '0000000', 0),
+(13, 'Amedeo', 'Fumagalli', 'ame_fuma', '4d0782767987d11e8aaa1f07a5be55eae043c714e02d872ada52875a9b611be7', 11, 'ame.fuma@mail.com', '0909-1212-5454-8989', '0000001', 0),
+(29, 'Asd', 'Asd', 'asd_asd', '688787d8ff144c502c7f5cffaafe2cc588d86079f9de88304c26b0cb99ce91c6', 13, 'asd@asd.asd', '1234-5678-9012-3456', '0000002', 0),
+(34, 'Pietro', 'Brandovardi', 'brando_', 'd07ee7e529af02ace472e74ef4be1bd92f3604f6c3a5b11602aad4496161ecb3', 9, 'brandovardipietro@outlook.it', '1231-2312-3123-1231', '0000013', 0);
 
 -- --------------------------------------------------------
 
@@ -285,7 +287,7 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT per la tabella `bicicletta`
 --
 ALTER TABLE `bicicletta`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT per la tabella `cliente`
